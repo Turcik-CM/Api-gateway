@@ -48,4 +48,7 @@ p,user,/comment/delete/*,DELETE
 p,user,/comment/get_comment_postId/*,GET
 p,user,/comment/user_comments,GET
 p,user,/comment/most_like_post/*,GET
-p,c-admin,*,*
+p,c-admin,*,GET
+p,c-admin,*,POST
+p,c-admin,*,PUT
+p,c-admin,*,DELETE

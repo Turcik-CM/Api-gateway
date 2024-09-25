@@ -28,11 +28,11 @@ func (s *service) PostService() pb.PostServiceClient {
 }
 
 func NewService(cfg *config.Config) (Service, error) {
-	userConn, err := grpc.NewClient("localhost:", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	userConn, err := grpc.NewClient("localhost"+cfg.USER_SERVICE, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		return nil, err
 	}
-	postConn, err := grpc.NewClient("localhost:", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	postConn, err := grpc.NewClient("localhost"+cfg.POST_SERVICE, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		return nil, err
 	}
