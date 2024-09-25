@@ -401,6 +401,9 @@ definitions:
     type: object
 info:
   contact: {}
+  description: API for Api-Geteway Service
+  title: Api-Geteway service for Turk-SM
+  version: "1.0"
 paths:
   /admin/change_profile_image_by_id/{user_id}:
     put:
@@ -2019,4 +2022,9 @@ paths:
       summary: Update User Profile
       tags:
       - User
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

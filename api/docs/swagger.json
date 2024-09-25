@@ -1,7 +1,10 @@
 {
     "swagger": "2.0",
     "info": {
-        "contact": {}
+        "description": "API for Api-Geteway Service",
+        "title": "Api-Geteway service for Turk-SM",
+        "contact": {},
+        "version": "1.0"
     },
     "paths": {
         "/admin/change_profile_image_by_id/{user_id}": {
@@ -3195,6 +3198,13 @@
                     }
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }
