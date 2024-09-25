@@ -13,7 +13,7 @@ import (
 func main() {
 	appLogger := logger.NewLogger()
 
-	config := config2.Config{}
+	config := config2.Load()
 
 	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
 	failOnError(err, "Failed to connect to RabbitMQ")
