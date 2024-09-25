@@ -24,6 +24,9 @@ type UserHandler interface {
 	ListOfFollowing(c *gin.Context)
 	ListOfFollowers(c *gin.Context)
 	DeleteUser(c *gin.Context)
+	GetProfileById(c *gin.Context)
+	UpdateProfileById(c *gin.Context)
+	ChangeProfileImageById(c *gin.Context)
 
 	Follow(c *gin.Context)
 	Unfollow(c *gin.Context)
@@ -390,7 +393,7 @@ func (h *userHandler) FetchUsers(c *gin.Context) {
 // @Tags User
 // @Accept json
 // @Produce json
-// @Success 200 {object} user.Followings
+// @Success 200 {object} user.Follows
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /user/list_of_following [get]
@@ -414,7 +417,7 @@ func (h *userHandler) ListOfFollowing(c *gin.Context) {
 // @Tags User
 // @Accept json
 // @Produce json
-// @Success 200 {object} user.Followers
+// @Success 200 {object} user.Follows
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /user/list_of_followers [get]
