@@ -381,3 +381,7 @@ type FollowUser struct {
 type Follows struct {
 	Following []FollowUser `json:"following" db:"following"`
 }
+
+type Error struct {
+	Error string `json:"error"`
+}

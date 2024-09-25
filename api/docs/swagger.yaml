@@ -1,0 +1,2022 @@
+definitions:
+  models.ChangePasswordRequest:
+    properties:
+      current_password:
+        type: string
+      new_password:
+        type: string
+    type: object
+  models.ChangePasswordResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  models.ChatResponse:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: string
+      user2_id:
+        type: string
+    type: object
+  models.ChatResponseList:
+    properties:
+      chat:
+        items:
+          $ref: '#/definitions/models.ChatResponse'
+        type: array
+    type: object
+  models.CommentPost:
+    properties:
+      content:
+        type: string
+      created_at:
+        type: string
+      post_id:
+        type: string
+    type: object
+  models.CommentResponse:
+    properties:
+      content:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: string
+      post_id:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: string
+    type: object
+  models.CommentsR:
+    properties:
+      comments:
+        items:
+          $ref: '#/definitions/models.CommentResponse'
+        type: array
+    type: object
+  models.Count:
+    properties:
+      count:
+        type: integer
+      description:
+        type: string
+    type: object
+  models.CreateChat:
+    properties:
+      user2_id:
+        type: string
+    type: object
+  models.CreateMassage:
+    properties:
+      chat_id:
+        type: string
+      content:
+        type: string
+      content_type:
+        type: string
+      sender_id:
+        type: string
+    type: object
+  models.CreateRequest:
+    properties:
+      bio:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      nationality:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      username:
+        type: string
+    type: object
+  models.DFollowRes:
+    properties:
+      following_id:
+        type: string
+      unfollowed_at:
+        type: string
+    type: object
+  models.Error:
+    properties:
+      error:
+        type: string
+    type: object
+  models.FollowReq:
+    properties:
+      following_id:
+        type: string
+    type: object
+  models.FollowRes:
+    properties:
+      followed_at:
+        type: string
+      following_id:
+        type: string
+    type: object
+  models.GetProfileResponse:
+    properties:
+      bio:
+        type: string
+      created_at:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      followers_count:
+        type: integer
+      following_count:
+        type: integer
+      last_name:
+        type: string
+      nationality:
+        type: string
+      phone_number:
+        type: string
+      posts_count:
+        type: integer
+      profile_image:
+        type: string
+      updated_at:
+        type: string
+      username:
+        type: string
+    type: object
+  models.ImageUrl:
+    properties:
+      post_id:
+        type: string
+      url:
+        type: string
+    type: object
+  models.LikeComResponse:
+    properties:
+      commit_id:
+        type: string
+      created_at:
+        type: string
+    type: object
+  models.LikeCommit:
+    properties:
+      commit_id:
+        type: string
+    type: object
+  models.LikeCount:
+    properties:
+      count:
+        type: string
+      id:
+        type: string
+    type: object
+  models.LikePost:
+    properties:
+      post_id:
+        type: string
+    type: object
+  models.LikeResponse:
+    properties:
+      created_at:
+        type: string
+      post_id:
+        type: string
+    type: object
+  models.MassageResponse:
+    properties:
+      chat_id:
+        type: string
+      content:
+        type: string
+      content_type:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: string
+      is_read:
+        type: boolean
+      sender_id:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.MassageResponseList:
+    properties:
+      massage:
+        items:
+          $ref: '#/definitions/models.MassageResponse'
+        type: array
+    type: object
+  models.MassageTrue:
+    properties:
+      chat_id:
+        type: string
+    type: object
+  models.Message:
+    properties:
+      massage:
+        type: string
+    type: object
+  models.Post:
+    properties:
+      content:
+        type: string
+      country:
+        type: string
+      description:
+        type: string
+      hashtag:
+        type: string
+      location:
+        type: string
+      title:
+        type: string
+    type: object
+  models.PostListResponse:
+    properties:
+      post:
+        items:
+          $ref: '#/definitions/models.PostResponse'
+        type: array
+    type: object
+  models.PostResponse:
+    properties:
+      content:
+        type: string
+      country:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      hashtag:
+        type: string
+      id:
+        type: string
+      image_url:
+        type: string
+      location:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.URL:
+    properties:
+      url:
+        type: string
+      user_id:
+        type: string
+    type: object
+  models.UpdateAComment:
+    properties:
+      content:
+        type: string
+      id:
+        type: string
+    type: object
+  models.UpdateAPost:
+    properties:
+      content:
+        type: string
+      country:
+        type: string
+      hashtag:
+        type: string
+      id:
+        type: string
+      image_url:
+        type: string
+      location:
+        type: string
+      title:
+        type: string
+    type: object
+  models.UpdateMs:
+    properties:
+      message_id:
+        type: string
+      text:
+        type: string
+    type: object
+  models.UpdateProfileRequest:
+    properties:
+      bio:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      nationality:
+        type: string
+      phone:
+        type: string
+      phone_number:
+        type: string
+      profile_image:
+        type: string
+      username:
+        type: string
+    type: object
+  models.UserResponse:
+    properties:
+      bio:
+        type: string
+      created_at:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      nationality:
+        type: string
+      phone:
+        type: string
+      username:
+        type: string
+    type: object
+  models.Users:
+    properties:
+      users:
+        items:
+          type: string
+        type: array
+    type: object
+  models.Void:
+    type: object
+  user.FollowUser:
+    properties:
+      id:
+        type: string
+      username:
+        type: string
+    type: object
+  user.Follows:
+    properties:
+      following:
+        items:
+          $ref: '#/definitions/user.FollowUser'
+        type: array
+    type: object
+  user.UserResponse:
+    properties:
+      bio:
+        type: string
+      created_at:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      id:
+        type: string
+      last_name:
+        type: string
+      nationality:
+        type: string
+      phone:
+        type: string
+      username:
+        type: string
+    type: object
+  user.UserResponses:
+    properties:
+      users:
+        items:
+          $ref: '#/definitions/user.UserResponse'
+        type: array
+    type: object
+info:
+  contact: {}
+paths:
+  /admin/change_profile_image_by_id/{user_id}:
+    put:
+      consumes:
+      - application/json
+      description: Update the profile image of a user
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      - description: Change profile image
+        in: body
+        name: ChangeProfileImageById
+        required: true
+        schema:
+          $ref: '#/definitions/models.URL'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Void'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Change User Profile Image
+      tags:
+      - Admin
+  /admin/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user
+      parameters:
+      - description: Create user
+        in: body
+        name: Create
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Create User
+      tags:
+      - Admin
+  /admin/delete/{user_id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a user account
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Message'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete User
+      tags:
+      - Admin
+  /admin/get_profile_by_id/{user_id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the profile of a user
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.GetProfileResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get User Profile
+      tags:
+      - Admin
+  /admin/update_profile_by_id/{user_id}:
+    put:
+      consumes:
+      - application/json
+      description: Update user profile details
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      - description: Update user profile
+        in: body
+        name: UpdateProfileById
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateProfileRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Update User Profile
+      tags:
+      - Admin
+  /chat/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a new Chat
+      parameters:
+      - description: Create Chat
+        in: body
+        name: Create
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateChat'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.ChatResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Create Chat
+      tags:
+      - Admin
+  /chat/create_message:
+    post:
+      consumes:
+      - application/json
+      description: Create a new Chat
+      parameters:
+      - description: Create Chat
+        in: body
+        name: Create
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateMassage'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.MassageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Create Chat
+      tags:
+      - Admin
+  /chat/delete_chat{id}:
+    delete:
+      description: Delete a chat by its ID
+      parameters:
+      - description: Chat ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Message'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete Chat
+      tags:
+      - Admin
+  /chat/delete_massage{id}:
+    delete:
+      description: Delete a chat by its ID
+      parameters:
+      - description: Chat ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Message'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete Chat
+      tags:
+      - Admin
+  /chat/get_massage:
+    get:
+      description: Get a chat by its ID
+      parameters:
+      - description: Chat ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.MassageResponseList'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Chat by ID
+      tags:
+      - Posts
+  /chat/get_today:
+    get:
+      description: Get a chat by its ID
+      parameters:
+      - description: Chat ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.MassageResponseList'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Chat by ID
+      tags:
+      - Posts
+  /chat/get_user:
+    get:
+      description: Get a chat by its ID
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ChatResponseList'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Chat by ID
+      tags:
+      - Posts
+  /chat/list:
+    get:
+      description: Get a list of chat with optional filtering
+      parameters:
+      - in: query
+        name: chat_id
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.MassageResponseList'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: List Chat
+      tags:
+      - Posts
+  /chat/message_true:
+    post:
+      consumes:
+      - application/json
+      description: Create a new Chat
+      parameters:
+      - description: Create Chat
+        in: body
+        name: Create
+        required: true
+        schema:
+          $ref: '#/definitions/models.MassageTrue'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Message'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Create Chat
+      tags:
+      - Admin
+  /chat/update:
+    put:
+      consumes:
+      - application/json
+      description: Update a post
+      parameters:
+      - description: Update chat
+        in: body
+        name: Update
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateMs'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.MassageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Update Chat
+      tags:
+      - Admin
+  /comment/country:
+    get:
+      description: Get a list of Comment filtered by country
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.CommentsR'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Comment by Country
+      tags:
+      - Posts
+  /comment/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a new comment
+      parameters:
+      - description: Create comment
+        in: body
+        name: Create
+        required: true
+        schema:
+          $ref: '#/definitions/models.CommentPost'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.CommentResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Create Comment
+      tags:
+      - Admin
+  /comment/delete{id}:
+    delete:
+      description: Delete a Comment by its ID
+      parameters:
+      - description: Comment ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Message'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete Comment
+      tags:
+      - Admin
+  /comment/get_comment_postId/{id}:
+    get:
+      description: Get a list of Comment filtered by country
+      parameters:
+      - description: Comment code
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.CommentsR'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Comment by Country
+      tags:
+      - Posts
+  /comment/getBy{id}:
+    get:
+      description: Get a comment by its ID
+      parameters:
+      - description: Comment ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.CommentResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Comment by ID
+      tags:
+      - Posts
+  /comment/getByUser{id}:
+    get:
+      description: Get a comment by its ID
+      parameters:
+      - description: Comment ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.CommentResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Comment by ID
+      tags:
+      - Posts
+  /comment/list:
+    get:
+      description: Get a list of Comment with optional filtering
+      parameters:
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: offset
+        type: integer
+      - in: query
+        name: post_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.CommentsR'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: List Comment
+      tags:
+      - Posts
+  /comment/most_like_post/{id}:
+    get:
+      description: Get a list of posts filtered by country
+      parameters:
+      - description: Country code
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.PostListResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Posts by Country
+      tags:
+      - Posts
+  /comment/update:
+    put:
+      consumes:
+      - application/json
+      description: Update a comment
+      parameters:
+      - description: Update comment
+        in: body
+        name: Update
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateAComment'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.CommentResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Update Comment
+      tags:
+      - Admin
+  /like/comment/create:
+    post:
+      consumes:
+      - application/json
+      description: Add a like to a comment by comment ID
+      parameters:
+      - description: Comment ID
+        in: body
+        name: comment
+        required: true
+        schema:
+          type: string
+      - description: Like Comment
+        in: body
+        name: like
+        required: true
+        schema:
+          $ref: '#/definitions/models.LikeCommit'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.LikeComResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Add Like to a Comment
+      tags:
+      - Like
+  /like/comment/delete{commit_id}:
+    delete:
+      consumes:
+      - application/json
+      description: Remove a like from a comment by comment ID
+      parameters:
+      - description: Comment ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - in: path
+        name: commit_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Message'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete Like from a Comment
+      tags:
+      - Like
+  /like/comment/most-liked{post_id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the comment with the most likes for a given post
+      parameters:
+      - description: Post ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.LikeCount'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Most Liked Comment
+      tags:
+      - Like
+  /like/comment/users{comment_id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a list of users who liked a specific comment
+      parameters:
+      - description: Comment ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Users'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Users Who Liked a Comment
+      tags:
+      - Like
+  /like/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a new like
+      parameters:
+      - description: Like create
+        in: body
+        name: id
+        required: true
+        schema:
+          type: string
+      - description: Like Post
+        in: body
+        name: like
+        required: true
+        schema:
+          $ref: '#/definitions/models.LikePost'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.LikeResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Create Like
+      tags:
+      - Like
+  /like/delete{post_id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a like by its ID
+      parameters:
+      - description: Like ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Like Post
+        in: body
+        name: like
+        required: true
+        schema:
+          $ref: '#/definitions/models.LikePost'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Message'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete Like from a Post
+      tags:
+      - Like
+  /like/post/count{post_id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the total number of likes for a given post
+      parameters:
+      - description: Post ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.LikeCount'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Post Like Count
+      tags:
+      - Like
+  /like/post/users{post_id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a list of users who liked a specific post
+      parameters:
+      - description: Post ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Users'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Users Who Liked a Post
+      tags:
+      - Like
+  /post/add-image:
+    put:
+      consumes:
+      - application/json
+      description: Add an image to a post by post ID
+      parameters:
+      - description: Post ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Image URL
+        in: body
+        name: image
+        required: true
+        schema:
+          $ref: '#/definitions/models.ImageUrl'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.PostResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Add Image to Post
+      tags:
+      - Admin
+  /post/country/{country}:
+    get:
+      description: Get a list of posts filtered by country
+      parameters:
+      - description: Country code
+        in: path
+        name: country
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.PostListResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Posts by Country
+      tags:
+      - Posts
+  /post/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a new post
+      parameters:
+      - description: Create post
+        in: body
+        name: Create
+        required: true
+        schema:
+          $ref: '#/definitions/models.Post'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.PostResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Create Post
+      tags:
+      - Admin
+  /post/delete{id}:
+    delete:
+      description: Delete a post by its ID
+      parameters:
+      - description: Post ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Message'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete Post
+      tags:
+      - Admin
+  /post/getBy{id}:
+    get:
+      description: Get a post by its ID
+      parameters:
+      - description: Post ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.PostResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Post by ID
+      tags:
+      - Posts
+  /post/list:
+    get:
+      description: Get a list of posts with optional filtering
+      parameters:
+      - in: query
+        name: country
+        type: string
+      - in: query
+        name: hashtag
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.PostListResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: List Posts
+      tags:
+      - Posts
+  /post/remove-image:
+    delete:
+      consumes:
+      - application/json
+      description: Remove an image from a post by post ID
+      parameters:
+      - description: Post ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Image URL
+        in: path
+        name: post_id
+        required: true
+        type: string
+      - description: Image URL
+        in: path
+        name: uel
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.PostResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Remove Image from Post
+      tags:
+      - Admin
+  /post/update:
+    put:
+      consumes:
+      - application/json
+      description: Update a post
+      parameters:
+      - description: Update post
+        in: body
+        name: Update
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateAPost'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.PostResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Update Post
+      tags:
+      - Admin
+  /user/change_password:
+    put:
+      consumes:
+      - application/json
+      description: Change the password of a user
+      parameters:
+      - description: Change password
+        in: body
+        name: ChangePassword
+        required: true
+        schema:
+          $ref: '#/definitions/models.ChangePasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ChangePasswordResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Change User Password
+      tags:
+      - User
+  /user/change_profile_image:
+    put:
+      consumes:
+      - application/json
+      description: Update the profile image of a user
+      parameters:
+      - description: Change profile image
+        in: body
+        name: ChangeProfileImage
+        required: true
+        schema:
+          $ref: '#/definitions/models.URL'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Void'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Change User Profile Image
+      tags:
+      - User
+  /user/fetch_users:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a list of users with filtering options
+      parameters:
+      - description: Page number
+        in: query
+        name: page
+        type: integer
+      - description: Number of users per page
+        in: query
+        name: limit
+        type: integer
+      - description: Username
+        in: query
+        name: name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.UserResponses'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Fetch Users
+      tags:
+      - User
+  /user/follow:
+    post:
+      consumes:
+      - application/json
+      description: Follow another user
+      parameters:
+      - description: post user
+        in: body
+        name: Follow
+        required: true
+        schema:
+          $ref: '#/definitions/models.FollowReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.FollowRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Follow User
+      tags:
+      - User
+  /user/get_profile:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the profile of a user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.GetProfileResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get User Profile
+      tags:
+      - User
+  /user/get_user_followers:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a list of followers for a specific user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Count'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get User Followers
+      tags:
+      - User
+  /user/get_user_follows:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a list of users that a specific user is following
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Count'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get User Follows
+      tags:
+      - User
+  /user/list_of_followers:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the list of followers for a user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.Follows'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: List of Followers
+      tags:
+      - User
+  /user/list_of_following:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the list of users that a specific user is following
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.Follows'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: List of Following Users
+      tags:
+      - User
+  /user/most_popular:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the most popular user based on criteria
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Most Popular User
+      tags:
+      - User
+  /user/unfollow:
+    delete:
+      consumes:
+      - application/json
+      description: Unfollow a user
+      parameters:
+      - description: put user
+        in: body
+        name: Unfollow
+        required: true
+        schema:
+          $ref: '#/definitions/models.FollowReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DFollowRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Unfollow User
+      tags:
+      - User
+  /user/update_profile:
+    put:
+      consumes:
+      - application/json
+      description: Update user profile details
+      parameters:
+      - description: Update user profile
+        in: body
+        name: UpdateProfile
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateProfileRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Update User Profile
+      tags:
+      - User
+swagger: "2.0"
