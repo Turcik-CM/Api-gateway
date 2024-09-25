@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.4.0
 // - protoc             v4.25.1
-// source: Protocol-buffers/post/post.proto
+// source: post/post.proto
 
 package post
 
@@ -1560,5 +1560,5 @@ var PostService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "Protocol-buffers/post/post.proto",
+	Metadata: "post/post.proto",
 }
