@@ -7,8 +7,8 @@ import (
 )
 
 type Config struct {
-	TWITTER_SERVICE string
-	USER_SERVICE    string
+	POST_SERVICE string
+	USER_SERVICE string
 
 	ACCESS_TOKEN  string
 	REFRESH_TOKEN string
@@ -21,8 +21,8 @@ func Load() Config {
 
 	config := Config{}
 
-	config.TWITTER_SERVICE = cast.ToString(coalesce("TWITTER_SERVICE", ":8088"))
-	config.USER_SERVICE = cast.ToString(coalesce("USER_SERVICE", "localhost:50050"))
+	config.POST_SERVICE = cast.ToString(coalesce("POST_SERVICE", ":7070"))
+	config.USER_SERVICE = cast.ToString(coalesce("USER_SERVICE", ":50050"))
 	config.ACCESS_TOKEN = cast.ToString(coalesce("ACCESS_TOKEN", "hello world"))
 	config.REFRESH_TOKEN = cast.ToString(coalesce("REFRESH_TOKEN", "dodi"))
 	return config
