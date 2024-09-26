@@ -2,12 +2,6 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
-<<<<<<< HEAD
-<<<<<<< HEAD
     <mapping directory="$PROJECT_DIR$/Protocol-buffers" vcs="Git" />
-=======
->>>>>>> d83ed21 (no changes)
-=======
->>>>>>> main
   </component>
 </project>

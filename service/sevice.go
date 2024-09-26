@@ -1,6 +1,7 @@
 package service
 
 import (
+	pbp "api-gateway/genproto/nationality"
 	pb "api-gateway/genproto/post"
 	pbb "api-gateway/genproto/user"
 	"api-gateway/pkg/config"
@@ -12,11 +13,17 @@ import (
 type Service interface {
 	UserService() pbb.UserServiceClient
 	PostService() pb.PostServiceClient
+	Nationality() pbp.NationalityServiceClient
 }
 
 type service struct {
 	userService pbb.UserServiceClient
 	postService pb.PostServiceClient
+	nationality pbp.NationalityServiceClient
+}
+
+func (s *service) Nationality() pbp.NationalityServiceClient {
+	return s.nationality
 }
 
 func (s *service) UserService() pbb.UserServiceClient {
@@ -36,8 +43,13 @@ func NewService(cfg *config.Config) (Service, error) {
 	if err != nil {
 		return nil, err
 	}
+	NationalityConn, err := grpc.NewClient("localhost:", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		return nil, err
+	}
 	return &service{
 		userService: pbb.NewUserServiceClient(userConn),
 		postService: pb.NewPostServiceClient(postConn),
+		nationality: pbp.NewNationalityServiceClient(NationalityConn),
 	}, nil
 }
