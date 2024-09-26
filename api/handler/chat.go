@@ -46,7 +46,7 @@ func NewChatHandler(chatService service.Service, logger *slog.Logger) ChatHandle
 // @Summary Create Chat
 // @Description Create a new Chat
 // @Security BearerAuth
-// @Tags Admin
+// @Tags Chat
 // @Accept json
 // @Produce json
 // @Param Create body models.CreateChat true "Create Chat"
@@ -83,7 +83,7 @@ func (h *chatHandler) StartMessaging(c *gin.Context) {
 // @Summary Create Chat
 // @Description Create a new Chat
 // @Security BearerAuth
-// @Tags Admin
+// @Tags Chat
 // @Accept json
 // @Produce json
 // @Param Create body models.CreateMassage true "Create Chat"
@@ -111,7 +111,7 @@ func (h *chatHandler) SendMessage(c *gin.Context) {
 // @Summary Create Chat
 // @Description Create a new Chat
 // @Security BearerAuth
-// @Tags Admin
+// @Tags Chat
 // @Accept json
 // @Produce json
 // @Param Create body models.MassageTrue true "Create Chat"
@@ -140,7 +140,7 @@ func (h *chatHandler) MessageMarcTrue(c *gin.Context) {
 // @Summary Get Chat by ID
 // @Description Get a chat by its ID
 // @Security BearerAuth
-// @Tags Posts
+// @Tags Chat
 // @Produce json
 // @Success 200 {object} models.ChatResponseList
 // @Failure 400 {object} models.Error
@@ -171,7 +171,7 @@ func (h *chatHandler) GetUserChats(c *gin.Context) {
 // @Summary Get Chat by ID
 // @Description Get a chat by its ID
 // @Security BearerAuth
-// @Tags Posts
+// @Tags Chat
 // @Produce json
 // @Param id path string true "Chat ID"
 // @Success 200 {object} models.MassageResponseList
@@ -194,7 +194,7 @@ func (h *chatHandler) GetUnreadMessages(c *gin.Context) {
 // @Summary Update Chat
 // @Description Update a post
 // @Security BearerAuth
-// @Tags Admin
+// @Tags Chat
 // @Accept json
 // @Produce json
 // @Param Update body models.UpdateMs true "Update chat"
@@ -222,7 +222,7 @@ func (h *chatHandler) UpdateMessage(c *gin.Context) {
 // @Summary Get Chat by ID
 // @Description Get a chat by its ID
 // @Security BearerAuth
-// @Tags Posts
+// @Tags Chat
 // @Produce json
 // @Param id path string true "Chat ID"
 // @Success 200 {object} models.MassageResponseList
@@ -249,7 +249,7 @@ func (h *chatHandler) GetTodayMessages(c *gin.Context) {
 // @Summary Delete Chat
 // @Description Delete a chat by its ID
 // @Security BearerAuth
-// @Tags Admin
+// @Tags Chat
 // @Produce json
 // @Param id path string true "Chat ID"
 // @Success 200 {object} models.Message
@@ -272,7 +272,7 @@ func (h *chatHandler) DeleteMessage(c *gin.Context) {
 // @Summary Delete Chat
 // @Description Delete a chat by its ID
 // @Security BearerAuth
-// @Tags Admin
+// @Tags Chat
 // @Produce json
 // @Param id path string true "Chat ID"
 // @Success 200 {object} models.Message
@@ -295,7 +295,7 @@ func (h *chatHandler) DeleteChat(c *gin.Context) {
 // @Summary List Chat
 // @Description Get a list of chat with optional filtering
 // @Security BearerAuth
-// @Tags Posts
+// @Tags Chat
 // @Produce json
 // @Param filter query models.List false "Filter chat"
 // @Success 200 {object} models.MassageResponseList

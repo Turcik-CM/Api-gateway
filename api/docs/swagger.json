@@ -287,7 +287,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Chat"
                 ],
                 "summary": "Create Chat",
                 "parameters": [
@@ -338,7 +338,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Chat"
                 ],
                 "summary": "Create Chat",
                 "parameters": [
@@ -386,7 +386,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Chat"
                 ],
                 "summary": "Delete Chat",
                 "parameters": [
@@ -432,7 +432,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Chat"
                 ],
                 "summary": "Delete Chat",
                 "parameters": [
@@ -478,7 +478,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Posts"
+                    "Chat"
                 ],
                 "summary": "Get Chat by ID",
                 "parameters": [
@@ -524,7 +524,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Posts"
+                    "Chat"
                 ],
                 "summary": "Get Chat by ID",
                 "parameters": [
@@ -570,7 +570,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Posts"
+                    "Chat"
                 ],
                 "summary": "Get Chat by ID",
                 "responses": {
@@ -607,7 +607,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Posts"
+                    "Chat"
                 ],
                 "summary": "List Chat",
                 "parameters": [
@@ -664,7 +664,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Chat"
                 ],
                 "summary": "Create Chat",
                 "parameters": [
@@ -715,7 +715,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Chat"
                 ],
                 "summary": "Update Chat",
                 "parameters": [
@@ -763,7 +763,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Posts"
+                    "Comment"
                 ],
                 "summary": "Get Comment by Country",
                 "responses": {
@@ -803,7 +803,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Comment"
                 ],
                 "summary": "Create Comment",
                 "parameters": [
@@ -851,7 +851,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Comment"
                 ],
                 "summary": "Delete Comment",
                 "parameters": [
@@ -897,7 +897,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Posts"
+                    "Comment"
                 ],
                 "summary": "Get Comment by ID",
                 "parameters": [
@@ -943,7 +943,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Posts"
+                    "Comment"
                 ],
                 "summary": "Get Comment by ID",
                 "parameters": [
@@ -989,7 +989,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Posts"
+                    "Comment"
                 ],
                 "summary": "Get Comment by Country",
                 "parameters": [
@@ -1035,7 +1035,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Posts"
+                    "Comment"
                 ],
                 "summary": "List Comment",
                 "parameters": [
@@ -1089,7 +1089,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Posts"
+                    "Comment"
                 ],
                 "summary": "Get Posts by Country",
                 "parameters": [
@@ -1138,7 +1138,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Comment"
                 ],
                 "summary": "Update Comment",
                 "parameters": [
@@ -1617,7 +1617,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Posts"
                 ],
                 "summary": "Add Image to Post",
                 "parameters": [
@@ -1721,7 +1721,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Posts"
                 ],
                 "summary": "Create Post",
                 "parameters": [
@@ -1769,7 +1769,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Posts"
                 ],
                 "summary": "Delete Post",
                 "parameters": [
@@ -1923,7 +1923,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Posts"
                 ],
                 "summary": "Remove Image from Post",
                 "parameters": [
@@ -1986,7 +1986,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Posts"
                 ],
                 "summary": "Update Post",
                 "parameters": [

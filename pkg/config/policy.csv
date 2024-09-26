@@ -19,11 +19,11 @@ p,admin,/user/get_profile,GET
 p,admin,/user/fetch_users,GET
 p,admin,/user/list_of_following,GET
 p,admin,/user/list_of_followers,GET
-p,admin,/tweet/create,POST
-p,admin,/tweet/update,PUT
-p,admin,/tweet/delete/*,DELETE
-p,admin,/tweet/getBy/*,GET
-p,admin,/tweet/list,GET
+p,admin,/post/create,POST
+p,admin,/post/update,PUT
+p,admin,/post/delete/*,DELETE
+p,admin,/post/getBy/*,GET
+p,admin,/post/list,GET
 p,admin,/comment/create,POST
 p,admin,/comment/update,PUT
 p,admin,/comment/delete/*,DELETE

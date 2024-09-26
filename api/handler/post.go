@@ -44,7 +44,7 @@ func NewPostHandler(postService service.Service, logger *slog.Logger) PostHandle
 // @Summary Create Post
 // @Description Create a new post
 // @Security BearerAuth
-// @Tags Admin
+// @Tags Posts
 // @Accept json
 // @Produce json
 // @Param Create body models.Post true "Create post"
@@ -82,7 +82,7 @@ func (h *postHandler) CreatePost(c *gin.Context) {
 // @Summary Update Post
 // @Description Update a post
 // @Security BearerAuth
-// @Tags Admin
+// @Tags Posts
 // @Accept json
 // @Produce json
 // @Param Update body models.UpdateAPost true "Update post"
@@ -176,7 +176,7 @@ func (h *postHandler) ListPosts(c *gin.Context) {
 // @Summary Delete Post
 // @Description Delete a post by its ID
 // @Security BearerAuth
-// @Tags Admin
+// @Tags Posts
 // @Produce json
 // @Param id path string true "Post ID"
 // @Success 200 {object} models.Message
@@ -199,7 +199,7 @@ func (h *postHandler) DeletePost(c *gin.Context) {
 // @Summary Add Image to Post
 // @Description Add an image to a post by post ID
 // @Security BearerAuth
-// @Tags Admin
+// @Tags Posts
 // @Accept json
 // @Produce json
 // @Param id path string true "Post ID"
@@ -228,7 +228,7 @@ func (h *postHandler) AddImageToPost(c *gin.Context) {
 // @Summary Remove Image from Post
 // @Description Remove an image from a post by post ID
 // @Security BearerAuth
-// @Tags Admin
+// @Tags Posts
 // @Accept json
 // @Produce json
 // @Param id path string true "Post ID"

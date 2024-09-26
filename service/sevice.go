@@ -7,6 +7,7 @@ import (
 	"api-gateway/pkg/config"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+	"log"
 	//pbp "api-gateway/genproto/tourism"
 )
 
@@ -40,9 +41,11 @@ func NewService(cfg *config.Config) (Service, error) {
 		return nil, err
 	}
 	postConn, err := grpc.NewClient("localhost"+cfg.POST_SERVICE, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	log.Println("localhost" + cfg.POST_SERVICE)
 	if err != nil {
 		return nil, err
 	}
+
 	NationalityConn, err := grpc.NewClient("localhost:", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		return nil, err

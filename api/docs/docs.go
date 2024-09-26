@@ -295,7 +295,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Chat"
                 ],
                 "summary": "Create Chat",
                 "parameters": [
@@ -346,7 +346,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Chat"
                 ],
                 "summary": "Create Chat",
                 "parameters": [
@@ -394,7 +394,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Chat"
                 ],
                 "summary": "Delete Chat",
                 "parameters": [
@@ -440,7 +440,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Chat"
                 ],
                 "summary": "Delete Chat",
                 "parameters": [
@@ -486,7 +486,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Posts"
+                    "Chat"
                 ],
                 "summary": "Get Chat by ID",
                 "parameters": [
@@ -532,7 +532,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Posts"
+                    "Chat"
                 ],
                 "summary": "Get Chat by ID",
                 "parameters": [
@@ -578,7 +578,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Posts"
+                    "Chat"
                 ],
                 "summary": "Get Chat by ID",
                 "responses": {
@@ -615,7 +615,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Posts"
+                    "Chat"
                 ],
                 "summary": "List Chat",
                 "parameters": [
@@ -672,7 +672,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Chat"
                 ],
                 "summary": "Create Chat",
                 "parameters": [
@@ -723,7 +723,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Chat"
                 ],
                 "summary": "Update Chat",
                 "parameters": [
@@ -771,7 +771,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Posts"
+                    "Comment"
                 ],
                 "summary": "Get Comment by Country",
                 "responses": {
@@ -811,7 +811,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Comment"
                 ],
                 "summary": "Create Comment",
                 "parameters": [
@@ -859,7 +859,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Comment"
                 ],
                 "summary": "Delete Comment",
                 "parameters": [
@@ -905,7 +905,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Posts"
+                    "Comment"
                 ],
                 "summary": "Get Comment by ID",
                 "parameters": [
@@ -951,7 +951,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Posts"
+                    "Comment"
                 ],
                 "summary": "Get Comment by ID",
                 "parameters": [
@@ -997,7 +997,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Posts"
+                    "Comment"
                 ],
                 "summary": "Get Comment by Country",
                 "parameters": [
@@ -1043,7 +1043,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Posts"
+                    "Comment"
                 ],
                 "summary": "List Comment",
                 "parameters": [
@@ -1097,7 +1097,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Posts"
+                    "Comment"
                 ],
                 "summary": "Get Posts by Country",
                 "parameters": [
@@ -1146,7 +1146,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Comment"
                 ],
                 "summary": "Update Comment",
                 "parameters": [
@@ -1625,7 +1625,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Posts"
                 ],
                 "summary": "Add Image to Post",
                 "parameters": [
@@ -1729,7 +1729,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Posts"
                 ],
                 "summary": "Create Post",
                 "parameters": [
@@ -1777,7 +1777,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Posts"
                 ],
                 "summary": "Delete Post",
                 "parameters": [
@@ -1931,7 +1931,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Posts"
                 ],
                 "summary": "Remove Image from Post",
                 "parameters": [
@@ -1994,7 +1994,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Posts"
                 ],
                 "summary": "Update Post",
                 "parameters": [
