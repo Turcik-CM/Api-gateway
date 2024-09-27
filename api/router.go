@@ -18,8 +18,7 @@ import (
 // @description API for Api-Geteway Service
 // @securityDefinitions.apikey BearerAuth
 // @in header
-// @name Authorization
-// @schemes http
+// @name Api-Gateway
 // @BasePath
 func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer) *gin.Engine {
 	router := gin.Default()
