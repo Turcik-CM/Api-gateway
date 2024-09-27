@@ -124,7 +124,7 @@ func (h *commentHandler) UpdateComment(c *gin.Context) {
 // @Success 200 {object} models.CommentResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /comment/getBy{id} [get]
+// @Router /comment/getBy/{id} [get]
 func (h *commentHandler) GetCommentByID(c *gin.Context) {
 	var commentId pb.CommentId
 
@@ -145,11 +145,10 @@ func (h *commentHandler) GetCommentByID(c *gin.Context) {
 // @Security BearerAuth
 // @Tags Comment
 // @Produce json
-// @Param id path string true "Comment ID"
 // @Success 200 {object} models.CommentResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /comment/getByUser{id} [get]
+// @Router /comment/getByUser/{id} [get]
 func (h *commentHandler) GetCommentByUsername(c *gin.Context) {
 	var commentId pb.Username
 

@@ -280,6 +280,423 @@ const docTemplate = `{
                 }
             }
         },
+        "/attraction/add-image": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Add an image to a Attraction by Attraction ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Attraction"
+                ],
+                "summary": "Add Image to Attraction",
+                "parameters": [
+                    {
+                        "description": "Image URL",
+                        "name": "image",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.AttractionImage"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Message"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/attraction/create": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new Attraction",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Attraction"
+                ],
+                "summary": "Create Attraction",
+                "parameters": [
+                    {
+                        "description": "Create Attraction",
+                        "name": "Create",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Attraction"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.AttractionResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/attraction/delete/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete Attraction by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Attraction"
+                ],
+                "summary": "Delete Attraction",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Attraction ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Message"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/attraction/getBy/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get Attraction by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Attraction"
+                ],
+                "summary": "Get Attraction by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Attraction ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.AttractionResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/attraction/list": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get a list of Attraction with optional filtering",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Attraction"
+                ],
+                "summary": "List Attraction",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "category",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "country",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "description",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "offset",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.AttractionListResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/attraction/list_search": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get a list of Attraction with optional filtering",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Attraction"
+                ],
+                "summary": "List Attraction",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "search_term",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.AttractionListResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/attraction/remove-image/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Remove an image from a Attraction by Attraction ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Attraction"
+                ],
+                "summary": "Remove Image from Attraction",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Image URL",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Message"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/attraction/update": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update attractions",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Attraction"
+                ],
+                "summary": "Update Attraction",
+                "parameters": [
+                    {
+                        "description": "Update Attraction",
+                        "name": "Update",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UpdateAttraction"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.AttractionResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/chat/create": {
             "post": {
                 "security": [
@@ -382,7 +799,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/chat/delete_chat{id}": {
+        "/chat/delete_chat/{id}": {
             "delete": {
                 "security": [
                     {
@@ -428,7 +845,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/chat/delete_massage{id}": {
+        "/chat/delete_massage/{id}": {
             "delete": {
                 "security": [
                     {
@@ -474,7 +891,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/chat/get_massage": {
+        "/chat/get_massage/{id}": {
             "get": {
                 "security": [
                     {
@@ -520,7 +937,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/chat/get_today": {
+        "/chat/get_today/{id}": {
             "get": {
                 "security": [
                     {
@@ -893,7 +1310,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/comment/getByUser{id}": {
+        "/comment/getBy/{id}": {
             "get": {
                 "security": [
                     {
@@ -939,7 +1356,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/comment/getBy{id}": {
+        "/comment/getByUser/{id}": {
             "get": {
                 "security": [
                     {
@@ -954,15 +1371,6 @@ const docTemplate = `{
                     "Comment"
                 ],
                 "summary": "Get Comment by ID",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Comment ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1182,6 +1590,349 @@ const docTemplate = `{
                 }
             }
         },
+        "/historical/add-image": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Add an image to a Historical by Historical ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Historical"
+                ],
+                "summary": "Add Image to Historical",
+                "parameters": [
+                    {
+                        "description": "Image URL",
+                        "name": "filter",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.HistoricalImage"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Message"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/historical/create": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new Historical",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Historical"
+                ],
+                "summary": "Create Historical",
+                "parameters": [
+                    {
+                        "description": "Create Historical",
+                        "name": "Create",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Historical"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.HistoricalResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/historical/delete/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete Historical by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Historical"
+                ],
+                "summary": "Delete Historical",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Historical ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Message"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/historical/getBy/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get Historical by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Historical"
+                ],
+                "summary": "Get Historical by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Historical ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.HistoricalResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/historical/list": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get a list of Historical with optional filtering",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Historical"
+                ],
+                "summary": "List Historical",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "country",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "offset",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.HistoricalListResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/historical/list_search": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get a list of Historical with optional filtering",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Historical"
+                ],
+                "summary": "List Historical",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.HistoricalListResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/historical/update": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update Historical",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Historical"
+                ],
+                "summary": "Update Historical",
+                "parameters": [
+                    {
+                        "description": "Update Historical",
+                        "name": "Update",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UpdateHistorical"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.HistoricalResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/like/comment/create": {
             "post": {
                 "security": [
@@ -1201,15 +1952,6 @@ const docTemplate = `{
                 ],
                 "summary": "Add Like to a Comment",
                 "parameters": [
-                    {
-                        "description": "Comment ID",
-                        "name": "comment",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
                     {
                         "description": "Like Comment",
                         "name": "like",
@@ -1242,7 +1984,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/like/comment/delete{commit_id}": {
+        "/like/comment/delete/{commit_id}": {
             "delete": {
                 "security": [
                     {
@@ -1264,14 +2006,9 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Comment ID",
-                        "name": "id",
+                        "name": "commit_id",
                         "in": "path",
                         "required": true
-                    },
-                    {
-                        "type": "string",
-                        "name": "commit_id",
-                        "in": "path"
                     }
                 ],
                 "responses": {
@@ -1296,7 +2033,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/like/comment/most-liked{post_id}": {
+        "/like/comment/most-liked/{post_id}": {
             "get": {
                 "security": [
                     {
@@ -1318,7 +2055,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Post ID",
-                        "name": "id",
+                        "name": "post_id",
                         "in": "path",
                         "required": true
                     }
@@ -1345,7 +2082,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/like/comment/users{comment_id}": {
+        "/like/comment/users/{comment_id}": {
             "get": {
                 "security": [
                     {
@@ -1367,7 +2104,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Comment ID",
-                        "name": "id",
+                        "name": "comment_id",
                         "in": "path",
                         "required": true
                     }
@@ -1414,15 +2151,6 @@ const docTemplate = `{
                 "summary": "Create Like",
                 "parameters": [
                     {
-                        "description": "Like create",
-                        "name": "id",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
                         "description": "Like Post",
                         "name": "like",
                         "in": "body",
@@ -1454,7 +2182,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/like/delete{post_id}": {
+        "/like/delete/{id}": {
             "delete": {
                 "security": [
                     {
@@ -1512,7 +2240,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/like/post/count{post_id}": {
+        "/like/post/count/{post_id}": {
             "get": {
                 "security": [
                     {
@@ -1534,7 +2262,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Post ID",
-                        "name": "id",
+                        "name": "post_id",
                         "in": "path",
                         "required": true
                     }
@@ -1561,7 +2289,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/like/post/users{post_id}": {
+        "/like/post/users/{post_id}": {
             "get": {
                 "security": [
                     {
@@ -1583,7 +2311,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Post ID",
-                        "name": "id",
+                        "name": "post_id",
                         "in": "path",
                         "required": true
                     }
@@ -1610,8 +2338,307 @@ const docTemplate = `{
                 }
             }
         },
-        "/post/add-image": {
+        "/national/add-image": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Add an image to a NationalFood by NationalFood ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "NationalFood"
+                ],
+                "summary": "Add Image to NationalFood",
+                "parameters": [
+                    {
+                        "description": "Image URL",
+                        "name": "image",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.NationalFoodImage"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Message"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/national/create": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new NationalFood",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "NationalFood"
+                ],
+                "summary": "Create NationalFood",
+                "parameters": [
+                    {
+                        "description": "Create NationalFood",
+                        "name": "Create",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.NationalFood"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.NationalFoodResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/national/delete/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete NationalFood by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "NationalFood"
+                ],
+                "summary": "Delete NationalFood",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "NationalFood ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Message"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/national/getBy/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get NationalFood by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "NationalFood"
+                ],
+                "summary": "Get NationalFood by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "NationalFood ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.NationalFoodResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/national/list": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get a list of NationalFood with optional filtering",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "NationalFood"
+                ],
+                "summary": "List NationalFood",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "country",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "offset",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.NationalFoodListResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/national/update": {
             "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update NationalFood",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "NationalFood"
+                ],
+                "summary": "Update NationalFood",
+                "parameters": [
+                    {
+                        "description": "Update NationalFood",
+                        "name": "Update",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UpdateNationalFood"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.NationalFoodResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/post/add-image": {
+            "post": {
                 "security": [
                     {
                         "BearerAuth": []
@@ -1629,13 +2656,6 @@ const docTemplate = `{
                 ],
                 "summary": "Add Image to Post",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Post ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
                     {
                         "description": "Image URL",
                         "name": "image",
@@ -1668,7 +2688,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/post/country/{country}": {
+        "/post/country/{c}": {
             "get": {
                 "security": [
                     {
@@ -1765,7 +2785,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/post/delete{id}": {
+        "/post/delete/{id}": {
             "delete": {
                 "security": [
                     {
@@ -1811,7 +2831,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/post/getBy{id}": {
+        "/post/getBy/{id}": {
             "get": {
                 "security": [
                     {
@@ -1916,7 +2936,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/post/remove-image": {
+        "/post/remove-image/{id}": {
             "delete": {
                 "security": [
                     {
@@ -1937,22 +2957,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Post ID",
+                        "description": "Image URL",
                         "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Image URL",
-                        "name": "post_id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Image URL",
-                        "name": "uel",
                         "in": "path",
                         "required": true
                     }
@@ -2587,6 +3593,80 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "models.Attraction": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.AttractionImage": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.AttractionListResponse": {
+            "type": "object",
+            "properties": {
+                "attractions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.AttractionResponse"
+                    }
+                }
+            }
+        },
+        "models.AttractionResponse": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
         "models.ChangePasswordRequest": {
             "type": "object",
             "properties": {
@@ -2635,9 +3715,6 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "content": {
-                    "type": "string"
-                },
-                "created_at": {
                     "type": "string"
                 },
                 "post_id": {
@@ -2826,6 +3903,83 @@ const docTemplate = `{
                 }
             }
         },
+        "models.Historical": {
+            "type": "object",
+            "properties": {
+                "city": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.HistoricalImage": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.HistoricalListResponse": {
+            "type": "object",
+            "properties": {
+                "historical": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.HistoricalResponse"
+                    }
+                }
+            }
+        },
+        "models.HistoricalResponse": {
+            "type": "object",
+            "properties": {
+                "city": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
         "models.ImageUrl": {
             "type": "object",
             "properties": {
@@ -2938,6 +4092,101 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "massage": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.NationalFood": {
+            "type": "object",
+            "properties": {
+                "country": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "food_type": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "ingredients": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "nationality": {
+                    "type": "string"
+                },
+                "rating": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.NationalFoodImage": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.NationalFoodListResponse": {
+            "type": "object",
+            "properties": {
+                "national_food": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.NationalFoodResponse"
+                    }
+                }
+            }
+        },
+        "models.NationalFoodResponse": {
+            "type": "object",
+            "properties": {
+                "country": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "food_type": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "ingredients": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "nationality": {
+                    "type": "string"
+                },
+                "rating": {
+                    "type": "integer"
+                },
+                "updated_at": {
                     "type": "string"
                 }
             }
@@ -3059,6 +4308,61 @@ const docTemplate = `{
                 }
             }
         },
+        "models.UpdateAttraction": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.UpdateHistorical": {
+            "type": "object",
+            "properties": {
+                "city": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
         "models.UpdateMs": {
             "type": "object",
             "properties": {
@@ -3066,6 +4370,44 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "text": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.UpdateNationalFood": {
+            "type": "object",
+            "properties": {
+                "country": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "food_type": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "ingredients": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "nationality": {
+                    "type": "string"
+                },
+                "rating": {
+                    "type": "integer"
+                },
+                "updated_at": {
                     "type": "string"
                 }
             }

@@ -21,7 +21,7 @@ func Load() Config {
 
 	config := Config{}
 
-	config.POST_SERVICE = cast.ToString(coalesce("POST_SERVICE", ":7070"))
+	config.POST_SERVICE = cast.ToString(coalesce("POST_SERVICE", ":50055"))
 	config.USER_SERVICE = cast.ToString(coalesce("USER_SERVICE", ":50050"))
 	config.ACCESS_TOKEN = cast.ToString(coalesce("ACCESS_TOKEN", "hello world"))
 	config.REFRESH_TOKEN = cast.ToString(coalesce("REFRESH_TOKEN", "dodi"))

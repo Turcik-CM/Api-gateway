@@ -2,6 +2,7 @@ package main
 
 import (
 	"api-gateway/api"
+	config2 "api-gateway/pkg/config"
 	"api-gateway/pkg/logger"
 	"github.com/casbin/casbin/v2"
 	amqp "github.com/rabbitmq/amqp091-go"
@@ -12,7 +13,7 @@ import (
 func main() {
 	appLogger := logger.NewLogger()
 
-	config := config2{}
+	config := config2.Load()
 
 	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
 	failOnError(err, "Failed to connect to RabbitMQ")

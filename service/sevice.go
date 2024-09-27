@@ -46,7 +46,7 @@ func NewService(cfg *config.Config) (Service, error) {
 		return nil, err
 	}
 
-	NationalityConn, err := grpc.NewClient("localhost:", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	NationalityConn, err := grpc.NewClient("localhost:7080", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		return nil, err
 	}

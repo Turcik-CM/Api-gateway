@@ -32,6 +32,18 @@ func NewNationalFoodHandler(service service.Service, logger *slog.Logger) Nation
 	}
 }
 
+// CreateNationalFood godoc
+// @Summary Create NationalFood
+// @Description Create a new NationalFood
+// @Security BearerAuth
+// @Tags NationalFood
+// @Accept json
+// @Produce json
+// @Param Create body models.NationalFood true "Create NationalFood"
+// @Success 201 {object} models.NationalFoodResponse
+// @Failure 400 {object} models.Error
+// @Failure 500 {object} models.Error
+// @Router /national/create [post]
 func (h *nationalFoodHandler) CreateNationalFood(c *gin.Context) {
 	var nat pb.NationalFood
 	if err := c.ShouldBindJSON(&nat); err != nil {
@@ -48,6 +60,18 @@ func (h *nationalFoodHandler) CreateNationalFood(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"response": resp})
 }
 
+// UpdateNationalFood godoc
+// @Summary Update NationalFood
+// @Description Update NationalFood
+// @Security BearerAuth
+// @Tags NationalFood
+// @Accept json
+// @Produce json
+// @Param Update body models.UpdateNationalFood true "Update NationalFood"
+// @Success 200 {object} models.NationalFoodResponse
+// @Failure 400 {object} models.Error
+// @Failure 500 {object} models.Error
+// @Router /national/update [put]
 func (h *nationalFoodHandler) UpdateNationalFood(c *gin.Context) {
 	var nat pb.UpdateNationalFood
 	if err := c.ShouldBindJSON(&nat); err != nil {
@@ -64,6 +88,17 @@ func (h *nationalFoodHandler) UpdateNationalFood(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"response": resp})
 }
 
+// GetNationalFoodByID godoc
+// @Summary Get NationalFood by ID
+// @Description Get NationalFood by its ID
+// @Security BearerAuth
+// @Tags NationalFood
+// @Produce json
+// @Param id path string true "NationalFood ID"
+// @Success 200 {object} models.NationalFoodResponse
+// @Failure 400 {object} models.Error
+// @Failure 500 {object} models.Error
+// @Router /national/getBy/{id} [get]
 func (h *nationalFoodHandler) GetNationalFoodByID(c *gin.Context) {
 	id := c.Param("id")
 	nat := pb.NationalFoodId{
@@ -78,6 +113,17 @@ func (h *nationalFoodHandler) GetNationalFoodByID(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"response": resp})
 }
 
+// DeleteNationalFood godoc
+// @Summary Delete NationalFood
+// @Description Delete NationalFood by its ID
+// @Security BearerAuth
+// @Tags NationalFood
+// @Produce json
+// @Param id path string true "NationalFood ID"
+// @Success 200 {object} models.Message
+// @Failure 400 {object} models.Error
+// @Failure 500 {object} models.Error
+// @Router /national/delete/{id} [delete]
 func (h *nationalFoodHandler) DeleteNationalFood(c *gin.Context) {
 	id := c.Param("id")
 	nat := pb.NationalFoodId{
@@ -92,6 +138,17 @@ func (h *nationalFoodHandler) DeleteNationalFood(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"response": resp})
 }
 
+// ListNationalFoods godoc
+// @Summary List NationalFood
+// @Description Get a list of NationalFood with optional filtering
+// @Security BearerAuth
+// @Tags NationalFood
+// @Produce json
+// @Param filter query models.NationalFoodList false "Filter NationalFood"
+// @Success 200 {object} models.NationalFoodListResponse
+// @Failure 400 {object} models.Error
+// @Failure 500 {object} models.Error
+// @Router /national/list [get]
 func (h *nationalFoodHandler) ListNationalFoods(c *gin.Context) {
 	var post pb.NationalFoodList
 
@@ -100,12 +157,12 @@ func (h *nationalFoodHandler) ListNationalFoods(c *gin.Context) {
 
 	offsets, err := strconv.Atoi(offset)
 	if err != nil {
-		offsets = 1
+		offsets = 0
 	}
 
 	limits, err := strconv.Atoi(limit)
 	if err != nil {
-		limits = 10
+		limits = 1
 	}
 
 	post.Limit = int64(limits)
@@ -121,6 +178,18 @@ func (h *nationalFoodHandler) ListNationalFoods(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"response": resp})
 }
 
+// AddImageUrll godoc
+// @Summary Add Image to NationalFood
+// @Description Add an image to a NationalFood by NationalFood ID
+// @Security BearerAuth
+// @Tags NationalFood
+// @Accept json
+// @Produce json
+// @Param image body models.NationalFoodImage true "Image URL"
+// @Success 200 {object} models.Message
+// @Failure 400 {object} models.Error
+// @Failure 500 {object} models.Error
+// @Router /national/add-image [post]
 func (h *nationalFoodHandler) AddImageUrll(c *gin.Context) {
 	var nat pb.NationalFoodImage
 	if err := c.ShouldBindJSON(&nat); err != nil {

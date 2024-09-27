@@ -5,6 +5,7 @@ import (
 	t "api-gateway/pkg/token"
 	"api-gateway/service"
 	"context"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
 	"log/slog"
@@ -158,12 +159,14 @@ func (h *chatHandler) GetUserChats(c *gin.Context) {
 	}
 
 	user.Username = cl["user_id"].(string)
+	fmt.Println(user.Username)
 	res, err := h.chatService.GetUserChats(context.Background(), &user)
 	if err != nil {
 		h.logger.Error("Error occurred while sending message", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	fmt.Println(res)
 	c.JSON(http.StatusOK, gin.H{"message": res})
 }
 
@@ -177,10 +180,10 @@ func (h *chatHandler) GetUserChats(c *gin.Context) {
 // @Success 200 {object} models.MassageResponseList
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /chat/get_massage [get]
+// @Router /chat/get_massage/{id} [get]
 func (h *chatHandler) GetUnreadMessages(c *gin.Context) {
 	var user pb.ChatId
-	user.ChatId = c.Param("chat_id")
+	user.ChatId = c.Param("id")
 	rep, err := h.chatService.GetUnreadMessages(context.Background(), &user)
 	if err != nil {
 		h.logger.Error("Error occurred while sending message", err)
@@ -228,14 +231,12 @@ func (h *chatHandler) UpdateMessage(c *gin.Context) {
 // @Success 200 {object} models.MassageResponseList
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /chat/get_today [get]
+// @Router /chat/get_today/{id} [get]
 func (h *chatHandler) GetTodayMessages(c *gin.Context) {
 	var user pb.ChatId
-	if err := c.ShouldBindJSON(&user); err != nil {
-		h.logger.Error("Error occurred while binding json", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
+
+	user.ChatId = c.Param("id")
+
 	rep, err := h.chatService.GetTodayMessages(context.Background(), &user)
 	if err != nil {
 		h.logger.Error("Error occurred while sending message", err)
@@ -255,10 +256,10 @@ func (h *chatHandler) GetTodayMessages(c *gin.Context) {
 // @Success 200 {object} models.Message
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /chat/delete_massage{id} [delete]
+// @Router /chat/delete_massage/{id} [delete]
 func (h *chatHandler) DeleteMessage(c *gin.Context) {
 	var chat pb.MassageId
-	chat.MassageId = c.Param("chat_id")
+	chat.MassageId = c.Param("id")
 	rep, err := h.chatService.DeleteMessage(context.Background(), &chat)
 	if err != nil {
 		h.logger.Error("Error occurred while sending message", err)
@@ -278,10 +279,10 @@ func (h *chatHandler) DeleteMessage(c *gin.Context) {
 // @Success 200 {object} models.Message
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /chat/delete_chat{id} [delete]
+// @Router /chat/delete_chat/{id} [delete]
 func (h *chatHandler) DeleteChat(c *gin.Context) {
 	var chat pb.ChatId
-	chat.ChatId = c.Param("chat_id")
+	chat.ChatId = c.Param("id")
 	rep, err := h.chatService.DeleteChat(context.Background(), &chat)
 	if err != nil {
 		h.logger.Error("Error occurred while sending message", err)
