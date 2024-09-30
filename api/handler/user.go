@@ -7,12 +7,37 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/minio/minio-go/v7"
+	_ "github.com/minio/minio-go/v7"
+	"github.com/minio/minio-go/v7/pkg/credentials"
 	"log"
 	"log/slog"
 	"net/http"
 	"strconv"
 )
+
+var MinioClient *minio.Client
+var BucketName = "profile-image"
+var Endpoint = "http://3.120.111.217:9001"
+
+func InitMinioUserProfile() error {
+	accessKeyID := "minioadmin"
+	secretAccessKey := "minioadmin"
+
+	minioClient, err := minio.New(Endpoint, &minio.Options{
+		Creds: credentials.NewStaticV4(accessKeyID, secretAccessKey, ""),
+	})
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+
+	MinioClient = minioClient
+
+	return nil
+}
 
 type UserHandler interface {
 	Create(c *gin.Context)
@@ -281,31 +306,57 @@ func (h *userHandler) ChangePassword(c *gin.Context) {
 // @Description Update the profile image of a user
 // @Security BearerAuth
 // @Tags User
-// @Accept json
+// @Accept multipart/form-data
 // @Produce json
-// @Param ChangeProfileImage body models.URL true "Change profile image"
+// @Param file formData file true "Upload new profile image"
 // @Success 200 {object} models.Void
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /user/change_profile_image [put]
 func (h *userHandler) ChangeProfileImage(c *gin.Context) {
-	var user pb.URL
-	if err := c.ShouldBindJSON(&user); err != nil {
-		h.logger.Error("Error occurred while binding json", err)
+
+	req, err := c.FormFile("file")
+	if err != nil {
+		h.logger.Error("Error occurred while getting file", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	res := pb.URL{
-		UserId: c.MustGet("user_id").(string),
-		Url:    user.Url,
+
+	file, err := req.Open()
+	if err != nil {
+		h.logger.Error("Error occurred while opening file", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
-	req, err := h.userService.ChangeProfileImage(context.Background(), &res)
+	defer file.Close()
+
+	_, err = MinioClient.PutObject(context.Background(), BucketName, req.Filename, file, req.Size, minio.PutObjectOptions{
+		ContentType: "application/octet-stream",
+	})
+	if err != nil {
+		h.logger.Error("Error occurred while uploading file", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	imageUrl := fmt.Sprintf("http://%s/%s/%s", Endpoint, BucketName, req.Filename)
+
+	change := pb.URL{
+		UserId: c.MustGet("user_id").(string),
+		Url:    imageUrl,
+	}
+
+	log.Println(imageUrl)
+	log.Println(imageUrl)
+	log.Println(imageUrl)
+
+	res, err := h.userService.ChangeProfileImage(context.Background(), &change)
 	if err != nil {
 		h.logger.Error("Error occurred while changing user", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, req)
+	c.JSON(http.StatusOK, res)
 }
 
 // ChangeProfileImageById godoc

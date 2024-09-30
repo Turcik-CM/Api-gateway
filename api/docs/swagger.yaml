@@ -2553,15 +2553,14 @@ paths:
   /user/change_profile_image:
     put:
       consumes:
-      - application/json
+      - multipart/form-data
       description: Update the profile image of a user
       parameters:
-      - description: Change profile image
-        in: body
-        name: ChangeProfileImage
+      - description: Upload new profile image
+        in: formData
+        name: file
         required: true
-        schema:
-          $ref: '#/definitions/models.URL'
+        type: file
       produces:
       - application/json
       responses:
@@ -2869,6 +2868,6 @@ paths:
 securityDefinitions:
   BearerAuth:
     in: header
-    name: Authorization
+    name: Api-Gateway
     type: apiKey
 swagger: "2.0"

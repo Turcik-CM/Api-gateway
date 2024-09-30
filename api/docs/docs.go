@@ -3096,7 +3096,7 @@ const docTemplate = `{
                 ],
                 "description": "Update the profile image of a user",
                 "consumes": [
-                    "application/json"
+                    "multipart/form-data"
                 ],
                 "produces": [
                     "application/json"
@@ -3107,13 +3107,11 @@ const docTemplate = `{
                 "summary": "Change User Profile Image",
                 "parameters": [
                     {
-                        "description": "Change profile image",
-                        "name": "ChangeProfileImage",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.URL"
-                        }
+                        "type": "file",
+                        "description": "Upload new profile image",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -4553,7 +4551,7 @@ const docTemplate = `{
     "securityDefinitions": {
         "BearerAuth": {
             "type": "apiKey",
-            "name": "Authorization",
+            "name": "Api-Gateway",
             "in": "header"
         }
     }
