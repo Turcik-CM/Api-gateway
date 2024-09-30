@@ -5,6 +5,7 @@ import (
 	t "api-gateway/pkg/token"
 	"api-gateway/service"
 	"context"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
 	"log/slog"
@@ -44,7 +45,7 @@ func NewPostHandler(postService service.Service, logger *slog.Logger) PostHandle
 // @Summary Create Post
 // @Description Create a new post
 // @Security BearerAuth
-// @Tags Admin
+// @Tags Posts
 // @Accept json
 // @Produce json
 // @Param Create body models.Post true "Create post"
@@ -82,7 +83,7 @@ func (h *postHandler) CreatePost(c *gin.Context) {
 // @Summary Update Post
 // @Description Update a post
 // @Security BearerAuth
-// @Tags Admin
+// @Tags Posts
 // @Accept json
 // @Produce json
 // @Param Update body models.UpdateAPost true "Update post"
@@ -117,7 +118,7 @@ func (h *postHandler) UpdatePost(c *gin.Context) {
 // @Success 200 {object} models.PostResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /post/getBy{id} [get]
+// @Router /post/getBy/{id} [get]
 func (h *postHandler) GetPostByID(c *gin.Context) {
 	var post pb.PostId
 	post.Id = c.Param("id")
@@ -176,13 +177,13 @@ func (h *postHandler) ListPosts(c *gin.Context) {
 // @Summary Delete Post
 // @Description Delete a post by its ID
 // @Security BearerAuth
-// @Tags Admin
+// @Tags Posts
 // @Produce json
 // @Param id path string true "Post ID"
 // @Success 200 {object} models.Message
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /post/delete{id} [delete]
+// @Router /post/delete/{id} [delete]
 func (h *postHandler) DeletePost(c *gin.Context) {
 	var post pb.PostId
 	post.Id = c.Param("id")
@@ -199,28 +200,29 @@ func (h *postHandler) DeletePost(c *gin.Context) {
 // @Summary Add Image to Post
 // @Description Add an image to a post by post ID
 // @Security BearerAuth
-// @Tags Admin
+// @Tags Posts
 // @Accept json
 // @Produce json
-// @Param id path string true "Post ID"
 // @Param image body models.ImageUrl true "Image URL"
 // @Success 200 {object} models.PostResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /post/add-image [put]
+// @Router /post/add-image [post]
 func (h *postHandler) AddImageToPost(c *gin.Context) {
 	var post pb.ImageUrl
-	if err := c.ShouldBindUri(&post); err != nil {
+	if err := c.ShouldBindJSON(&post); err != nil {
 		h.logger.Error("Error occurred while binding uri ", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	fmt.Println(post.PostId)
 	req, err := h.postService.AddImageToPost(c.Request.Context(), &post)
 	if err != nil {
 		h.logger.Error("Error occurred while adding image to post", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	fmt.Println(req)
 	c.JSON(http.StatusOK, gin.H{"post": req})
 }
 
@@ -228,20 +230,17 @@ func (h *postHandler) AddImageToPost(c *gin.Context) {
 // @Summary Remove Image from Post
 // @Description Remove an image from a post by post ID
 // @Security BearerAuth
-// @Tags Admin
+// @Tags Posts
 // @Accept json
 // @Produce json
-// @Param id path string true "Post ID"
-// @Param post_id path string true "Image URL"
-// @Param uel path string true "Image URL"
+// @Param id path string true "Image URL"
 // @Success 200 {object} models.PostResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /post/remove-image [delete]
+// @Router /post/remove-image/{id} [delete]
 func (h *postHandler) RemoveImageFromPost(c *gin.Context) {
 	var post pb.ImageUrl
 	post.PostId = c.Param("id")
-	post.Url = c.Param("url")
 	req, err := h.postService.RemoveImageFromPost(c.Request.Context(), &post)
 	if err != nil {
 		h.logger.Error("Error occurred while removing image from post", err)
@@ -261,11 +260,14 @@ func (h *postHandler) RemoveImageFromPost(c *gin.Context) {
 // @Success 200 {object} models.PostListResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /post/country/{country} [get]
+// @Router /post/country/{c} [get]
 func (h *postHandler) GetPostByCountry(c *gin.Context) {
 	var post pb.PostCountry
 
-	post.Country = c.Query("country")
+	p := c.Param("c")
+
+	post.Country = p
+	fmt.Println(post.Country, "ssssssssssssss")
 
 	req, err := h.postService.GetPostByCountry(c.Request.Context(), &post)
 	if err != nil {
@@ -273,5 +275,6 @@ func (h *postHandler) GetPostByCountry(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	fmt.Println(req)
 	c.JSON(http.StatusOK, gin.H{"post": req})
 }

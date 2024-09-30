@@ -1,4 +1,52 @@
 definitions:
+  models.Attraction:
+    properties:
+      category:
+        type: string
+      country:
+        type: string
+      description:
+        type: string
+      location:
+        type: string
+      name:
+        type: string
+    type: object
+  models.AttractionImage:
+    properties:
+      id:
+        type: string
+      image_url:
+        type: string
+    type: object
+  models.AttractionListResponse:
+    properties:
+      attractions:
+        items:
+          $ref: '#/definitions/models.AttractionResponse'
+        type: array
+    type: object
+  models.AttractionResponse:
+    properties:
+      category:
+        type: string
+      country:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      image_url:
+        type: string
+      location:
+        type: string
+      name:
+        type: string
+      updated_at:
+        type: string
+    type: object
   models.ChangePasswordRequest:
     properties:
       current_password:
@@ -30,8 +78,6 @@ definitions:
   models.CommentPost:
     properties:
       content:
-        type: string
-      created_at:
         type: string
       post_id:
         type: string
@@ -153,6 +199,56 @@ definitions:
       username:
         type: string
     type: object
+  models.Historical:
+    properties:
+      city:
+        type: string
+      country:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      image_url:
+        type: string
+      name:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.HistoricalImage:
+    properties:
+      id:
+        type: string
+      url:
+        type: string
+    type: object
+  models.HistoricalListResponse:
+    properties:
+      historical:
+        items:
+          $ref: '#/definitions/models.HistoricalResponse'
+        type: array
+    type: object
+  models.HistoricalResponse:
+    properties:
+      city:
+        type: string
+      country:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      image_url:
+        type: string
+      name:
+        type: string
+      updated_at:
+        type: string
+    type: object
   models.ImageUrl:
     properties:
       post_id:
@@ -225,6 +321,68 @@ definitions:
   models.Message:
     properties:
       massage:
+        type: string
+    type: object
+  models.NationalFood:
+    properties:
+      country:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      food_type:
+        type: string
+      image_url:
+        type: string
+      ingredients:
+        type: string
+      name:
+        type: string
+      nationality:
+        type: string
+      rating:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  models.NationalFoodImage:
+    properties:
+      id:
+        type: string
+      image_url:
+        type: string
+    type: object
+  models.NationalFoodListResponse:
+    properties:
+      national_food:
+        items:
+          $ref: '#/definitions/models.NationalFoodResponse'
+        type: array
+    type: object
+  models.NationalFoodResponse:
+    properties:
+      country:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      food_type:
+        type: string
+      id:
+        type: string
+      image_url:
+        type: string
+      ingredients:
+        type: string
+      name:
+        type: string
+      nationality:
+        type: string
+      rating:
+        type: integer
+      updated_at:
         type: string
     type: object
   models.Post:
@@ -303,11 +461,72 @@ definitions:
       title:
         type: string
     type: object
+  models.UpdateAttraction:
+    properties:
+      category:
+        type: string
+      country:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      image_url:
+        type: string
+      location:
+        type: string
+      name:
+        type: string
+    type: object
+  models.UpdateHistorical:
+    properties:
+      city:
+        type: string
+      country:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      image_url:
+        type: string
+      name:
+        type: string
+      updated_at:
+        type: string
+    type: object
   models.UpdateMs:
     properties:
       message_id:
         type: string
       text:
+        type: string
+    type: object
+  models.UpdateNationalFood:
+    properties:
+      country:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      food_type:
+        type: string
+      id:
+        type: string
+      image_url:
+        type: string
+      ingredients:
+        type: string
+      name:
+        type: string
+      nationality:
+        type: string
+      rating:
+        type: integer
+      updated_at:
         type: string
     type: object
   models.UpdateProfileRequest:
@@ -573,6 +792,266 @@ paths:
       summary: Update User Profile
       tags:
       - Admin
+  /attraction/add-image:
+    post:
+      consumes:
+      - application/json
+      description: Add an image to a Attraction by Attraction ID
+      parameters:
+      - description: Image URL
+        in: body
+        name: image
+        required: true
+        schema:
+          $ref: '#/definitions/models.AttractionImage'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Message'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Add Image to Attraction
+      tags:
+      - Attraction
+  /attraction/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a new Attraction
+      parameters:
+      - description: Create Attraction
+        in: body
+        name: Create
+        required: true
+        schema:
+          $ref: '#/definitions/models.Attraction'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.AttractionResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Create Attraction
+      tags:
+      - Attraction
+  /attraction/delete/{id}:
+    delete:
+      description: Delete Attraction by its ID
+      parameters:
+      - description: Attraction ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Message'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete Attraction
+      tags:
+      - Attraction
+  /attraction/getBy/{id}:
+    get:
+      description: Get Attraction by its ID
+      parameters:
+      - description: Attraction ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.AttractionResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Attraction by ID
+      tags:
+      - Attraction
+  /attraction/list:
+    get:
+      description: Get a list of Attraction with optional filtering
+      parameters:
+      - in: query
+        name: category
+        type: string
+      - in: query
+        name: country
+        type: string
+      - in: query
+        name: description
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: name
+        type: string
+      - in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.AttractionListResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: List Attraction
+      tags:
+      - Attraction
+  /attraction/list_search:
+    get:
+      description: Get a list of Attraction with optional filtering
+      parameters:
+      - in: query
+        name: limit
+        type: string
+      - in: query
+        name: offset
+        type: string
+      - in: query
+        name: search_term
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.AttractionListResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: List Attraction
+      tags:
+      - Attraction
+  /attraction/remove-image/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Remove an image from a Attraction by Attraction ID
+      parameters:
+      - description: Image URL
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Message'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Remove Image from Attraction
+      tags:
+      - Attraction
+  /attraction/update:
+    put:
+      consumes:
+      - application/json
+      description: Update attractions
+      parameters:
+      - description: Update Attraction
+        in: body
+        name: Update
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateAttraction'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.AttractionResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Update Attraction
+      tags:
+      - Attraction
   /chat/create:
     post:
       consumes:
@@ -604,7 +1083,7 @@ paths:
       - BearerAuth: []
       summary: Create Chat
       tags:
-      - Admin
+      - Chat
   /chat/create_message:
     post:
       consumes:
@@ -636,8 +1115,8 @@ paths:
       - BearerAuth: []
       summary: Create Chat
       tags:
-      - Admin
-  /chat/delete_chat{id}:
+      - Chat
+  /chat/delete_chat/{id}:
     delete:
       description: Delete a chat by its ID
       parameters:
@@ -665,8 +1144,8 @@ paths:
       - BearerAuth: []
       summary: Delete Chat
       tags:
-      - Admin
-  /chat/delete_massage{id}:
+      - Chat
+  /chat/delete_massage/{id}:
     delete:
       description: Delete a chat by its ID
       parameters:
@@ -694,8 +1173,8 @@ paths:
       - BearerAuth: []
       summary: Delete Chat
       tags:
-      - Admin
-  /chat/get_massage:
+      - Chat
+  /chat/get_massage/{id}:
     get:
       description: Get a chat by its ID
       parameters:
@@ -723,8 +1202,8 @@ paths:
       - BearerAuth: []
       summary: Get Chat by ID
       tags:
-      - Posts
-  /chat/get_today:
+      - Chat
+  /chat/get_today/{id}:
     get:
       description: Get a chat by its ID
       parameters:
@@ -752,7 +1231,7 @@ paths:
       - BearerAuth: []
       summary: Get Chat by ID
       tags:
-      - Posts
+      - Chat
   /chat/get_user:
     get:
       description: Get a chat by its ID
@@ -775,7 +1254,7 @@ paths:
       - BearerAuth: []
       summary: Get Chat by ID
       tags:
-      - Posts
+      - Chat
   /chat/list:
     get:
       description: Get a list of chat with optional filtering
@@ -808,7 +1287,7 @@ paths:
       - BearerAuth: []
       summary: List Chat
       tags:
-      - Posts
+      - Chat
   /chat/message_true:
     post:
       consumes:
@@ -840,7 +1319,7 @@ paths:
       - BearerAuth: []
       summary: Create Chat
       tags:
-      - Admin
+      - Chat
   /chat/update:
     put:
       consumes:
@@ -872,7 +1351,7 @@ paths:
       - BearerAuth: []
       summary: Update Chat
       tags:
-      - Admin
+      - Chat
   /comment/country:
     get:
       description: Get a list of Comment filtered by country
@@ -895,7 +1374,7 @@ paths:
       - BearerAuth: []
       summary: Get Comment by Country
       tags:
-      - Posts
+      - Comment
   /comment/create:
     post:
       consumes:
@@ -927,7 +1406,7 @@ paths:
       - BearerAuth: []
       summary: Create Comment
       tags:
-      - Admin
+      - Comment
   /comment/delete{id}:
     delete:
       description: Delete a Comment by its ID
@@ -956,7 +1435,7 @@ paths:
       - BearerAuth: []
       summary: Delete Comment
       tags:
-      - Admin
+      - Comment
   /comment/get_comment_postId/{id}:
     get:
       description: Get a list of Comment filtered by country
@@ -985,8 +1464,8 @@ paths:
       - BearerAuth: []
       summary: Get Comment by Country
       tags:
-      - Posts
-  /comment/getBy{id}:
+      - Comment
+  /comment/getBy/{id}:
     get:
       description: Get a comment by its ID
       parameters:
@@ -1014,16 +1493,10 @@ paths:
       - BearerAuth: []
       summary: Get Comment by ID
       tags:
-      - Posts
-  /comment/getByUser{id}:
+      - Comment
+  /comment/getByUser/{id}:
     get:
       description: Get a comment by its ID
-      parameters:
-      - description: Comment ID
-        in: path
-        name: id
-        required: true
-        type: string
       produces:
       - application/json
       responses:
@@ -1043,7 +1516,7 @@ paths:
       - BearerAuth: []
       summary: Get Comment by ID
       tags:
-      - Posts
+      - Comment
   /comment/list:
     get:
       description: Get a list of Comment with optional filtering
@@ -1076,7 +1549,7 @@ paths:
       - BearerAuth: []
       summary: List Comment
       tags:
-      - Posts
+      - Comment
   /comment/most_like_post/{id}:
     get:
       description: Get a list of posts filtered by country
@@ -1105,7 +1578,7 @@ paths:
       - BearerAuth: []
       summary: Get Posts by Country
       tags:
-      - Posts
+      - Comment
   /comment/update:
     put:
       consumes:
@@ -1137,19 +1610,227 @@ paths:
       - BearerAuth: []
       summary: Update Comment
       tags:
-      - Admin
+      - Comment
+  /historical/add-image:
+    post:
+      consumes:
+      - application/json
+      description: Add an image to a Historical by Historical ID
+      parameters:
+      - description: Image URL
+        in: body
+        name: filter
+        required: true
+        schema:
+          $ref: '#/definitions/models.HistoricalImage'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Message'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Add Image to Historical
+      tags:
+      - Historical
+  /historical/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a new Historical
+      parameters:
+      - description: Create Historical
+        in: body
+        name: Create
+        required: true
+        schema:
+          $ref: '#/definitions/models.Historical'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.HistoricalResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Create Historical
+      tags:
+      - Historical
+  /historical/delete/{id}:
+    delete:
+      description: Delete Historical by its ID
+      parameters:
+      - description: Historical ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Message'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete Historical
+      tags:
+      - Historical
+  /historical/getBy/{id}:
+    get:
+      description: Get Historical by its ID
+      parameters:
+      - description: Historical ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.HistoricalResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Historical by ID
+      tags:
+      - Historical
+  /historical/list:
+    get:
+      description: Get a list of Historical with optional filtering
+      parameters:
+      - in: query
+        name: country
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.HistoricalListResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: List Historical
+      tags:
+      - Historical
+  /historical/list_search:
+    get:
+      description: Get a list of Historical with optional filtering
+      parameters:
+      - in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.HistoricalListResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: List Historical
+      tags:
+      - Historical
+  /historical/update:
+    put:
+      consumes:
+      - application/json
+      description: Update Historical
+      parameters:
+      - description: Update Historical
+        in: body
+        name: Update
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateHistorical'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.HistoricalResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Update Historical
+      tags:
+      - Historical
   /like/comment/create:
     post:
       consumes:
       - application/json
       description: Add a like to a comment by comment ID
       parameters:
-      - description: Comment ID
-        in: body
-        name: comment
-        required: true
-        schema:
-          type: string
       - description: Like Comment
         in: body
         name: like
@@ -1176,7 +1857,7 @@ paths:
       summary: Add Like to a Comment
       tags:
       - Like
-  /like/comment/delete{commit_id}:
+  /like/comment/delete/{commit_id}:
     delete:
       consumes:
       - application/json
@@ -1184,11 +1865,8 @@ paths:
       parameters:
       - description: Comment ID
         in: path
-        name: id
-        required: true
-        type: string
-      - in: path
         name: commit_id
+        required: true
         type: string
       produces:
       - application/json
@@ -1210,7 +1888,7 @@ paths:
       summary: Delete Like from a Comment
       tags:
       - Like
-  /like/comment/most-liked{post_id}:
+  /like/comment/most-liked/{post_id}:
     get:
       consumes:
       - application/json
@@ -1218,7 +1896,7 @@ paths:
       parameters:
       - description: Post ID
         in: path
-        name: id
+        name: post_id
         required: true
         type: string
       produces:
@@ -1241,7 +1919,7 @@ paths:
       summary: Get Most Liked Comment
       tags:
       - Like
-  /like/comment/users{comment_id}:
+  /like/comment/users/{comment_id}:
     get:
       consumes:
       - application/json
@@ -1249,7 +1927,7 @@ paths:
       parameters:
       - description: Comment ID
         in: path
-        name: id
+        name: comment_id
         required: true
         type: string
       produces:
@@ -1278,12 +1956,6 @@ paths:
       - application/json
       description: Create a new like
       parameters:
-      - description: Like create
-        in: body
-        name: id
-        required: true
-        schema:
-          type: string
       - description: Like Post
         in: body
         name: like
@@ -1310,7 +1982,7 @@ paths:
       summary: Create Like
       tags:
       - Like
-  /like/delete{post_id}:
+  /like/delete/{id}:
     delete:
       consumes:
       - application/json
@@ -1347,7 +2019,7 @@ paths:
       summary: Delete Like from a Post
       tags:
       - Like
-  /like/post/count{post_id}:
+  /like/post/count/{post_id}:
     get:
       consumes:
       - application/json
@@ -1355,7 +2027,7 @@ paths:
       parameters:
       - description: Post ID
         in: path
-        name: id
+        name: post_id
         required: true
         type: string
       produces:
@@ -1378,7 +2050,7 @@ paths:
       summary: Get Post Like Count
       tags:
       - Like
-  /like/post/users{post_id}:
+  /like/post/users/{post_id}:
     get:
       consumes:
       - application/json
@@ -1386,7 +2058,7 @@ paths:
       parameters:
       - description: Post ID
         in: path
-        name: id
+        name: post_id
         required: true
         type: string
       produces:
@@ -1409,17 +2081,199 @@ paths:
       summary: Get Users Who Liked a Post
       tags:
       - Like
-  /post/add-image:
-    put:
+  /national/add-image:
+    post:
       consumes:
       - application/json
-      description: Add an image to a post by post ID
+      description: Add an image to a NationalFood by NationalFood ID
       parameters:
-      - description: Post ID
+      - description: Image URL
+        in: body
+        name: image
+        required: true
+        schema:
+          $ref: '#/definitions/models.NationalFoodImage'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Message'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Add Image to NationalFood
+      tags:
+      - NationalFood
+  /national/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a new NationalFood
+      parameters:
+      - description: Create NationalFood
+        in: body
+        name: Create
+        required: true
+        schema:
+          $ref: '#/definitions/models.NationalFood'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.NationalFoodResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Create NationalFood
+      tags:
+      - NationalFood
+  /national/delete/{id}:
+    delete:
+      description: Delete NationalFood by its ID
+      parameters:
+      - description: NationalFood ID
         in: path
         name: id
         required: true
         type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Message'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete NationalFood
+      tags:
+      - NationalFood
+  /national/getBy/{id}:
+    get:
+      description: Get NationalFood by its ID
+      parameters:
+      - description: NationalFood ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.NationalFoodResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get NationalFood by ID
+      tags:
+      - NationalFood
+  /national/list:
+    get:
+      description: Get a list of NationalFood with optional filtering
+      parameters:
+      - in: query
+        name: country
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.NationalFoodListResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: List NationalFood
+      tags:
+      - NationalFood
+  /national/update:
+    put:
+      consumes:
+      - application/json
+      description: Update NationalFood
+      parameters:
+      - description: Update NationalFood
+        in: body
+        name: Update
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateNationalFood'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.NationalFoodResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Update NationalFood
+      tags:
+      - NationalFood
+  /post/add-image:
+    post:
+      consumes:
+      - application/json
+      description: Add an image to a post by post ID
+      parameters:
       - description: Image URL
         in: body
         name: image
@@ -1445,8 +2299,8 @@ paths:
       - BearerAuth: []
       summary: Add Image to Post
       tags:
-      - Admin
-  /post/country/{country}:
+      - Posts
+  /post/country/{c}:
     get:
       description: Get a list of posts filtered by country
       parameters:
@@ -1506,8 +2360,8 @@ paths:
       - BearerAuth: []
       summary: Create Post
       tags:
-      - Admin
-  /post/delete{id}:
+      - Posts
+  /post/delete/{id}:
     delete:
       description: Delete a post by its ID
       parameters:
@@ -1535,8 +2389,8 @@ paths:
       - BearerAuth: []
       summary: Delete Post
       tags:
-      - Admin
-  /post/getBy{id}:
+      - Posts
+  /post/getBy/{id}:
     get:
       description: Get a post by its ID
       parameters:
@@ -1601,25 +2455,15 @@ paths:
       summary: List Posts
       tags:
       - Posts
-  /post/remove-image:
+  /post/remove-image/{id}:
     delete:
       consumes:
       - application/json
       description: Remove an image from a post by post ID
       parameters:
-      - description: Post ID
+      - description: Image URL
         in: path
         name: id
-        required: true
-        type: string
-      - description: Image URL
-        in: path
-        name: post_id
-        required: true
-        type: string
-      - description: Image URL
-        in: path
-        name: uel
         required: true
         type: string
       produces:
@@ -1641,7 +2485,7 @@ paths:
       - BearerAuth: []
       summary: Remove Image from Post
       tags:
-      - Admin
+      - Posts
   /post/update:
     put:
       consumes:
@@ -1673,7 +2517,7 @@ paths:
       - BearerAuth: []
       summary: Update Post
       tags:
-      - Admin
+      - Posts
   /user/change_password:
     put:
       consumes:

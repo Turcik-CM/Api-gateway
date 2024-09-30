@@ -46,7 +46,6 @@ func NewLikeHandler(likeService service.Service, logger *slog.Logger) LikeHandle
 // @Tags Like
 // @Accept json
 // @Produce json
-// @Param id body string true "Like create"
 // @Param like body models.LikePost true "Like Post"
 // @Success 200 {object} models.LikeResponse
 // @Failure 400 {object} models.Error
@@ -91,11 +90,11 @@ func (h *HandlerL) AddLikePost(c *gin.Context) {
 // @Success 200 {object} models.Message
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /like/delete{post_id} [delete]
+// @Router /like/delete/{id} [delete]
 func (h *HandlerL) DeleteLikePost(c *gin.Context) {
 	var like pb.LikePost
 
-	like.PostId = c.PostForm("post_id")
+	like.PostId = c.PostForm("id")
 
 	token := c.GetHeader("Authorization")
 	cl, err := t.ExtractClaims(token)
@@ -123,7 +122,6 @@ func (h *HandlerL) DeleteLikePost(c *gin.Context) {
 // @Tags Like
 // @Accept json
 // @Produce json
-// @Param comment body string true "Comment ID"
 // @Param like body models.LikeCommit true "Like Comment"
 // @Success 200 {object} models.LikeComResponse
 // @Failure 400 {object} models.Error
@@ -160,12 +158,11 @@ func (h *HandlerL) AddLikeComment(c *gin.Context) {
 // @Tags Like
 // @Accept json
 // @Produce json
-// @Param id path string true "Comment ID"
-// @Param like path models.LikeCommit true "Like Comment"
+// @Param commit_id path string true "Comment ID"
 // @Success 200 {object} models.Message
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /like/comment/delete{commit_id} [delete]
+// @Router /like/comment/delete/{commit_id} [delete]
 func (h *HandlerL) DeleteLikeComment(c *gin.Context) {
 	var like pb.LikeCommit
 
@@ -195,11 +192,11 @@ func (h *HandlerL) DeleteLikeComment(c *gin.Context) {
 // @Tags Like
 // @Accept json
 // @Produce json
-// @Param id path string true "Post ID"
+// @Param post_id path string true "Post ID"
 // @Success 200 {object} models.LikeCount
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /like/post/count{post_id} [get]
+// @Router /like/post/count/{post_id} [get]
 func (h *HandlerL) GetPostLikeCount(c *gin.Context) {
 	var like pb.PostId
 
@@ -221,11 +218,11 @@ func (h *HandlerL) GetPostLikeCount(c *gin.Context) {
 // @Tags Like
 // @Accept json
 // @Produce json
-// @Param id path string true "Post ID"
+// @Param post_id path string true "Post ID"
 // @Success 200 {object} models.LikeCount
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /like/comment/most-liked{post_id} [get]
+// @Router /like/comment/most-liked/{post_id} [get]
 func (h *HandlerL) GetMostLikedComment(c *gin.Context) {
 	var like pb.PostId
 
@@ -247,11 +244,11 @@ func (h *HandlerL) GetMostLikedComment(c *gin.Context) {
 // @Tags Like
 // @Accept json
 // @Produce json
-// @Param id path string true "Post ID"
+// @Param post_id path string true "Post ID"
 // @Success 200 {object} models.Users
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /like/post/users{post_id} [get]
+// @Router /like/post/users/{post_id} [get]
 func (h *HandlerL) GetUsersWhichLikePost(c *gin.Context) {
 	var like pb.PostId
 
@@ -273,11 +270,11 @@ func (h *HandlerL) GetUsersWhichLikePost(c *gin.Context) {
 // @Tags Like
 // @Accept json
 // @Produce json
-// @Param id path string true "Comment ID"
+// @Param comment_id path string true "Comment ID"
 // @Success 200 {object} models.Users
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /like/comment/users{comment_id} [get]
+// @Router /like/comment/users/{comment_id} [get]
 func (h *HandlerL) GetUsersWhichLikeComment(c *gin.Context) {
 	var like pb.CommentId
 

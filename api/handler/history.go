@@ -4,6 +4,7 @@ import (
 	pb "api-gateway/genproto/nationality"
 	"api-gateway/service"
 	"context"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
 	"log/slog"
@@ -38,6 +39,18 @@ func NewHistoryHandler(historyService service.Service, logger *slog.Logger) Hist
 	}
 }
 
+// AddHistorical godoc
+// @Summary Create Historical
+// @Description Create a new Historical
+// @Security BearerAuth
+// @Tags Historical
+// @Accept json
+// @Produce json
+// @Param Create body models.Historical true "Create Historical"
+// @Success 201 {object} models.HistoricalResponse
+// @Failure 400 {object} models.Error
+// @Failure 500 {object} models.Error
+// @Router /historical/create [post]
 func (h *historyHandler) AddHistorical(c *gin.Context) {
 	var his pb.Historical
 	if err := c.ShouldBindJSON(&his); err != nil {
@@ -54,6 +67,18 @@ func (h *historyHandler) AddHistorical(c *gin.Context) {
 	c.JSON(http.StatusCreated, req)
 }
 
+// UpdateHistoricals godoc
+// @Summary Update Historical
+// @Description Update Historical
+// @Security BearerAuth
+// @Tags Historical
+// @Accept json
+// @Produce json
+// @Param Update body models.UpdateHistorical true "Update Historical"
+// @Success 200 {object} models.HistoricalResponse
+// @Failure 400 {object} models.Error
+// @Failure 500 {object} models.Error
+// @Router /historical/update [put]
 func (h *historyHandler) UpdateHistoricals(c *gin.Context) {
 	var his pb.UpdateHistorical
 	if err := c.ShouldBindJSON(&his); err != nil {
@@ -70,6 +95,17 @@ func (h *historyHandler) UpdateHistoricals(c *gin.Context) {
 	c.JSON(http.StatusCreated, req)
 }
 
+// GetHistoricalByID godoc
+// @Summary Get Historical by ID
+// @Description Get Historical by its ID
+// @Security BearerAuth
+// @Tags Historical
+// @Produce json
+// @Param id path string true "Historical ID"
+// @Success 200 {object} models.HistoricalResponse
+// @Failure 400 {object} models.Error
+// @Failure 500 {object} models.Error
+// @Router /historical/getBy/{id} [get]
 func (h *historyHandler) GetHistoricalByID(c *gin.Context) {
 	id := c.Param("id")
 
@@ -86,6 +122,17 @@ func (h *historyHandler) GetHistoricalByID(c *gin.Context) {
 	c.JSON(http.StatusOK, req)
 }
 
+// DeleteHistorical godoc
+// @Summary Delete Historical
+// @Description Delete Historical by its ID
+// @Security BearerAuth
+// @Tags Historical
+// @Produce json
+// @Param id path string true "Historical ID"
+// @Success 200 {object} models.Message
+// @Failure 400 {object} models.Error
+// @Failure 500 {object} models.Error
+// @Router /historical/delete/{id} [delete]
 func (h *historyHandler) DeleteHistorical(c *gin.Context) {
 	id := c.Param("id")
 	his := pb.HistoricalId{
@@ -100,6 +147,17 @@ func (h *historyHandler) DeleteHistorical(c *gin.Context) {
 	c.JSON(http.StatusCreated, req)
 }
 
+// ListHistorical godoc
+// @Summary List Historical
+// @Description Get a list of Historical with optional filtering
+// @Security BearerAuth
+// @Tags Historical
+// @Produce json
+// @Param filter query models.HistoricalList false "Filter Historical"
+// @Success 200 {object} models.HistoricalListResponse
+// @Failure 400 {object} models.Error
+// @Failure 500 {object} models.Error
+// @Router /historical/list [get]
 func (h *historyHandler) ListHistorical(c *gin.Context) {
 	var post pb.HistoricalList
 
@@ -108,7 +166,7 @@ func (h *historyHandler) ListHistorical(c *gin.Context) {
 
 	offsets, err := strconv.Atoi(offset)
 	if err != nil {
-		offsets = 1
+		offsets = 0
 	}
 
 	limits, err := strconv.Atoi(limit)
@@ -120,16 +178,29 @@ func (h *historyHandler) ListHistorical(c *gin.Context) {
 	post.Offset = int64(offsets)
 
 	post.Country = c.Query("country")
-	post.City = c.Query("city")
+
+	fmt.Println(post)
 	res, err := h.historyService.ListHistorical(context.Background(), &post)
 	if err != nil {
 		h.logger.Error("Error occurred while calling ListHistorical", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	fmt.Println(res)
 	c.JSON(http.StatusOK, res)
 }
 
+// SearchHistorical godoc
+// @Summary List Historical
+// @Description Get a list of Historical with optional filtering
+// @Security BearerAuth
+// @Tags Historical
+// @Produce json
+// @Param filter query models.HistoricalSearch false "Filter Historical"
+// @Success 200 {object} models.HistoricalListResponse
+// @Failure 400 {object} models.Error
+// @Failure 500 {object} models.Error
+// @Router /historical/list_search [get]
 func (h *historyHandler) SearchHistorical(c *gin.Context) {
 	var post pb.HistoricalSearch
 	search := c.Query("search")
@@ -145,6 +216,18 @@ func (h *historyHandler) SearchHistorical(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 }
 
+// AddHistoricalImage godoc
+// @Summary Add Image to Historical
+// @Description Add an image to a Historical by Historical ID
+// @Security BearerAuth
+// @Tags Historical
+// @Accept json
+// @Produce json
+// @Param filter body models.HistoricalImage true "Image URL"
+// @Success 200 {object} models.Message
+// @Failure 400 {object} models.Error
+// @Failure 500 {object} models.Error
+// @Router /historical/add-image [post]
 func (h *historyHandler) AddHistoricalImage(c *gin.Context) {
 	var his pb.HistoricalImage
 	if err := c.ShouldBindJSON(&his); err != nil {

@@ -129,9 +129,8 @@ type CommentList struct {
 
 // CommentPost represents the structure for posting a comment
 type CommentPost struct {
-	PostID    string `json:"post_id"`
-	Content   string `json:"content"`
-	CreatedAt string `json:"created_at"`
+	PostID  string `json:"post_id"`
+	Content string `json:"content"`
 }
 
 // UpdateAComment represents the structure for updating a comment
@@ -384,4 +383,199 @@ type Follows struct {
 
 type Error struct {
 	Error string `json:"error"`
+}
+
+//nationality -----------------------------------------------------------------
+
+type HistoricalImage struct {
+	ID  string `json:"id"`
+	URL string `json:"url"`
+}
+
+type HistoricalCountry struct {
+	City string `json:"city"`
+}
+
+type HistoricalSearch struct {
+	Search string `json:"search"`
+}
+
+type HistoricalListResponse struct {
+	Historical []HistoricalResponse `json:"historical"`
+}
+
+type HistoricalList struct {
+	Limit   int64  `json:"limit"`
+	Offset  int64  `json:"offset"`
+	Country string `json:"country"`
+}
+
+type HistoricalId struct {
+	ID string `json:"id"`
+}
+
+type UpdateHistorical struct {
+	ID          string `json:"id"`
+	Country     string `json:"country"`
+	City        string `json:"city"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	ImageURL    string `json:"image_url"`
+	CreatedAt   string `json:"created_at"`
+	UpdatedAt   string `json:"updated_at"`
+}
+
+type Historical struct {
+	Country     string `json:"country"`
+	City        string `json:"city"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	ImageURL    string `json:"image_url"`
+	CreatedAt   string `json:"created_at"`
+	UpdatedAt   string `json:"updated_at"`
+}
+
+type HistoricalResponse struct {
+	ID          string `json:"id"`
+	Country     string `json:"country"`
+	City        string `json:"city"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	ImageURL    string `json:"image_url"`
+	CreatedAt   string `json:"created_at"`
+	UpdatedAt   string `json:"updated_at"`
+}
+
+type NationalFood struct {
+	Country     string `json:"country"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	Nationality string `json:"nationality"`
+	ImageURL    string `json:"image_url"`
+	Rating      int32  `json:"rating"`
+	FoodType    string `json:"food_type"`
+	Ingredients string `json:"ingredients"`
+	CreatedAt   string `json:"created_at"`
+	UpdatedAt   string `json:"updated_at"`
+}
+
+type NationalFoodResponse struct {
+	ID          string `json:"id"`
+	Country     string `json:"country"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	ImageURL    string `json:"image_url"`
+	Rating      int32  `json:"rating"`
+	Ingredients string `json:"ingredients"`
+	FoodType    string `json:"food_type"`
+	Nationality string `json:"nationality"`
+	CreatedAt   string `json:"created_at"`
+	UpdatedAt   string `json:"updated_at"`
+}
+
+type NationalFoodId struct {
+	ID string `json:"id"`
+}
+
+type NationalFoodList struct {
+	Limit   int64  `json:"limit"`
+	Offset  int64  `json:"offset"`
+	Country string `json:"country"`
+}
+
+type NationalFoodListResponse struct {
+	NationalFood []NationalFoodResponse `json:"national_food"`
+}
+
+type NationalFoodImage struct {
+	ID       string `json:"id"`
+	ImageURL string `json:"image_url"`
+}
+
+type NationalFoodCountry struct {
+	Country string `json:"country"`
+}
+
+type NationalFoodSearch struct {
+	Search string `json:"search"`
+}
+
+type RatingResponse struct {
+	Rating int32 `json:"rating"`
+}
+
+type Attraction struct {
+	Country     string `json:"country"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	Category    string `json:"category"`
+	Location    string `json:"location"`
+}
+
+type AttractionList struct {
+	Country     string `json:"country"`
+	Category    string `json:"category"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	Limit       int64  `json:"limit"`
+	Offset      int64  `json:"offset"`
+}
+
+type AttractionResponse struct {
+	ID          string `json:"id"`
+	Category    string `json:"category"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	Country     string `json:"country"`
+	Location    string `json:"location"`
+	ImageURL    string `json:"image_url"`
+	CreatedAt   string `json:"created_at"`
+	UpdatedAt   string `json:"updated_at"`
+}
+
+type AttractionListResponse struct {
+	Attractions []AttractionResponse `json:"attractions"`
+}
+
+type AttractionId struct {
+	ID string `json:"id"`
+}
+
+type UpdateNationalFood struct {
+	ID          string `json:"id"`
+	Country     string `json:"country"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	ImageURL    string `json:"image_url"`
+	Rating      int32  `json:"rating"`
+	Nationality string `json:"nationality"`
+	FoodType    string `json:"food_type"`
+	Ingredients string `json:"ingredients"`
+	CreatedAt   string `json:"created_at"`
+	UpdatedAt   string `json:"updated_at"`
+}
+
+type UpdateAttraction struct {
+	ID          string `json:"id"`
+	Country     string `json:"country"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	Category    string `json:"category"`
+	Location    string `json:"location"`
+	ImageURL    string `json:"image_url"`
+}
+
+type AttractionImage struct {
+	ID       string `json:"id"`
+	ImageURL string `json:"image_url"`
+}
+
+type AttractionCountry struct {
+	Country string `json:"country"`
+}
+
+type AttractionSearch struct {
+	SearchTerm string `json:"search_term"`
+	Limit      string `json:"limit"`
+	Offset     string `json:"offset"`
 }

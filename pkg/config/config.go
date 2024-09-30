@@ -1,16 +1,20 @@
 package config
 
 import (
-	"log"
-	"os"
-
 	"github.com/joho/godotenv"
 	"github.com/spf13/cast"
+	"log"
+	"os"
 )
 
 type Config struct {
-	POST_SERVICE string
-	USER_SERVICE string
+	POST_SERVICE     string
+	USER_SERVICE     string
+	NATIONAL_SERVICE string
+	POST_HOST        string
+	USER_HOST        string
+	NATIONAL_HOST    string
+	API_GATEWAY      string
 
 	ACCESS_TOKEN  string
 	REFRESH_TOKEN string
@@ -23,8 +27,13 @@ func Load() Config {
 
 	config := Config{}
 
-	config.POST_SERVICE = cast.ToString(coalesce("POST_SERVICE", ":7070"))
+	config.API_GATEWAY = cast.ToString(coalesce("API_GATEWAY", ":8087"))
+	config.POST_SERVICE = cast.ToString(coalesce("POST_SERVICE", ":50055"))
+	config.POST_HOST = cast.ToString(coalesce("POST_HOST", "localhost"))
 	config.USER_SERVICE = cast.ToString(coalesce("USER_SERVICE", ":50050"))
+	config.USER_HOST = cast.ToString(coalesce("POST_HOST", "localhost"))
+	config.NATIONAL_SERVICE = cast.ToString(coalesce("NATIONAL_SERVICE", ":7080"))
+	config.NATIONAL_HOST = cast.ToString(coalesce("POST_HOST", "localhost"))
 	config.ACCESS_TOKEN = cast.ToString(coalesce("ACCESS_TOKEN", "hello world"))
 	config.REFRESH_TOKEN = cast.ToString(coalesce("REFRESH_TOKEN", "dodi"))
 	return config

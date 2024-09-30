@@ -45,7 +45,7 @@ func NewCommentHandler(commentService service.Service, logger *slog.Logger) Comm
 // @Summary Create Comment
 // @Description Create a new comment
 // @Security BearerAuth
-// @Tags Admin
+// @Tags Comment
 // @Accept json
 // @Produce json
 // @Param Create body models.CommentPost true "Create comment"
@@ -82,7 +82,7 @@ func (h *commentHandler) CreateComment(c *gin.Context) {
 // @Summary Update Comment
 // @Description Update a comment
 // @Security BearerAuth
-// @Tags Admin
+// @Tags Comment
 // @Accept json
 // @Produce json
 // @Param Update body models.UpdateAComment true "Update comment"
@@ -118,13 +118,13 @@ func (h *commentHandler) UpdateComment(c *gin.Context) {
 // @Summary Get Comment by ID
 // @Description Get a comment by its ID
 // @Security BearerAuth
-// @Tags Posts
+// @Tags Comment
 // @Produce json
 // @Param id path string true "Comment ID"
 // @Success 200 {object} models.CommentResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /comment/getBy{id} [get]
+// @Router /comment/getBy/{id} [get]
 func (h *commentHandler) GetCommentByID(c *gin.Context) {
 	var commentId pb.CommentId
 
@@ -143,13 +143,12 @@ func (h *commentHandler) GetCommentByID(c *gin.Context) {
 // @Summary Get Comment by ID
 // @Description Get a comment by its ID
 // @Security BearerAuth
-// @Tags Posts
+// @Tags Comment
 // @Produce json
-// @Param id path string true "Comment ID"
 // @Success 200 {object} models.CommentResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /comment/getByUser{id} [get]
+// @Router /comment/getByUser/{id} [get]
 func (h *commentHandler) GetCommentByUsername(c *gin.Context) {
 	var commentId pb.Username
 
@@ -176,7 +175,7 @@ func (h *commentHandler) GetCommentByUsername(c *gin.Context) {
 // @Summary List Comment
 // @Description Get a list of Comment with optional filtering
 // @Security BearerAuth
-// @Tags Posts
+// @Tags Comment
 // @Produce json
 // @Param filter query models.CommentList false "Filter Comment"
 // @Success 200 {object} models.CommentsR
@@ -215,7 +214,7 @@ func (h *commentHandler) ListComments(c *gin.Context) {
 // @Summary Delete Comment
 // @Description Delete a Comment by its ID
 // @Security BearerAuth
-// @Tags Admin
+// @Tags Comment
 // @Produce json
 // @Param id path string true "Comment ID"
 // @Success 200 {object} models.Message
@@ -240,7 +239,7 @@ func (h *commentHandler) DeleteComment(c *gin.Context) {
 // @Summary Get Comment by Country
 // @Description Get a list of Comment filtered by country
 // @Security BearerAuth
-// @Tags Posts
+// @Tags Comment
 // @Produce json
 // @Param id path string true "Comment code"
 // @Success 200 {object} models.CommentsR
@@ -265,7 +264,7 @@ func (h *commentHandler) GetCommentByPostID(c *gin.Context) {
 // @Summary Get Comment by Country
 // @Description Get a list of Comment filtered by country
 // @Security BearerAuth
-// @Tags Posts
+// @Tags Comment
 // @Produce json
 // @Success 200 {object} models.CommentsR
 // @Failure 400 {object} models.Error
@@ -296,7 +295,7 @@ func (h *commentHandler) GetAllUserComments(c *gin.Context) {
 // @Summary Get Posts by Country
 // @Description Get a list of posts filtered by country
 // @Security BearerAuth
-// @Tags Posts
+// @Tags Comment
 // @Produce json
 // @Param id path string true "Country code"
 // @Success 200 {object} models.PostListResponse

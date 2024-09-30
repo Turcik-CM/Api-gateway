@@ -5,8 +5,6 @@ import (
 	config2 "api-gateway/pkg/config"
 	"api-gateway/pkg/logger"
 	"github.com/casbin/casbin/v2"
-	amqp "github.com/rabbitmq/amqp091-go"
-	"log"
 	"os"
 )
 
@@ -14,14 +12,6 @@ func main() {
 	appLogger := logger.NewLogger()
 
 	config := config2.Load()
-
-	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
-	failOnError(err, "Failed to connect to RabbitMQ")
-	defer conn.Close()
-
-	ch, err := conn.Channel()
-	failOnError(err, "Failed to open a channel")
-	defer ch.Close()
 
 	path, err := os.Getwd()
 	if err != nil {
@@ -35,11 +25,5 @@ func main() {
 	}
 
 	controller := api.NewRouter(&config, appLogger, casbinEnforcer)
-	controller.Run(":8087")
-}
-
-func failOnError(err error, msg string) {
-	if err != nil {
-		log.Fatalf("%s: %s", msg, err)
-	}
+	controller.Run(config.API_GATEWAY)
 }
