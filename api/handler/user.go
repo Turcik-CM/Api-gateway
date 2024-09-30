@@ -31,8 +31,6 @@ type UserHandler interface {
 
 	Follow(c *gin.Context)
 	Unfollow(c *gin.Context)
-	GetUserFollowers(c *gin.Context)
-	GetUserFollows(c *gin.Context)
 	MostPopularUser(c *gin.Context)
 }
 
@@ -123,14 +121,14 @@ func (h *userHandler) GetProfile(c *gin.Context) {
 // @Summary Get User Profile
 // @Description Retrieve the profile of a user
 // @Security BearerAuth
-// @Tags Admin
+// @Tags User
 // @Accept json
 // @Produce json
 // @Param user_id path string true "User ID"
 // @Success 200 {object} models.GetProfileResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /admin/get_profile_by_id/{user_id} [get]
+// @Router /user/get_profile_by_id/{user_id} [get]
 func (h *userHandler) GetProfileById(c *gin.Context) {
 	req := pb.Id{
 		UserId: c.Param("user_id"),
@@ -196,7 +194,7 @@ func (h *userHandler) UpdateProfile(c *gin.Context) {
 // @Success 200 {object} models.UserResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /admin/update_profile_by_id/{user_id} [put]
+// @Router /admin/update_profile [put]
 func (h *userHandler) UpdateProfileById(c *gin.Context) {
 	var user pb.UpdateProfileRequest
 	if err := c.ShouldBindJSON(&user); err != nil {
@@ -325,7 +323,7 @@ func (h *userHandler) ChangeProfileImage(c *gin.Context) {
 // @Summary Change User Profile Image
 // @Description Update the profile image of a user
 // @Security BearerAuth
-// @Tags Admin
+// @Tags User
 // @Accept json
 // @Produce json
 // @Param user_id path string true "User ID"
@@ -333,7 +331,7 @@ func (h *userHandler) ChangeProfileImage(c *gin.Context) {
 // @Success 200 {object} models.Void
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /admin/change_profile_image_by_id/{user_id} [put]
+// @Router /user/change_profile_image [put]
 func (h *userHandler) ChangeProfileImageById(c *gin.Context) {
 	var user pb.URL
 	if err := c.ShouldBindJSON(&user); err != nil {
@@ -358,7 +356,7 @@ func (h *userHandler) ChangeProfileImageById(c *gin.Context) {
 // @Summary Fetch Users
 // @Description Retrieve a list of users with filtering options
 // @Security BearerAuth
-// @Tags User
+// @Tags Admin
 // @Accept json
 // @Produce json
 // @Param page query int false "Page number"
@@ -367,7 +365,7 @@ func (h *userHandler) ChangeProfileImageById(c *gin.Context) {
 // @Success 200 {object} user.UserResponses
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /user/fetch_users [get]
+// @Router /admin/fetch_users [get]
 func (h *userHandler) FetchUsers(c *gin.Context) {
 	pageStr := c.Query("page")
 	limitStr := c.Query("limit")
@@ -451,14 +449,14 @@ func (h *userHandler) ListOfFollowers(c *gin.Context) {
 // @Summary Delete User
 // @Description Delete a user account
 // @Security BearerAuth
-// @Tags Admin
+// @Tags User
 // @Accept json
 // @Produce json
 // @Param user_id path string true "User ID"
 // @Success 200 {object} models.Message
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /admin/delete/{user_id} [delete]
+// @Router /user/delete/{user_id} [delete]
 func (h *userHandler) DeleteUser(c *gin.Context) {
 	res := pb.Id{
 		UserId: c.Param("user_id"),
@@ -513,72 +511,18 @@ func (h *userHandler) Follow(c *gin.Context) {
 // @Tags User
 // @Accept json
 // @Produce json
-// @Param Unfollow body models.FollowReq true "put user"
+// @Param id path string true "Unfollow code"
 // @Success 200 {object} models.DFollowRes
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /user/unfollow [delete]
 func (h *userHandler) Unfollow(c *gin.Context) {
-	var user pb.FollowReq
-	if err := c.ShouldBindJSON(&user); err != nil {
-		h.logger.Error("Error occurred while binding json", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
 	res := pb.FollowReq{
-		FollowingId: user.FollowingId,
+		FollowingId: c.Param("id"),
 		FollowerId:  c.MustGet("user_id").(string),
 	}
 
 	req, err := h.userService.Unfollow(context.Background(), &res)
-	if err != nil {
-		h.logger.Error("Error occurred while following", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusOK, req)
-}
-
-// GetUserFollowers godoc
-// @Summary Get User Followers
-// @Description Retrieve a list of followers for a specific user
-// @Security BearerAuth
-// @Tags User
-// @Accept json
-// @Produce json
-// @Success 200 {object} models.Count
-// @Failure 400 {object} models.Error
-// @Failure 500 {object} models.Error
-// @Router /user/get_user_followers [get]
-func (h *userHandler) GetUserFollowers(c *gin.Context) {
-	res := pb.Id{
-		UserId: c.MustGet("user_id").(string),
-	}
-	req, err := h.userService.GetUserFollowers(context.Background(), &res)
-	if err != nil {
-		h.logger.Error("Error occurred while following", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusOK, req)
-}
-
-// GetUserFollows godoc
-// @Summary Get User Follows
-// @Description Retrieve a list of users that a specific user is following
-// @Security BearerAuth
-// @Tags User
-// @Accept json
-// @Produce json
-// @Success 200 {object} models.Count
-// @Failure 400 {object} models.Error
-// @Failure 500 {object} models.Error
-// @Router /user/get_user_follows [get]
-func (h *userHandler) GetUserFollows(c *gin.Context) {
-	res := pb.Id{
-		UserId: c.MustGet("user_id").(string),
-	}
-	req, err := h.userService.GetUserFollows(context.Background(), &res)
 	if err != nil {
 		h.logger.Error("Error occurred while following", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

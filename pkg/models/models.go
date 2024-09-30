@@ -360,8 +360,7 @@ type ChangePasswordResponse struct {
 
 // URL represents a URL and associated user ID.
 type URL struct {
-	URL    string `json:"url" db:"url"`
-	UserID string `json:"user_id" db:"user_id"`
+	URL string `json:"url" db:"url"`
 }
 
 // Ids represents the follower and following relationship.

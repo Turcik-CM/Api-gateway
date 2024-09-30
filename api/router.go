@@ -78,24 +78,27 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer) *g
 		history.POST("/add-image", his.AddHistoricalImage)
 	}
 
+	admin := router.Group("admin")
+	{
+		admin.GET("/fetch_users", user.FetchUsers)
+		admin.POST("/create", user.Create)
+		admin.PUT("/update_profile", user.UpdateProfileById)
+	}
+
+	// db818168-43ae-4024-80c8-6b58699d515f
 	userGroup := router.Group("/user")
 	{
-		userGroup.POST("/create", user.Create)
+		userGroup.GET("/get_profile_by_id/:user_id", user.GetProfileById)
 		userGroup.GET("/get_profile", user.GetProfile)
 		userGroup.PUT("/update_profile", user.UpdateProfile)
 		userGroup.PUT("/change_password", user.ChangePassword)
 		userGroup.PUT("/change_profile_image", user.ChangeProfileImage)
-		userGroup.GET("/fetch_users", user.FetchUsers)
 		userGroup.GET("/list_of_following", user.ListOfFollowing)
 		userGroup.GET("/list_of_followers", user.ListOfFollowers)
 		userGroup.DELETE("/delete/:user_id", user.DeleteUser)
-		userGroup.GET("/get_profile_by_id/:user_id", user.GetProfileById)
-		userGroup.PUT("/update_profile_by_id/:user_id", user.UpdateProfileById)
-		userGroup.PUT("/change_profile_image_by_id/:user_id", user.ChangeProfileImageById)
-		userGroup.POST("/follow/:user_id", user.Follow)
+		userGroup.PUT("/change_profile_image_id", user.ChangeProfileImageById)
+		userGroup.POST("/follow", user.Follow)
 		userGroup.DELETE("/unfollow/:user_id", user.Unfollow)
-		userGroup.GET("/followers/:user_id", user.GetUserFollowers)
-		userGroup.GET("/follows/:user_id", user.GetUserFollows)
 		userGroup.GET("/most_popular", user.MostPopularUser)
 	}
 
