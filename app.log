@@ -85,3 +85,4 @@ time=2024-09-27T18:53:28.373+05:00 level=ERROR msg="Error occurred while searchi
 time=2024-09-27T18:54:13.393+05:00 level=ERROR msg="Error occurred while searching attractions" !BADKEY="rpc error: code = Unimplemented desc = method SearchAttraction not implemented"
 time=2024-09-27T19:04:07.418+05:00 level=ERROR msg="Error occurred while removing image url" !BADKEY="rpc error: code = Unknown desc = error adding image url: pq: invalid input syntax for type uuid: \"\""
 time=2024-09-27T19:04:16.864+05:00 level=ERROR msg="Error occurred while removing image url" !BADKEY="rpc error: code = Unknown desc = error adding image url: pq: invalid input syntax for type uuid: \"\""
+time=2024-09-30T17:39:11.273+05:00 level=ERROR msg="Error occurred while creating comment" !BADKEY="rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp 127.0.0.1:50055: connect: connection refused\""
