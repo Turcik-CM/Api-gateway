@@ -25,5 +25,5 @@ func main() {
 	}
 
 	controller := api.NewRouter(&config, appLogger, casbinEnforcer)
-	controller.Run(":8087")
+	controller.Run(config.API_GATEWAY)
 }
