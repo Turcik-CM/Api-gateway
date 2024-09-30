@@ -31,7 +31,7 @@ func Load() Config {
 	config.POST_SERVICE = cast.ToString(coalesce("POST_SERVICE", ":50055"))
 	config.POST_HOST = cast.ToString(coalesce("POST_HOST", "localhost"))
 	config.USER_SERVICE = cast.ToString(coalesce("USER_SERVICE", ":50050"))
-	config.USER_HOST = cast.ToString(coalesce("POST_HOST", "localhost"))
+	config.USER_HOST = cast.ToString(coalesce("USER_HOST", "localhost"))
 	config.NATIONAL_SERVICE = cast.ToString(coalesce("NATIONAL_SERVICE", ":7080"))
 	config.NATIONAL_HOST = cast.ToString(coalesce("POST_HOST", "localhost"))
 	config.ACCESS_TOKEN = cast.ToString(coalesce("ACCESS_TOKEN", "hello world"))
