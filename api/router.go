@@ -91,7 +91,6 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer) *g
 		userGroup.PUT("/update_profile", user.UpdateProfile)
 		userGroup.PUT("/change_password", user.ChangePassword)
 		userGroup.PUT("/change_profile_image", user.ChangeProfileImage)
-		userGroup.GET("/fetch_users", user.FetchUsers)
 		userGroup.GET("/list_of_following", user.ListOfFollowing)
 		userGroup.GET("/list_of_followers", user.ListOfFollowers)
 		userGroup.DELETE("/delete/:user_id", user.DeleteUser)

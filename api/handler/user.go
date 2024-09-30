@@ -121,14 +121,14 @@ func (h *userHandler) GetProfile(c *gin.Context) {
 // @Summary Get User Profile
 // @Description Retrieve the profile of a user
 // @Security BearerAuth
-// @Tags Admin
+// @Tags User
 // @Accept json
 // @Produce json
 // @Param user_id path string true "User ID"
 // @Success 200 {object} models.GetProfileResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /admin/get_profile_by_id/{user_id} [get]
+// @Router /user/get_profile_by_id/{user_id} [get]
 func (h *userHandler) GetProfileById(c *gin.Context) {
 	req := pb.Id{
 		UserId: c.Param("user_id"),
@@ -323,7 +323,7 @@ func (h *userHandler) ChangeProfileImage(c *gin.Context) {
 // @Summary Change User Profile Image
 // @Description Update the profile image of a user
 // @Security BearerAuth
-// @Tags Admin
+// @Tags User
 // @Accept json
 // @Produce json
 // @Param user_id path string true "User ID"
@@ -356,7 +356,7 @@ func (h *userHandler) ChangeProfileImageById(c *gin.Context) {
 // @Summary Fetch Users
 // @Description Retrieve a list of users with filtering options
 // @Security BearerAuth
-// @Tags User
+// @Tags Admin
 // @Accept json
 // @Produce json
 // @Param page query int false "Page number"
@@ -365,7 +365,7 @@ func (h *userHandler) ChangeProfileImageById(c *gin.Context) {
 // @Success 200 {object} user.UserResponses
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /user/fetch_users [get]
+// @Router /admin/fetch_users [get]
 func (h *userHandler) FetchUsers(c *gin.Context) {
 	pageStr := c.Query("page")
 	limitStr := c.Query("limit")
@@ -449,7 +449,7 @@ func (h *userHandler) ListOfFollowers(c *gin.Context) {
 // @Summary Delete User
 // @Description Delete a user account
 // @Security BearerAuth
-// @Tags Admin
+// @Tags User
 // @Accept json
 // @Produce json
 // @Param user_id path string true "User ID"

@@ -647,16 +647,23 @@ paths:
       summary: Create User
       tags:
       - Admin
-  /admin/get_profile_by_id/{user_id}:
+  /admin/fetch_users:
     get:
       consumes:
       - application/json
-      description: Retrieve the profile of a user
+      description: Retrieve a list of users with filtering options
       parameters:
-      - description: User ID
-        in: path
-        name: user_id
-        required: true
+      - description: Page number
+        in: query
+        name: page
+        type: integer
+      - description: Number of users per page
+        in: query
+        name: limit
+        type: integer
+      - description: Username
+        in: query
+        name: name
         type: string
       produces:
       - application/json
@@ -664,7 +671,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.GetProfileResponse'
+            $ref: '#/definitions/user.UserResponses'
         "400":
           description: Bad Request
           schema:
@@ -675,7 +682,7 @@ paths:
             $ref: '#/definitions/models.Error'
       security:
       - BearerAuth: []
-      summary: Get User Profile
+      summary: Fetch Users
       tags:
       - Admin
   /admin/update_profile:
@@ -2509,7 +2516,7 @@ paths:
       - BearerAuth: []
       summary: Change User Profile Image
       tags:
-      - Admin
+      - User
   /user/delete/{user_id}:
     delete:
       consumes:
@@ -2539,44 +2546,6 @@ paths:
       security:
       - BearerAuth: []
       summary: Delete User
-      tags:
-      - Admin
-  /user/fetch_users:
-    get:
-      consumes:
-      - application/json
-      description: Retrieve a list of users with filtering options
-      parameters:
-      - description: Page number
-        in: query
-        name: page
-        type: integer
-      - description: Number of users per page
-        in: query
-        name: limit
-        type: integer
-      - description: Username
-        in: query
-        name: name
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/user.UserResponses'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: Fetch Users
       tags:
       - User
   /user/follow:
@@ -2616,6 +2585,37 @@ paths:
       consumes:
       - application/json
       description: Retrieve the profile of a user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.GetProfileResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get User Profile
+      tags:
+      - User
+  /user/get_profile_by_id/{user_id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the profile of a user
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
       produces:
       - application/json
       responses:
