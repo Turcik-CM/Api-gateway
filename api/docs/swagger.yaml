@@ -620,8 +620,8 @@ definitions:
     type: object
 info:
   contact: {}
-  description: API for Api-Geteway Service
-  title: Api-Geteway service for Turk-SM
+  description: API for API Gateway Service
+  title: API Gateway Service for Turk-SM
   version: "1.0"
 paths:
   /admin/change_profile_image_by_id/{user_id}:
@@ -2867,7 +2867,8 @@ paths:
       - User
 securityDefinitions:
   BearerAuth:
+    description: Enter your bearer token here
     in: header
-    name: Api-Gateway
+    name: Authorization
     type: apiKey
 swagger: "2.0"

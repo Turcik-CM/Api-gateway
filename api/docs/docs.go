@@ -4550,8 +4550,9 @@ const docTemplate = `{
     },
     "securityDefinitions": {
         "BearerAuth": {
+            "description": "Enter your bearer token here",
             "type": "apiKey",
-            "name": "Api-Gateway",
+            "name": "Authorization",
             "in": "header"
         }
     }
@@ -4563,8 +4564,8 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "",
 	BasePath:         "",
 	Schemes:          []string{},
-	Title:            "Api-Geteway service for Turk-SM",
-	Description:      "API for Api-Geteway Service",
+	Title:            "API Gateway Service for Turk-SM",
+	Description:      "API for API Gateway Service",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

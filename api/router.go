@@ -13,13 +13,13 @@ import (
 	"log/slog"
 )
 
-// @title Api-Geteway service for Turk-SM
+// @title API Gateway Service for Turk-SM
 // @version 1.0
-// @description API for Api-Geteway Service
-// @securityDefinitions.apikey BearerAuth
+// @description API for API Gateway Service
+// @securityDefinitions.apiKey BearerAuth
 // @in header
-// @name Api-Gateway
-// @BasePath
+// @name Authorization
+// @description Enter your bearer token here
 func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer) *gin.Engine {
 	router := gin.Default()
 

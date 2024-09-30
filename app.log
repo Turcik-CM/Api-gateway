@@ -86,3 +86,7 @@ time=2024-09-27T18:54:13.393+05:00 level=ERROR msg="Error occurred while searchi
 time=2024-09-27T19:04:07.418+05:00 level=ERROR msg="Error occurred while removing image url" !BADKEY="rpc error: code = Unknown desc = error adding image url: pq: invalid input syntax for type uuid: \"\""
 time=2024-09-27T19:04:16.864+05:00 level=ERROR msg="Error occurred while removing image url" !BADKEY="rpc error: code = Unknown desc = error adding image url: pq: invalid input syntax for type uuid: \"\""
 time=2024-09-30T17:39:11.273+05:00 level=ERROR msg="Error occurred while creating comment" !BADKEY="rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp 127.0.0.1:50055: connect: connection refused\""
+time=2024-09-30T18:12:41.543+05:00 level=ERROR msg="Error occurred while initializing minio user profile" !BADKEY="Endpoint url cannot have fully qualified paths."
+time=2024-09-30T18:23:45.146+05:00 level=ERROR msg="Error occurred while initializing minio user profile" !BADKEY="Endpoint url cannot have fully qualified paths."
+time=2024-09-30T18:24:10.533+05:00 level=ERROR msg="Error occurred while initializing minio user profile" !BADKEY="Endpoint url cannot have fully qualified paths."
+time=2024-09-30T18:24:35.581+05:00 level=ERROR msg="Error occurred while uploading file" !BADKEY="S3 API Requests must be made to API port."
