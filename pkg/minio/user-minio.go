@@ -1,22 +1,21 @@
 package minio
 
 import (
-	pb "api-gateway/genproto/user"
 	"context"
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
-	"net/http"
+	"mime/multipart"
 
 	"log"
 )
 
 var MinioClient *minio.Client
-var BucketName = "profile-image"
-var Endpoint = "3.120.111.217:9001"
 
-func InitUser() error {
+var BucketName = "profile-image"
+var Endpoint = "3.120.111.217:9000"
+
+func InitUserMinio() error {
 	accessKeyID := "minioadmin"
 	secretAccessKey := "minioadmin"
 
@@ -33,33 +32,24 @@ func InitUser() error {
 	return nil
 }
 
-func AAAA() {
-	file, err := req.Open()
+func UploadUser(fileHeader *multipart.FileHeader) (string, error) {
+	file, err := fileHeader.Open()
 	if err != nil {
-		h.logger.Error("Error occurred while opening file", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+		log.Println("1-", err)
+		return "", err
 	}
 	defer file.Close()
 
-	_, err = MinioClient.PutObject(context.Background(), BucketName, req.Filename, file, req.Size, minio.PutObjectOptions{
-		ContentType: "application/octet-stream",
+	_, err = MinioClient.PutObject(context.Background(), BucketName, fileHeader.Filename, file, fileHeader.Size, minio.PutObjectOptions{
+		ContentType: "image/png",
 	})
+
 	if err != nil {
-		h.logger.Error("Error occurred while uploading file", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+		log.Println("2-", err)
+		return "", err
 	}
 
-	imageUrl := fmt.Sprintf("http://%s/%s/%s", Endpoint, BucketName, req.Filename)
+	imageUrl := fmt.Sprintf("http://%s/%s/%s", Endpoint, BucketName, fileHeader.Filename)
 
-	change := pb.URL{
-		UserId: c.MustGet("user_id").(string),
-		Url:    imageUrl,
-	}
-
-	log.Println(imageUrl)
-	log.Println(imageUrl)
-	log.Println(imageUrl)
-
+	return imageUrl, nil
 }

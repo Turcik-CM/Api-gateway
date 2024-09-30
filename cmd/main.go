@@ -4,7 +4,9 @@ import (
 	"api-gateway/api"
 	config2 "api-gateway/pkg/config"
 	"api-gateway/pkg/logger"
+	"api-gateway/pkg/minio"
 	"github.com/casbin/casbin/v2"
+	"log"
 	"os"
 )
 
@@ -12,6 +14,11 @@ func main() {
 	appLogger := logger.NewLogger()
 
 	config := config2.Load()
+
+	err := minio.InitUserMinio()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	path, err := os.Getwd()
 	if err != nil {
