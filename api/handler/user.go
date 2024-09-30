@@ -2,6 +2,7 @@ package handler
 
 import (
 	pb "api-gateway/genproto/user"
+	"api-gateway/pkg/minio"
 	"api-gateway/pkg/models"
 	"api-gateway/service"
 	"context"
@@ -288,24 +289,25 @@ func (h *userHandler) ChangePassword(c *gin.Context) {
 // @Router /user/change_profile_image [put]
 func (h *userHandler) ChangeProfileImage(c *gin.Context) {
 
-	req, err := c.FormFile("file")
+	file, err := c.FormFile("file")
 	if err != nil {
 		h.logger.Error("Error occurred while getting file", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	file, err := req.Open()
+	url, err := minio.UploadUser(file)
 	if err != nil {
-		h.logger.Error("Error occurred while opening file", err)
+		h.logger.Error("Error occurred while uploading file", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	defer file.Close()
+
+	log.Println(url)
 
 	change := pb.URL{
 		UserId: c.MustGet("user_id").(string),
-		Url:    "imageUrl",
+		Url:    url,
 	}
 
 	res, err := h.userService.ChangeProfileImage(context.Background(), &change)
