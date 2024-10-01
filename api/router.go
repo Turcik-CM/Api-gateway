@@ -23,6 +23,8 @@ import (
 func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer) *gin.Engine {
 	router := gin.Default()
 
+	router.Use(middleware.CORSMiddleware())
+
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	router.Use(middleware.PermissionMiddleware(casbin))
