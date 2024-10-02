@@ -4,7 +4,15 @@ services:
   turk-api:
     build: .
     ports:
-      - 8087:8087
+      - 8088:8087
+    networks:
+      - TurkNet
+
+  redis:
+    image: redis:latest
+    container_name: redis_new_name
+    ports:
+      - "6378:6379"
     networks:
       - TurkNet
 
@@ -12,3 +20,4 @@ networks:
   TurkNet:
     name: TurkNet
     driver: bridge
+    external: true

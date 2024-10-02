@@ -14,7 +14,7 @@ import (
 
 func ConnectDB() *redis.Client {
 	rdb := redis.NewClient(&redis.Options{
-		Addr:     "redis:6379",
+		Addr:     "redis_new_name:6379",
 		Password: "",
 		DB:       0,
 	})

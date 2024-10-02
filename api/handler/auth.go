@@ -209,9 +209,6 @@ func (h *authHandler) LoginEmail(c *gin.Context) {
 		return
 	}
 
-	c.SetCookie("access_token", res.AccessToken, 3600, "", "", false, true)
-	c.SetCookie("refresh_token", res.RefreshToken, 3600, "", "", false, true)
-
 	c.JSON(http.StatusOK, res)
 }
 
