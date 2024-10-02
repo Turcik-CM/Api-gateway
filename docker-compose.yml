@@ -4,7 +4,7 @@ services:
   turk-api:
     build: .
     ports:
-      - 8087:8087
+      - 8088:8087
     networks:
       - TurkNet
 
