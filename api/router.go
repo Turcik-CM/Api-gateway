@@ -81,25 +81,23 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer) *g
 	admin := router.Group("admin")
 	{
 		admin.GET("/fetch_users", user.FetchUsers)
-		admin.POST("/create", user.Create)
-		admin.PUT("/update_profile", user.UpdateProfileById)
+		admin.POST("/create-user", user.Create)
+		admin.DELETE("/delete-user/:id", user.DeleteUser)
+		admin.GET("/user-by-id/:id", user.GetProfileById)
 	}
 
-	// db818168-43ae-4024-80c8-6b58699d515f
 	userGroup := router.Group("/user")
 	{
-		userGroup.GET("/get_profile_by_id/:user_id", user.GetProfileById)
-		userGroup.GET("/get_profile", user.GetProfile)
-		userGroup.PUT("/update_profile", user.UpdateProfile)
-		userGroup.PUT("/change_password", user.ChangePassword)
-		userGroup.PUT("/change_profile_image", user.ChangeProfileImage)
-		userGroup.GET("/list_of_following", user.ListOfFollowing)
-		userGroup.GET("/list_of_followers", user.ListOfFollowers)
-		userGroup.DELETE("/delete/:user_id", user.DeleteUser)
-		userGroup.PUT("/change_profile_image_id", user.ChangeProfileImageById)
+		userGroup.GET("/get-profile", user.GetProfile)
+		userGroup.PUT("/update-profile", user.UpdateProfile)
+		userGroup.PUT("/change-password", user.ChangePassword)
+		userGroup.PUT("/change-profile-image", user.ChangeProfileImage)
+		userGroup.GET("/list-of-following", user.ListOfFollowing)
+		userGroup.GET("/list-of-followers", user.ListOfFollowers)
+		userGroup.DELETE("/delete", user.DeleteProfile)
 		userGroup.POST("/follow", user.Follow)
 		userGroup.DELETE("/unfollow/:user_id", user.Unfollow)
-		userGroup.GET("/most_popular", user.MostPopularUser)
+		userGroup.GET("/most-popular-user", user.MostPopularUser)
 	}
 
 	postGroup := router.Group("/post")
@@ -111,7 +109,7 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer) *g
 		postGroup.GET("/list", post.ListPosts)
 		postGroup.POST("/add-image", post.AddImageToPost)
 		postGroup.DELETE("/remove-image/:id", post.RemoveImageFromPost)
-		postGroup.GET("/country/:c", post.GetPostByCountry)
+		postGroup.GET("/country/:country", post.GetPostByCountry)
 	}
 
 	chatGroup := router.Group("/chat")

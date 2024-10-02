@@ -273,6 +273,7 @@ type Id struct {
 // CreateRequest represents a request for user creation with various user attributes.
 type CreateRequest struct {
 	Email       string `json:"email" db:"email"`
+	Role        string `json:"role" db:"role"`
 	Password    string `json:"password" db:"password"`
 	Phone       string `json:"phone" db:"phone"`
 	FirstName   string `json:"first_name" db:"first_name"`

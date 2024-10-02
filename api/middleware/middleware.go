@@ -19,10 +19,6 @@ func (c *casbinPermission) GetRole(ctx *gin.Context) (string, int) {
 	Token := ctx.GetHeader("Authorization")
 	if Token == "" {
 		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "token is empty"})
-		log.Println("Mashettaasdfasdfkasjdkfjas;dfkasf")
-		log.Println("Mashettaasdfasdfkasjdkfjas;dfkasf")
-		log.Println("Mashettaasdfasdfkasjdkfjas;dfkasf")
-		log.Println("Mashettaasdfasdfkasjdkfjas;dfkasf")
 		return "Unauthorized", http.StatusUnauthorized
 	}
 	claims, err := token.ExtractClaims(Token)
