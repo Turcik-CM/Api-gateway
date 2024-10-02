@@ -111,7 +111,7 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer) *g
 		postGroup.GET("/list", post.ListPosts)
 		postGroup.POST("/add-image", post.AddImageToPost)
 		postGroup.DELETE("/remove-image/:id", post.RemoveImageFromPost)
-		postGroup.GET("/country/:c", post.GetPostByCountry)
+		postGroup.GET("/country/:country", post.GetPostByCountry)
 	}
 
 	chatGroup := router.Group("/chat")

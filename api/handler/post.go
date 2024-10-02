@@ -2,7 +2,6 @@ package handler
 
 import (
 	pb "api-gateway/genproto/post"
-	t "api-gateway/pkg/token"
 	"api-gateway/service"
 	"context"
 	"fmt"
@@ -60,15 +59,8 @@ func (h *postHandler) CreatePost(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	token := c.GetHeader("Authorization")
-	cl, err := t.ExtractClaims(token)
-	if err != nil {
-		h.logger.Error("Error occurred while extracting claims", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
 
-	post.UserId = cl["user_id"].(string)
+	post.UserId = c.MustGet("user_id").(string)
 
 	req, err := h.postService.CreatePost(context.Background(), &post)
 	if err != nil {
@@ -260,14 +252,13 @@ func (h *postHandler) RemoveImageFromPost(c *gin.Context) {
 // @Success 200 {object} models.PostListResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /post/country/{c} [get]
+// @Router /post/country/{country} [get]
 func (h *postHandler) GetPostByCountry(c *gin.Context) {
 	var post pb.PostCountry
 
-	p := c.Param("c")
+	p := c.Param("country")
 
 	post.Country = p
-	fmt.Println(post.Country, "ssssssssssssss")
 
 	req, err := h.postService.GetPostByCountry(c.Request.Context(), &post)
 	if err != nil {
