@@ -35,7 +35,7 @@ type authHandler struct {
 	redis       *redis.RedisStorage
 }
 
-func NewAuthHandler(logg *slog.Logger, sr service.Service, redis redis.RedisStorage) AuthHandler {
+func NewAuthHandler(logg *slog.Logger, sr service.Service, redis *redis.RedisStorage) AuthHandler {
 	authClient := sr.UserService()
 	if authClient == nil {
 		log.Fatalf("failed to create auth service")
@@ -44,7 +44,7 @@ func NewAuthHandler(logg *slog.Logger, sr service.Service, redis redis.RedisStor
 	return &authHandler{
 		authService: authClient,
 		log:         logg,
-		redis:       &redis,
+		redis:       redis,
 	}
 }
 
@@ -59,7 +59,7 @@ func NewAuthHandler(logg *slog.Logger, sr service.Service, redis redis.RedisStor
 // @Failure 400 {object} models.Error
 // @Failure 404 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /register [post]
+// @Router /auth/register [post]
 func (h *authHandler) Register(c *gin.Context) {
 	var auth models.RegisterRequest
 
@@ -111,7 +111,7 @@ func (h *authHandler) Register(c *gin.Context) {
 // @Success 200 {object} models.RegisterResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /accept-code [post]
+// @Router /auth/accept-code [post]
 func (h *authHandler) AcceptCodeToRegister(c *gin.Context) {
 	var req models.AcceptCode
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -192,7 +192,7 @@ func (h *authHandler) AcceptCodeToRegister(c *gin.Context) {
 // @Failure 400 {object} models.Error
 // @Failure 404 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /login/email [post]
+// @Router /auth/login/email [post]
 func (h *authHandler) LoginEmail(c *gin.Context) {
 	var auth pb.LoginEmailRequest
 
@@ -222,7 +222,7 @@ func (h *authHandler) LoginEmail(c *gin.Context) {
 // @Failure 400 {object} models.Error
 // @Failure 404 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /login/username [post]
+// @Router /auth/login/username [post]
 func (h *authHandler) LoginUsername(c *gin.Context) {
 	var auth pb.LoginUsernameRequest
 	if err := c.ShouldBindJSON(&auth); err != nil {
@@ -252,7 +252,7 @@ func (h *authHandler) LoginUsername(c *gin.Context) {
 // @Success 200 {object} string "message"
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /forgot-password [post]
+// @Router /auth/forgot-password [post]
 func (h *authHandler) ForgotPassword(c *gin.Context) {
 	h.log.Info("ForgotPassword is working")
 	var req models.ForgotPasswordRequest
@@ -296,7 +296,7 @@ func (h *authHandler) ForgotPassword(c *gin.Context) {
 // @Success 200 {object} models.Message
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /register-admin [post]
+// @Router /auth/register-admin [post]
 func (h *authHandler) RegisterAdmin(c *gin.Context) {
 	h.log.Info("RegisterStudent handler called.")
 
@@ -326,7 +326,7 @@ func (h *authHandler) RegisterAdmin(c *gin.Context) {
 // @Success 200 {object} string "message"
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /reset-password [post]
+// @Router /auth/reset-password [post]
 func (h *authHandler) ResetPassword(c *gin.Context) {
 	h.log.Info("ResetPassword is working")
 	var req models.ResetPassReq

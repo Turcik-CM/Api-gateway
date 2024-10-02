@@ -701,32 +701,6 @@ info:
   title: API Gateway Service for Turk-SM
   version: "1.0"
 paths:
-  /accept-code:
-    post:
-      description: it accepts code to register
-      parameters:
-      - description: enough
-        in: body
-        name: token
-        required: true
-        schema:
-          $ref: '#/definitions/models.AcceptCode'
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.RegisterResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      summary: Accept code to register
-      tags:
-      - Auth
   /admin/create-user:
     post:
       consumes:
@@ -1119,6 +1093,205 @@ paths:
       summary: Update Attraction
       tags:
       - Attraction
+  /auth/accept-code:
+    post:
+      description: it accepts code to register
+      parameters:
+      - description: enough
+        in: body
+        name: token
+        required: true
+        schema:
+          $ref: '#/definitions/models.AcceptCode'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.RegisterResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Accept code to register
+      tags:
+      - Auth
+  /auth/forgot-password:
+    post:
+      description: it sends code to your email address
+      parameters:
+      - description: enough
+        in: body
+        name: token
+        required: true
+        schema:
+          $ref: '#/definitions/models.ForgotPasswordRequest'
+      responses:
+        "200":
+          description: message
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Forgot Password
+      tags:
+      - Auth
+  /auth/login/email:
+    post:
+      consumes:
+      - application/json
+      description: sign in user
+      parameters:
+      - description: register user
+        in: body
+        name: LoginEmail
+        required: true
+        schema:
+          $ref: '#/definitions/models.LoginEmailRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Tokens'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: LoginEmail Users
+      tags:
+      - Auth
+  /auth/login/username:
+    post:
+      consumes:
+      - application/json
+      description: sign in user
+      parameters:
+      - description: register user
+        in: body
+        name: LoginUsername
+        required: true
+        schema:
+          $ref: '#/definitions/models.LoginUsernameRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Tokens'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: LoginUsername Users
+      tags:
+      - Auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: create users
+      parameters:
+      - description: register user
+        in: body
+        name: Register
+        required: true
+        schema:
+          $ref: '#/definitions/models.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.RegisterResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Register Users
+      tags:
+      - Auth
+  /auth/register-admin:
+    post:
+      description: Registers a new user`
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Message'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Registers user
+      tags:
+      - Auth
+  /auth/reset-password:
+    post:
+      description: it Reset your Password
+      parameters:
+      - description: enough
+        in: body
+        name: token
+        required: true
+        schema:
+          $ref: '#/definitions/models.ResetPassReq'
+      responses:
+        "200":
+          description: message
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Reset Password
+      tags:
+      - Auth
   /chat/create:
     post:
       consumes:
@@ -1678,32 +1851,6 @@ paths:
       summary: Update Comment
       tags:
       - Comment
-  /forgot-password:
-    post:
-      description: it sends code to your email address
-      parameters:
-      - description: enough
-        in: body
-        name: token
-        required: true
-        schema:
-          $ref: '#/definitions/models.ForgotPasswordRequest'
-      responses:
-        "200":
-          description: message
-          schema:
-            type: string
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      summary: Forgot Password
-      tags:
-      - Auth
   /historical/add-image:
     post:
       consumes:
@@ -2174,74 +2321,6 @@ paths:
       summary: Get Users Who Liked a Post
       tags:
       - Like
-  /login/email:
-    post:
-      consumes:
-      - application/json
-      description: sign in user
-      parameters:
-      - description: register user
-        in: body
-        name: LoginEmail
-        required: true
-        schema:
-          $ref: '#/definitions/models.LoginEmailRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.Tokens'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      summary: LoginEmail Users
-      tags:
-      - Auth
-  /login/username:
-    post:
-      consumes:
-      - application/json
-      description: sign in user
-      parameters:
-      - description: register user
-        in: body
-        name: LoginUsername
-        required: true
-        schema:
-          $ref: '#/definitions/models.LoginUsernameRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.Tokens'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      summary: LoginUsername Users
-      tags:
-      - Auth
   /national/add-image:
     post:
       consumes:
@@ -2679,85 +2758,6 @@ paths:
       summary: Update Post
       tags:
       - Posts
-  /register:
-    post:
-      consumes:
-      - application/json
-      description: create users
-      parameters:
-      - description: register user
-        in: body
-        name: Register
-        required: true
-        schema:
-          $ref: '#/definitions/models.RegisterRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.RegisterResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      summary: Register Users
-      tags:
-      - Auth
-  /register-admin:
-    post:
-      description: Registers a new user`
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.Message'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      summary: Registers user
-      tags:
-      - Auth
-  /reset-password:
-    post:
-      description: it Reset your Password
-      parameters:
-      - description: enough
-        in: body
-        name: token
-        required: true
-        schema:
-          $ref: '#/definitions/models.ResetPassReq'
-      responses:
-        "200":
-          description: message
-          schema:
-            type: string
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      summary: Reset Password
-      tags:
-      - Auth
   /user/change-password:
     put:
       consumes:
