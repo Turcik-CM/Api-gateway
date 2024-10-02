@@ -3,11 +3,14 @@ package handler
 import (
 	"api-gateway/api/email"
 	pb "api-gateway/genproto/user"
+	"api-gateway/pkg/config"
+	"api-gateway/pkg/hashing"
 	"api-gateway/pkg/models"
 	"api-gateway/pkg/token"
 	"api-gateway/service"
 	"api-gateway/service/redis"
 	"context"
+	"fmt"
 	"github.com/badoux/checkmail"
 	"github.com/gin-gonic/gin"
 	"log"
@@ -300,16 +303,19 @@ func (h *authHandler) ForgotPassword(c *gin.Context) {
 func (h *authHandler) RegisterAdmin(c *gin.Context) {
 	h.log.Info("RegisterStudent handler called.")
 
+	hash, err := hashing.HashPassword(config.Load().ADMIN_PASSWORD)
+
 	res := pb.Message{
-		Message: "admin",
+		Message: hash,
 	}
 
-	_, err := h.authService.RegisterAdmin(context.Background(), &res)
+	a, err := h.authService.RegisterAdmin(context.Background(), &res)
 	if err != nil {
 		h.log.Error("Error registering ADMIN", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+	fmt.Println(a)
 
 	h.log.Info("Successfully registered user")
 	c.JSON(http.StatusOK, models.Message{Massage: "FOR SURE!"})

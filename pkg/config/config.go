@@ -16,8 +16,9 @@ type Config struct {
 	NATIONAL_HOST    string
 	API_GATEWAY      string
 
-	ACCES_TOKEN   string
-	REFRESH_TOKEN string
+	ACCES_TOKEN    string
+	REFRESH_TOKEN  string
+	ADMIN_PASSWORD string
 }
 
 func Load() Config {
@@ -36,6 +37,7 @@ func Load() Config {
 	config.NATIONAL_HOST = cast.ToString(coalesce("NATIONAL_HOST", "18.196.33.86"))
 	config.ACCES_TOKEN = cast.ToString(coalesce("ACCES_TOKEN", "hello world"))
 	config.REFRESH_TOKEN = cast.ToString(coalesce("REFRESH_TOKEN", "dodi"))
+	config.ADMIN_PASSWORD = cast.ToString(coalesce("ADMIN_PASSWORD", "123321"))
 	return config
 
 }
