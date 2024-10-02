@@ -7,7 +7,7 @@
         "version": "1.0"
     },
     "paths": {
-        "/admin/create": {
+        "/admin/create-user": {
             "post": {
                 "security": [
                     {
@@ -41,6 +41,55 @@
                         "description": "Created",
                         "schema": {
                             "$ref": "#/definitions/models.UserResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/delete-user/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete a user account",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Delete User",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Message"
                         }
                     },
                     "400": {
@@ -118,14 +167,14 @@
                 }
             }
         },
-        "/admin/update_profile": {
-            "put": {
+        "/admin/user-by-id/{id}": {
+            "get": {
                 "security": [
                     {
                         "BearerAuth": []
                     }
                 ],
-                "description": "Update user profile details",
+                "description": "Retrieve the profile of a user",
                 "consumes": [
                     "application/json"
                 ],
@@ -135,7 +184,7 @@
                 "tags": [
                     "Admin"
                 ],
-                "summary": "Update User Profile",
+                "summary": "Get User Profile",
                 "parameters": [
                     {
                         "type": "string",
@@ -143,22 +192,13 @@
                         "name": "user_id",
                         "in": "path",
                         "required": true
-                    },
-                    {
-                        "description": "Update user profile",
-                        "name": "UpdateProfileById",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.UpdateProfileRequest"
-                        }
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.UserResponse"
+                            "$ref": "#/definitions/models.GetProfileResponse"
                         }
                     },
                     "400": {
@@ -2584,7 +2624,7 @@
                 }
             }
         },
-        "/post/country/{c}": {
+        "/post/country/{country}": {
             "get": {
                 "security": [
                     {
@@ -2932,7 +2972,7 @@
                 }
             }
         },
-        "/user/change_password": {
+        "/user/change-password": {
             "put": {
                 "security": [
                     {
@@ -2983,7 +3023,7 @@
                 }
             }
         },
-        "/user/change_profile_image": {
+        "/user/change-profile-image": {
             "put": {
                 "security": [
                     {
@@ -2992,7 +3032,7 @@
                 ],
                 "description": "Update the profile image of a user",
                 "consumes": [
-                    "application/json"
+                    "multipart/form-data"
                 ],
                 "produces": [
                     "application/json"
@@ -3003,20 +3043,11 @@
                 "summary": "Change User Profile Image",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "User ID",
-                        "name": "user_id",
-                        "in": "path",
+                        "type": "file",
+                        "description": "Upload new profile image",
+                        "name": "file",
+                        "in": "formData",
                         "required": true
-                    },
-                    {
-                        "description": "Change profile image",
-                        "name": "ChangeProfileImageById",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.URL"
-                        }
                     }
                 ],
                 "responses": {
@@ -3041,7 +3072,7 @@
                 }
             }
         },
-        "/user/delete/{user_id}": {
+        "/user/delete": {
             "delete": {
                 "security": [
                     {
@@ -3058,16 +3089,7 @@
                 "tags": [
                     "User"
                 ],
-                "summary": "Delete User",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "User ID",
-                        "name": "user_id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
+                "summary": "Delete User Profile",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -3141,7 +3163,7 @@
                 }
             }
         },
-        "/user/get_profile": {
+        "/user/get-profile": {
             "get": {
                 "security": [
                     {
@@ -3159,55 +3181,6 @@
                     "User"
                 ],
                 "summary": "Get User Profile",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.GetProfileResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/get_profile_by_id/{user_id}": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Retrieve the profile of a user",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "User"
-                ],
-                "summary": "Get User Profile",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "User ID",
-                        "name": "user_id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -3310,7 +3283,7 @@
                 }
             }
         },
-        "/user/most_popular": {
+        "/user/most-popular-user": {
             "get": {
                 "security": [
                     {
@@ -3399,7 +3372,7 @@
                 }
             }
         },
-        "/user/update_profile": {
+        "/user/update-profile": {
             "put": {
                 "security": [
                     {
@@ -3662,6 +3635,9 @@
                     "type": "string"
                 },
                 "phone": {
+                    "type": "string"
+                },
+                "role": {
                     "type": "string"
                 },
                 "username": {
@@ -4104,14 +4080,6 @@
                     "type": "string"
                 },
                 "updated_at": {
-                    "type": "string"
-                }
-            }
-        },
-        "models.URL": {
-            "type": "object",
-            "properties": {
-                "url": {
                     "type": "string"
                 }
             }

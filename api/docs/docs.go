@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/admin/create": {
+        "/admin/create-user": {
             "post": {
                 "security": [
                     {
@@ -49,6 +49,55 @@ const docTemplate = `{
                         "description": "Created",
                         "schema": {
                             "$ref": "#/definitions/models.UserResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/delete-user/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete a user account",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Delete User",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Message"
                         }
                     },
                     "400": {
@@ -126,14 +175,14 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin/update_profile": {
-            "put": {
+        "/admin/user-by-id/{id}": {
+            "get": {
                 "security": [
                     {
                         "BearerAuth": []
                     }
                 ],
-                "description": "Update user profile details",
+                "description": "Retrieve the profile of a user",
                 "consumes": [
                     "application/json"
                 ],
@@ -143,7 +192,7 @@ const docTemplate = `{
                 "tags": [
                     "Admin"
                 ],
-                "summary": "Update User Profile",
+                "summary": "Get User Profile",
                 "parameters": [
                     {
                         "type": "string",
@@ -151,22 +200,13 @@ const docTemplate = `{
                         "name": "user_id",
                         "in": "path",
                         "required": true
-                    },
-                    {
-                        "description": "Update user profile",
-                        "name": "UpdateProfileById",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.UpdateProfileRequest"
-                        }
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.UserResponse"
+                            "$ref": "#/definitions/models.GetProfileResponse"
                         }
                     },
                     "400": {
@@ -2592,7 +2632,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/post/country/{c}": {
+        "/post/country/{country}": {
             "get": {
                 "security": [
                     {
@@ -2940,7 +2980,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/change_password": {
+        "/user/change-password": {
             "put": {
                 "security": [
                     {
@@ -2991,7 +3031,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/change_profile_image": {
+        "/user/change-profile-image": {
             "put": {
                 "security": [
                     {
@@ -3000,7 +3040,7 @@ const docTemplate = `{
                 ],
                 "description": "Update the profile image of a user",
                 "consumes": [
-                    "application/json"
+                    "multipart/form-data"
                 ],
                 "produces": [
                     "application/json"
@@ -3011,20 +3051,11 @@ const docTemplate = `{
                 "summary": "Change User Profile Image",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "User ID",
-                        "name": "user_id",
-                        "in": "path",
+                        "type": "file",
+                        "description": "Upload new profile image",
+                        "name": "file",
+                        "in": "formData",
                         "required": true
-                    },
-                    {
-                        "description": "Change profile image",
-                        "name": "ChangeProfileImageById",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.URL"
-                        }
                     }
                 ],
                 "responses": {
@@ -3049,7 +3080,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/delete/{user_id}": {
+        "/user/delete": {
             "delete": {
                 "security": [
                     {
@@ -3066,16 +3097,7 @@ const docTemplate = `{
                 "tags": [
                     "User"
                 ],
-                "summary": "Delete User",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "User ID",
-                        "name": "user_id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
+                "summary": "Delete User Profile",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -3149,7 +3171,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/get_profile": {
+        "/user/get-profile": {
             "get": {
                 "security": [
                     {
@@ -3167,55 +3189,6 @@ const docTemplate = `{
                     "User"
                 ],
                 "summary": "Get User Profile",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.GetProfileResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/get_profile_by_id/{user_id}": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Retrieve the profile of a user",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "User"
-                ],
-                "summary": "Get User Profile",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "User ID",
-                        "name": "user_id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -3318,7 +3291,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/most_popular": {
+        "/user/most-popular-user": {
             "get": {
                 "security": [
                     {
@@ -3407,7 +3380,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/update_profile": {
+        "/user/update-profile": {
             "put": {
                 "security": [
                     {
@@ -3670,6 +3643,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "phone": {
+                    "type": "string"
+                },
+                "role": {
                     "type": "string"
                 },
                 "username": {
@@ -4112,14 +4088,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "updated_at": {
-                    "type": "string"
-                }
-            }
-        },
-        "models.URL": {
-            "type": "object",
-            "properties": {
-                "url": {
                     "type": "string"
                 }
             }

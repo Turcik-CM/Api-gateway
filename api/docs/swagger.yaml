@@ -136,6 +136,8 @@ definitions:
         type: string
       phone:
         type: string
+      role:
+        type: string
       username:
         type: string
     type: object
@@ -423,11 +425,6 @@ definitions:
       updated_at:
         type: string
     type: object
-  models.URL:
-    properties:
-      url:
-        type: string
-    type: object
   models.UpdateAComment:
     properties:
       content:
@@ -615,7 +612,7 @@ info:
   title: API Gateway Service for Turk-SM
   version: "1.0"
 paths:
-  /admin/create:
+  /admin/create-user:
     post:
       consumes:
       - application/json
@@ -645,6 +642,37 @@ paths:
       security:
       - BearerAuth: []
       summary: Create User
+      tags:
+      - Admin
+  /admin/delete-user/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a user account
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Message'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete User
       tags:
       - Admin
   /admin/fetch_users:
@@ -685,30 +713,24 @@ paths:
       summary: Fetch Users
       tags:
       - Admin
-  /admin/update_profile:
-    put:
+  /admin/user-by-id/{id}:
+    get:
       consumes:
       - application/json
-      description: Update user profile details
+      description: Retrieve the profile of a user
       parameters:
       - description: User ID
         in: path
         name: user_id
         required: true
         type: string
-      - description: Update user profile
-        in: body
-        name: UpdateProfileById
-        required: true
-        schema:
-          $ref: '#/definitions/models.UpdateProfileRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.UserResponse'
+            $ref: '#/definitions/models.GetProfileResponse'
         "400":
           description: Bad Request
           schema:
@@ -719,7 +741,7 @@ paths:
             $ref: '#/definitions/models.Error'
       security:
       - BearerAuth: []
-      summary: Update User Profile
+      summary: Get User Profile
       tags:
       - Admin
   /attraction/add-image:
@@ -2230,7 +2252,7 @@ paths:
       summary: Add Image to Post
       tags:
       - Posts
-  /post/country/{c}:
+  /post/country/{country}:
     get:
       description: Get a list of posts filtered by country
       parameters:
@@ -2448,7 +2470,7 @@ paths:
       summary: Update Post
       tags:
       - Posts
-  /user/change_password:
+  /user/change-password:
     put:
       consumes:
       - application/json
@@ -2480,23 +2502,17 @@ paths:
       summary: Change User Password
       tags:
       - User
-  /user/change_profile_image:
+  /user/change-profile-image:
     put:
       consumes:
-      - application/json
+      - multipart/form-data
       description: Update the profile image of a user
       parameters:
-      - description: User ID
-        in: path
-        name: user_id
+      - description: Upload new profile image
+        in: formData
+        name: file
         required: true
-        type: string
-      - description: Change profile image
-        in: body
-        name: ChangeProfileImageById
-        required: true
-        schema:
-          $ref: '#/definitions/models.URL'
+        type: file
       produces:
       - application/json
       responses:
@@ -2517,17 +2533,11 @@ paths:
       summary: Change User Profile Image
       tags:
       - User
-  /user/delete/{user_id}:
+  /user/delete:
     delete:
       consumes:
       - application/json
       description: Delete a user account
-      parameters:
-      - description: User ID
-        in: path
-        name: user_id
-        required: true
-        type: string
       produces:
       - application/json
       responses:
@@ -2545,7 +2555,7 @@ paths:
             $ref: '#/definitions/models.Error'
       security:
       - BearerAuth: []
-      summary: Delete User
+      summary: Delete User Profile
       tags:
       - User
   /user/follow:
@@ -2580,42 +2590,11 @@ paths:
       summary: Follow User
       tags:
       - User
-  /user/get_profile:
+  /user/get-profile:
     get:
       consumes:
       - application/json
       description: Retrieve the profile of a user
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.GetProfileResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: Get User Profile
-      tags:
-      - User
-  /user/get_profile_by_id/{user_id}:
-    get:
-      consumes:
-      - application/json
-      description: Retrieve the profile of a user
-      parameters:
-      - description: User ID
-        in: path
-        name: user_id
-        required: true
-        type: string
       produces:
       - application/json
       responses:
@@ -2686,7 +2665,7 @@ paths:
       summary: List of Following Users
       tags:
       - User
-  /user/most_popular:
+  /user/most-popular-user:
     get:
       consumes:
       - application/json
@@ -2742,7 +2721,7 @@ paths:
       summary: Unfollow User
       tags:
       - User
-  /user/update_profile:
+  /user/update-profile:
     put:
       consumes:
       - application/json
