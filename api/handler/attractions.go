@@ -2,9 +2,9 @@ package handler
 
 import (
 	pb "api-gateway/genproto/nationality"
+	"api-gateway/pkg/minio"
 	"api-gateway/service"
 	"context"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
 	"log/slog"
@@ -19,7 +19,7 @@ type AttractionsHandler interface {
 	DeleteAttraction(c *gin.Context)
 	ListAttractions(c *gin.Context)
 	SearchAttractions(c *gin.Context)
-	AddImageUrl(c *gin.Context)
+	UpdateImage(c *gin.Context)
 	RemoveHistoricalImage(c *gin.Context)
 }
 
@@ -49,22 +49,44 @@ func NewAttractionsHandler(attrService service.Service, logger *slog.Logger) Att
 // @Accept json
 // @Produce json
 // @Param Create body models.Attraction true "Create Attraction"
+// @Param file formData file true "Upload image"
 // @Success 201 {object} models.AttractionResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /attraction/create [post]
 func (h *attractionsHandler) CreateAttraction(c *gin.Context) {
 	var att pb.Attraction
+
 	if err := c.ShouldBindJSON(&att); err != nil {
 		h.logger.Error("Error occurred while binding json", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	file, err := c.FormFile("file")
+	if err != nil {
+		h.logger.Error("Error occurred while getting file from form", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	url, err := minio.UploadNationality(file)
+	if err != nil {
+		h.logger.Error("Error occurred while uploading file", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	att.ImageUrl = url
+
 	req, err := h.attractionsService.CreateAttraction(context.Background(), &att)
 	if err != nil {
 		h.logger.Error("Error occurred while creating attraction", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 	}
+
+	req.ImageUrl = url
+
 	c.JSON(http.StatusOK, req)
 }
 
@@ -228,19 +250,34 @@ func (h *attractionsHandler) SearchAttractions(c *gin.Context) {
 // @Tags Attraction
 // @Accept json
 // @Produce json
-// @Param image body models.AttractionImage true "Image URL"
+// @Param id path string true "attraction id"
+// @Param file formData file true "Upload image"
 // @Success 200 {object} models.Message
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /attraction/add-image [post]
-func (h *attractionsHandler) AddImageUrl(c *gin.Context) {
+// @Router /attraction/image/{id} [put]
+func (h *attractionsHandler) UpdateImage(c *gin.Context) {
 	var att pb.AttractionImage
-	if err := c.ShouldBindJSON(&att); err != nil {
-		h.logger.Error("Error occurred while binding json", err)
+
+	id := c.Param("id")
+
+	file, err := c.FormFile("file")
+	if err != nil {
+		h.logger.Error("Error occurred while getting file from form", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	fmt.Println(att)
+
+	url, err := minio.UploadNationality(file)
+	if err != nil {
+		h.logger.Error("Error occurred while uploading file", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	att.ImageUrl = url
+	att.Id = id
+
 	req, err := h.attractionsService.AddAttractionImage(context.Background(), &att)
 	if err != nil {
 		h.logger.Error("Error occurred while adding image url", err)

@@ -159,3 +159,7 @@ time=2024-10-02T18:37:58.102+05:00 level=ERROR msg="Failed to register user" !BA
 time=2024-10-02T18:39:56.668+05:00 level=INFO msg="Successfully saved to redis"
 time=2024-10-02T18:40:50.294+05:00 level=ERROR msg="Invalid code" code=241831
 time=2024-10-02T18:41:01.971+05:00 level=ERROR msg="Failed to register student" error="rpc error: code = Unimplemented desc = unknown method Register for service user.UserService"
+time=2024-10-02T19:25:41.522+05:00 level=ERROR msg="Error in GetRegister" err="dial tcp: lookup redis on 127.0.0.53:53: server misbehaving"
+time=2024-10-02T19:25:41.522+05:00 level=ERROR msg="Failed to get register from redis" error="dial tcp: lookup redis on 127.0.0.53:53: server misbehaving"
+time=2024-10-02T19:25:53.974+05:00 level=INFO msg="ForgotPassword is working"
+time=2024-10-02T19:25:54.375+05:00 level=ERROR msg="rpc error: code = Unknown desc = user not found"

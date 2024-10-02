@@ -2,6 +2,7 @@ package handler
 
 import (
 	pb "api-gateway/genproto/nationality"
+	"api-gateway/pkg/minio"
 	"api-gateway/service"
 	"context"
 	"github.com/gin-gonic/gin"
@@ -16,7 +17,7 @@ type NationalFoodHandler interface {
 	GetNationalFoodByID(c *gin.Context)
 	DeleteNationalFood(c *gin.Context)
 	ListNationalFoods(c *gin.Context)
-	AddImageUrll(c *gin.Context)
+	UpdateImage(c *gin.Context)
 }
 
 type nationalFoodHandler struct {
@@ -39,6 +40,7 @@ func NewNationalFoodHandler(service service.Service, logger *slog.Logger) Nation
 // @Tags NationalFood
 // @Accept json
 // @Produce json
+// @Param file formData file true "Upload image"
 // @Param Create body models.NationalFood true "Create NationalFood"
 // @Success 201 {object} models.NationalFoodResponse
 // @Failure 400 {object} models.Error
@@ -46,11 +48,29 @@ func NewNationalFoodHandler(service service.Service, logger *slog.Logger) Nation
 // @Router /national/create [post]
 func (h *nationalFoodHandler) CreateNationalFood(c *gin.Context) {
 	var nat pb.NationalFood
+
 	if err := c.ShouldBindJSON(&nat); err != nil {
 		h.logger.Error("Error occurred while binding json", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	file, err := c.FormFile("file")
+	if err != nil {
+		h.logger.Error("Error occurred while getting file from form", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	url, err := minio.UploadNationality(file)
+	if err != nil {
+		h.logger.Error("Error occurred while uploading file", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	nat.ImageUrl = url
+
 	resp, err := h.nationalFoodService.CreateNationalFood(context.Background(), &nat)
 	if err != nil {
 		h.logger.Error("Error occurred while creating national food", err)
@@ -185,18 +205,34 @@ func (h *nationalFoodHandler) ListNationalFoods(c *gin.Context) {
 // @Tags NationalFood
 // @Accept json
 // @Produce json
-// @Param image body models.NationalFoodImage true "Image URL"
+// @Param id path string true "National food id"
+// @Param file formData file true "Upload image"
 // @Success 200 {object} models.Message
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /national/add-image [post]
-func (h *nationalFoodHandler) AddImageUrll(c *gin.Context) {
+// @Router /national/image/{id} [put]
+func (h *nationalFoodHandler) UpdateImage(c *gin.Context) {
 	var nat pb.NationalFoodImage
-	if err := c.ShouldBindJSON(&nat); err != nil {
-		h.logger.Error("Error occurred while binding json", err)
+
+	id := c.Param("id")
+
+	file, err := c.FormFile("file")
+	if err != nil {
+		h.logger.Error("Error occurred while getting file from form", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	url, err := minio.UploadNationality(file)
+	if err != nil {
+		h.logger.Error("Error occurred while uploading file", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	nat.ImageUrl = url
+	nat.Id = id
+
 	resp, err := h.nationalFoodService.AddNationalFoodImage(context.Background(), &nat)
 	if err != nil {
 		h.logger.Error("Error occurred while adding national food", err)

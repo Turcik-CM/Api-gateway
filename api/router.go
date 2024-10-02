@@ -54,8 +54,10 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer, re
 		authGroup.POST("/register-admin", auth.RegisterAdmin)
 		authGroup.POST("/reset-password", auth.ResetPassword)
 	}
+
 	router1 := router.Group("")
 	router1.Use(middleware.PermissionMiddleware(casbin))
+
 	attraction := router1.Group("attraction")
 	{
 		attraction.POST("/create", att.CreateAttraction)
@@ -64,19 +66,19 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer, re
 		attraction.DELETE("/delete/:id", att.DeleteAttraction)
 		attraction.GET("/list", att.ListAttractions)
 		attraction.GET("/list_search", att.SearchAttractions)
-		attraction.POST("/add-image", att.AddImageUrl)
+		attraction.PUT("/image/:id", att.UpdateImage)
 		attraction.DELETE("/remove-image/:id", att.RemoveHistoricalImage)
 
 	}
 
-	nationalFood := router1.Group("national")
+	nationalFood := router1.Group("/national")
 	{
 		nationalFood.POST("/create", nat.CreateNationalFood)
 		nationalFood.PUT("/update", nat.UpdateNationalFood)
 		nationalFood.GET("/getBy/:id", nat.GetNationalFoodByID)
 		nationalFood.DELETE("/delete/:id", nat.DeleteNationalFood)
 		nationalFood.GET("/list", nat.ListNationalFoods)
-		nationalFood.POST("/add-image", nat.AddImageUrll)
+		nationalFood.PUT("/image/:id", nat.UpdateImage)
 	}
 
 	history := router1.Group("historical")
@@ -87,7 +89,7 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer, re
 		history.DELETE("/delete/:id", his.DeleteHistorical)
 		history.GET("/list", his.ListHistorical)
 		history.GET("/list_search", his.SearchHistorical)
-		history.POST("/add-image", his.AddHistoricalImage)
+		history.PUT("/image/:id", his.UpdateHisImage)
 	}
 
 	admin := router1.Group("admin")
@@ -119,7 +121,7 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer, re
 		postGroup.DELETE("/delete/:id", post.DeletePost)
 		postGroup.GET("/getBy/:id", post.GetPostByID)
 		postGroup.GET("/list", post.ListPosts)
-		postGroup.POST("/add-image", post.AddImageToPost)
+		postGroup.POST("/image/:id", post.UpdatePost)
 		postGroup.DELETE("/remove-image/:id", post.RemoveImageFromPost)
 		postGroup.GET("/country/:country", post.GetPostByCountry)
 	}
