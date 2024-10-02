@@ -224,57 +224,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/attraction/add-image": {
-            "post": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Add an image to a Attraction by Attraction ID",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Attraction"
-                ],
-                "summary": "Add Image to Attraction",
-                "parameters": [
-                    {
-                        "description": "Image URL",
-                        "name": "image",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.AttractionImage"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.Message"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    }
-                }
-            }
-        },
         "/attraction/create": {
             "post": {
                 "security": [
@@ -302,6 +251,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.Attraction"
                         }
+                    },
+                    {
+                        "type": "file",
+                        "description": "Upload image",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -401,6 +357,62 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/models.AttractionResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/attraction/image/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Add an image to a Attraction by Attraction ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Attraction"
+                ],
+                "summary": "Add Image to Attraction",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "attraction id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "Upload image",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Message"
                         }
                     },
                     "400": {
@@ -1839,57 +1851,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/historical/add-image": {
-            "post": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Add an image to a Historical by Historical ID",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Historical"
-                ],
-                "summary": "Add Image to Historical",
-                "parameters": [
-                    {
-                        "description": "Image URL",
-                        "name": "filter",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.HistoricalImage"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.Message"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    }
-                }
-            }
-        },
         "/historical/create": {
             "post": {
                 "security": [
@@ -1917,6 +1878,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.Historical"
                         }
+                    },
+                    {
+                        "type": "file",
+                        "description": "Upload image",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -2016,6 +1984,62 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/models.HistoricalResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/historical/image/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Add an image to a Historical by Historical ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Historical"
+                ],
+                "summary": "Add Image to Historical",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "historical att-n id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "Upload image",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Message"
                         }
                     },
                     "400": {
@@ -2587,57 +2611,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/national/add-image": {
-            "post": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Add an image to a NationalFood by NationalFood ID",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "NationalFood"
-                ],
-                "summary": "Add Image to NationalFood",
-                "parameters": [
-                    {
-                        "description": "Image URL",
-                        "name": "image",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.NationalFoodImage"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.Message"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    }
-                }
-            }
-        },
         "/national/create": {
             "post": {
                 "security": [
@@ -2657,6 +2630,13 @@ const docTemplate = `{
                 ],
                 "summary": "Create NationalFood",
                 "parameters": [
+                    {
+                        "type": "file",
+                        "description": "Upload image",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    },
                     {
                         "description": "Create NationalFood",
                         "name": "Create",
@@ -2781,6 +2761,62 @@ const docTemplate = `{
                 }
             }
         },
+        "/national/image/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Add an image to a NationalFood by NationalFood ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "NationalFood"
+                ],
+                "summary": "Add Image to NationalFood",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "National food id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "Upload image",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Message"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/national/list": {
             "get": {
                 "security": [
@@ -2886,57 +2922,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/post/add-image": {
-            "post": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Add an image to a post by post ID",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Posts"
-                ],
-                "summary": "Add Image to Post",
-                "parameters": [
-                    {
-                        "description": "Image URL",
-                        "name": "image",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.ImageUrl"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.PostResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    }
-                }
-            }
-        },
         "/post/country/{country}": {
             "get": {
                 "security": [
@@ -3010,6 +2995,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.Post"
                         }
+                    },
+                    {
+                        "type": "file",
+                        "description": "Upload image",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -3101,6 +3093,62 @@ const docTemplate = `{
                         "description": "Post ID",
                         "name": "id",
                         "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.PostResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/post/image/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Add an image to a post by post ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Add Image to Post",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "post id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "Upload image",
+                        "name": "file",
+                        "in": "formData",
                         "required": true
                     }
                 ],
@@ -3771,17 +3819,6 @@ const docTemplate = `{
                 }
             }
         },
-        "models.AttractionImage": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string"
-                },
-                "image_url": {
-                    "type": "string"
-                }
-            }
-        },
         "models.AttractionListResponse": {
             "type": "object",
             "properties": {
@@ -4087,17 +4124,6 @@ const docTemplate = `{
                 }
             }
         },
-        "models.HistoricalImage": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string"
-                },
-                "url": {
-                    "type": "string"
-                }
-            }
-        },
         "models.HistoricalListResponse": {
             "type": "object",
             "properties": {
@@ -4134,17 +4160,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "updated_at": {
-                    "type": "string"
-                }
-            }
-        },
-        "models.ImageUrl": {
-            "type": "object",
-            "properties": {
-                "post_id": {
-                    "type": "string"
-                },
-                "url": {
                     "type": "string"
                 }
             }
@@ -4311,17 +4326,6 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "updated_at": {
-                    "type": "string"
-                }
-            }
-        },
-        "models.NationalFoodImage": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string"
-                },
-                "image_url": {
                     "type": "string"
                 }
             }

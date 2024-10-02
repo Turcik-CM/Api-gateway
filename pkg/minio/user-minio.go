@@ -16,6 +16,7 @@ var Endpoint = "3.120.111.217:9000"
 
 var UserBucketName = "profile-image"
 var PostBucketName = "post-image"
+var Nationality = "nationality-image"
 
 func InitUserMinio() error {
 	accessKeyID := "minioadmin"
@@ -74,6 +75,28 @@ func UploadPost(fileHeader *multipart.FileHeader) (string, error) {
 	}
 
 	imageUrl := fmt.Sprintf("http://%s/%s/%s", Endpoint, PostBucketName, fileHeader.Filename)
+
+	return imageUrl, nil
+}
+
+func UploadNationality(fileHeader *multipart.FileHeader) (string, error) {
+	file, err := fileHeader.Open()
+	if err != nil {
+		log.Println("1-", err)
+		return "", err
+	}
+	defer file.Close()
+
+	_, err = MinioClient.PutObject(context.Background(), Nationality, fileHeader.Filename, file, fileHeader.Size, minio.PutObjectOptions{
+		ContentType: "image/png",
+	})
+
+	if err != nil {
+		log.Println("2-", err)
+		return "", err
+	}
+
+	imageUrl := fmt.Sprintf("http://%s/%s/%s", Endpoint, Nationality, fileHeader.Filename)
 
 	return imageUrl, nil
 }

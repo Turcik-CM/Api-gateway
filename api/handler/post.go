@@ -2,6 +2,7 @@ package handler
 
 import (
 	pb "api-gateway/genproto/post"
+	"api-gateway/pkg/minio"
 	"api-gateway/service"
 	"context"
 	"fmt"
@@ -18,7 +19,7 @@ type PostHandler interface {
 	GetPostByID(c *gin.Context)
 	ListPosts(c *gin.Context)
 	DeletePost(c *gin.Context)
-	AddImageToPost(c *gin.Context)
+	UpdateImageToPost(c *gin.Context)
 	RemoveImageFromPost(c *gin.Context)
 	GetPostByCountry(c *gin.Context)
 }
@@ -48,18 +49,35 @@ func NewPostHandler(postService service.Service, logger *slog.Logger) PostHandle
 // @Accept json
 // @Produce json
 // @Param Create body models.Post true "Create post"
+// @Param file formData file true "Upload image"
 // @Success 201 {object} models.PostResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /post/create [post]
 func (h *postHandler) CreatePost(c *gin.Context) {
 	var post pb.Post
+
 	if err := c.ShouldBindJSON(&post); err != nil {
 		h.logger.Error("Error occurred while binding json", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
+	file, err := c.FormFile("file")
+	if err != nil {
+		h.logger.Error("Error occurred while getting file from form", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	url, err := minio.UploadPost(file)
+	if err != nil {
+		h.logger.Error("Error occurred while uploading file", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	post.ImageUrl = url
 	post.UserId = c.MustGet("user_id").(string)
 
 	req, err := h.postService.CreatePost(context.Background(), &post)
@@ -195,19 +213,34 @@ func (h *postHandler) DeletePost(c *gin.Context) {
 // @Tags Posts
 // @Accept json
 // @Produce json
-// @Param image body models.ImageUrl true "Image URL"
+// @Param id path string true "post id"
+// @Param file formData file true "Upload image"
 // @Success 200 {object} models.PostResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /post/add-image [post]
-func (h *postHandler) AddImageToPost(c *gin.Context) {
+// @Router /post/image/{id} [put]
+func (h *postHandler) UpdateImageToPost(c *gin.Context) {
 	var post pb.ImageUrl
-	if err := c.ShouldBindJSON(&post); err != nil {
-		h.logger.Error("Error occurred while binding uri ", err)
+
+	id := c.Param("id")
+
+	file, err := c.FormFile("file")
+	if err != nil {
+		h.logger.Error("Error occurred while getting file from form", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	fmt.Println(post.PostId)
+
+	url, err := minio.UploadPost(file)
+	if err != nil {
+		h.logger.Error("Error occurred while uploading file", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	post.Url = url
+	post.PostId = id
+
 	req, err := h.postService.AddImageToPost(c.Request.Context(), &post)
 	if err != nil {
 		h.logger.Error("Error occurred while adding image to post", err)

@@ -21,13 +21,6 @@ definitions:
       name:
         type: string
     type: object
-  models.AttractionImage:
-    properties:
-      id:
-        type: string
-      image_url:
-        type: string
-    type: object
   models.AttractionListResponse:
     properties:
       attractions:
@@ -225,13 +218,6 @@ definitions:
       updated_at:
         type: string
     type: object
-  models.HistoricalImage:
-    properties:
-      id:
-        type: string
-      url:
-        type: string
-    type: object
   models.HistoricalListResponse:
     properties:
       historical:
@@ -256,13 +242,6 @@ definitions:
       name:
         type: string
       updated_at:
-        type: string
-    type: object
-  models.ImageUrl:
-    properties:
-      post_id:
-        type: string
-      url:
         type: string
     type: object
   models.LikeComResponse:
@@ -371,13 +350,6 @@ definitions:
       rating:
         type: integer
       updated_at:
-        type: string
-    type: object
-  models.NationalFoodImage:
-    properties:
-      id:
-        type: string
-      image_url:
         type: string
     type: object
   models.NationalFoodListResponse:
@@ -833,38 +805,6 @@ paths:
       summary: Get User Profile
       tags:
       - Admin
-  /attraction/add-image:
-    post:
-      consumes:
-      - application/json
-      description: Add an image to a Attraction by Attraction ID
-      parameters:
-      - description: Image URL
-        in: body
-        name: image
-        required: true
-        schema:
-          $ref: '#/definitions/models.AttractionImage'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.Message'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: Add Image to Attraction
-      tags:
-      - Attraction
   /attraction/create:
     post:
       consumes:
@@ -877,6 +817,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/models.Attraction'
+      - description: Upload image
+        in: formData
+        name: file
+        required: true
+        type: file
       produces:
       - application/json
       responses:
@@ -953,6 +898,42 @@ paths:
       security:
       - BearerAuth: []
       summary: Get Attraction by ID
+      tags:
+      - Attraction
+  /attraction/image/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Add an image to a Attraction by Attraction ID
+      parameters:
+      - description: attraction id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Upload image
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Message'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Add Image to Attraction
       tags:
       - Attraction
   /attraction/list:
@@ -1851,38 +1832,6 @@ paths:
       summary: Update Comment
       tags:
       - Comment
-  /historical/add-image:
-    post:
-      consumes:
-      - application/json
-      description: Add an image to a Historical by Historical ID
-      parameters:
-      - description: Image URL
-        in: body
-        name: filter
-        required: true
-        schema:
-          $ref: '#/definitions/models.HistoricalImage'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.Message'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: Add Image to Historical
-      tags:
-      - Historical
   /historical/create:
     post:
       consumes:
@@ -1895,6 +1844,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/models.Historical'
+      - description: Upload image
+        in: formData
+        name: file
+        required: true
+        type: file
       produces:
       - application/json
       responses:
@@ -1971,6 +1925,42 @@ paths:
       security:
       - BearerAuth: []
       summary: Get Historical by ID
+      tags:
+      - Historical
+  /historical/image/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Add an image to a Historical by Historical ID
+      parameters:
+      - description: historical att-n id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Upload image
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Message'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Add Image to Historical
       tags:
       - Historical
   /historical/list:
@@ -2321,44 +2311,17 @@ paths:
       summary: Get Users Who Liked a Post
       tags:
       - Like
-  /national/add-image:
-    post:
-      consumes:
-      - application/json
-      description: Add an image to a NationalFood by NationalFood ID
-      parameters:
-      - description: Image URL
-        in: body
-        name: image
-        required: true
-        schema:
-          $ref: '#/definitions/models.NationalFoodImage'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.Message'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: Add Image to NationalFood
-      tags:
-      - NationalFood
   /national/create:
     post:
       consumes:
       - application/json
       description: Create a new NationalFood
       parameters:
+      - description: Upload image
+        in: formData
+        name: file
+        required: true
+        type: file
       - description: Create NationalFood
         in: body
         name: Create
@@ -2443,6 +2406,42 @@ paths:
       summary: Get NationalFood by ID
       tags:
       - NationalFood
+  /national/image/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Add an image to a NationalFood by NationalFood ID
+      parameters:
+      - description: National food id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Upload image
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Message'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Add Image to NationalFood
+      tags:
+      - NationalFood
   /national/list:
     get:
       description: Get a list of NationalFood with optional filtering
@@ -2508,38 +2507,6 @@ paths:
       summary: Update NationalFood
       tags:
       - NationalFood
-  /post/add-image:
-    post:
-      consumes:
-      - application/json
-      description: Add an image to a post by post ID
-      parameters:
-      - description: Image URL
-        in: body
-        name: image
-        required: true
-        schema:
-          $ref: '#/definitions/models.ImageUrl'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.PostResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      security:
-      - BearerAuth: []
-      summary: Add Image to Post
-      tags:
-      - Posts
   /post/country/{country}:
     get:
       description: Get a list of posts filtered by country
@@ -2581,6 +2548,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/models.Post'
+      - description: Upload image
+        in: formData
+        name: file
+        required: true
+        type: file
       produces:
       - application/json
       responses:
@@ -2657,6 +2629,42 @@ paths:
       security:
       - BearerAuth: []
       summary: Get Post by ID
+      tags:
+      - Posts
+  /post/image/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Add an image to a post by post ID
+      parameters:
+      - description: post id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Upload image
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.PostResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Add Image to Post
       tags:
       - Posts
   /post/list:

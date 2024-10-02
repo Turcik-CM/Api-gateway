@@ -2,6 +2,7 @@ package handler
 
 import (
 	pb "api-gateway/genproto/nationality"
+	"api-gateway/pkg/minio"
 	"api-gateway/service"
 	"context"
 	"fmt"
@@ -19,7 +20,7 @@ type HistoryHandler interface {
 	DeleteHistorical(c *gin.Context)
 	ListHistorical(c *gin.Context)
 	SearchHistorical(c *gin.Context)
-	AddHistoricalImage(c *gin.Context)
+	UpdateHisImage(c *gin.Context)
 }
 
 type historyHandler struct {
@@ -47,17 +48,36 @@ func NewHistoryHandler(historyService service.Service, logger *slog.Logger) Hist
 // @Accept json
 // @Produce json
 // @Param Create body models.Historical true "Create Historical"
+// @Param file formData file true "Upload image"
 // @Success 201 {object} models.HistoricalResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /historical/create [post]
 func (h *historyHandler) AddHistorical(c *gin.Context) {
 	var his pb.Historical
+
 	if err := c.ShouldBindJSON(&his); err != nil {
 		h.logger.Error("Error occurred while binding json", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	file, err := c.FormFile("file")
+	if err != nil {
+		h.logger.Error("Error occurred while getting file from form", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	url, err := minio.UploadNationality(file)
+	if err != nil {
+		h.logger.Error("Error occurred while uploading file", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	his.ImageUrl = url
+
 	req, err := h.historyService.AddHistorical(context.Background(), &his)
 	if err != nil {
 		h.logger.Error("Error occurred while calling AddHistorical", err)
@@ -223,18 +243,34 @@ func (h *historyHandler) SearchHistorical(c *gin.Context) {
 // @Tags Historical
 // @Accept json
 // @Produce json
-// @Param filter body models.HistoricalImage true "Image URL"
+// @Param id path string true "historical att-n id"
+// @Param file formData file true "Upload image"
 // @Success 200 {object} models.Message
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /historical/add-image [post]
-func (h *historyHandler) AddHistoricalImage(c *gin.Context) {
+// @Router /historical/image/{id} [put]
+func (h *historyHandler) UpdateHisImage(c *gin.Context) {
 	var his pb.HistoricalImage
-	if err := c.ShouldBindJSON(&his); err != nil {
-		h.logger.Error("Error occurred while binding json", err)
+
+	id := c.Param("id")
+
+	file, err := c.FormFile("file")
+	if err != nil {
+		h.logger.Error("Error occurred while getting file from form", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	url, err := minio.UploadNationality(file)
+	if err != nil {
+		h.logger.Error("Error occurred while uploading file", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	his.Id = id
+	his.Url = url
+
 	req, err := h.historyService.AddHistoricalImage(context.Background(), &his)
 	if err != nil {
 		h.logger.Error("Error occurred while calling AddHistoricalImage", err)
