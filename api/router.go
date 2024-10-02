@@ -6,6 +6,7 @@ import (
 	"api-gateway/api/middleware"
 	"api-gateway/pkg/config"
 	"api-gateway/service"
+	"api-gateway/service/redis"
 	"github.com/casbin/casbin/v2"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -20,14 +21,12 @@ import (
 // @in header
 // @name Authorization
 // @description Enter your bearer token here
-func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer) *gin.Engine {
+func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer, redis *redis.RedisStorage) *gin.Engine {
 	router := gin.Default()
 
 	router.Use(middleware.CORSMiddleware())
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-
-	router.Use(middleware.PermissionMiddleware(casbin))
 
 	a, err := service.NewService(cfg)
 	if err != nil {
@@ -43,8 +42,21 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer) *g
 	att := handler.NewAttractionsHandler(a, log)
 	nat := handler.NewNationalFoodHandler(a, log)
 	his := handler.NewHistoryHandler(a, log)
+	auth := handler.NewAuthHandler(log, a, redis)
 
-	attraction := router.Group("attraction")
+	authGroup := router.Group("/auth")
+	{
+		authGroup.POST("/register", auth.Register)
+		authGroup.POST("/login/email", auth.LoginEmail)
+		authGroup.POST("/login/username", auth.LoginUsername)
+		authGroup.POST("/accept-code", auth.AcceptCodeToRegister)
+		authGroup.POST("/forgot-password", auth.ForgotPassword)
+		authGroup.POST("/register-admin", auth.RegisterAdmin)
+		authGroup.POST("/reset-password", auth.ResetPassword)
+	}
+	router1 := router.Group("")
+	router1.Use(middleware.PermissionMiddleware(casbin))
+	attraction := router1.Group("attraction")
 	{
 		attraction.POST("/create", att.CreateAttraction)
 		attraction.PUT("/update", att.UpdateAttraction)
@@ -57,7 +69,7 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer) *g
 
 	}
 
-	nationalFood := router.Group("national")
+	nationalFood := router1.Group("national")
 	{
 		nationalFood.POST("/create", nat.CreateNationalFood)
 		nationalFood.PUT("/update", nat.UpdateNationalFood)
@@ -67,7 +79,7 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer) *g
 		nationalFood.POST("/add-image", nat.AddImageUrll)
 	}
 
-	history := router.Group("historical")
+	history := router1.Group("historical")
 	{
 		history.POST("/create", his.AddHistorical)
 		history.PUT("/update", his.UpdateHistoricals)
@@ -78,7 +90,7 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer) *g
 		history.POST("/add-image", his.AddHistoricalImage)
 	}
 
-	admin := router.Group("admin")
+	admin := router1.Group("admin")
 	{
 		admin.GET("/fetch_users", user.FetchUsers)
 		admin.POST("/create-user", user.Create)
@@ -86,7 +98,7 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer) *g
 		admin.GET("/user-by-id/:id", user.GetProfileById)
 	}
 
-	userGroup := router.Group("/user")
+	userGroup := router1.Group("/user")
 	{
 		userGroup.GET("/get-profile", user.GetProfile)
 		userGroup.PUT("/update-profile", user.UpdateProfile)
@@ -100,7 +112,7 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer) *g
 		userGroup.GET("/most-popular-user", user.MostPopularUser)
 	}
 
-	postGroup := router.Group("/post")
+	postGroup := router1.Group("/post")
 	{
 		postGroup.POST("/create", post.CreatePost)
 		postGroup.PUT("/update", post.UpdatePost)
@@ -112,7 +124,7 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer) *g
 		postGroup.GET("/country/:country", post.GetPostByCountry)
 	}
 
-	chatGroup := router.Group("/chat")
+	chatGroup := router1.Group("/chat")
 	{
 		chatGroup.POST("/create", chat.StartMessaging)
 		chatGroup.POST("/create_message", chat.SendMessage)
@@ -126,7 +138,7 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer) *g
 		chatGroup.GET("/list", chat.GetChatMessages)
 	}
 
-	likeGroup := router.Group("/like")
+	likeGroup := router1.Group("/like")
 	{
 		likeGroup.POST("/create", like.AddLikePost)
 		likeGroup.DELETE("/delete/:post_id", like.DeleteLikePost)
@@ -138,7 +150,7 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer) *g
 		likeGroup.GET("/comment/users/:comment_id", like.GetUsersWhichLikeComment)
 	}
 
-	commentGroup := router.Group("/comment")
+	commentGroup := router1.Group("/comment")
 	{
 		commentGroup.POST("/create", comment.CreateComment)
 		commentGroup.PUT("/update", comment.UpdateComment)
@@ -150,5 +162,6 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer) *g
 		commentGroup.GET("/country", comment.GetAllUserComments)
 		commentGroup.GET("/most_like_post/:id", comment.GetMostlikeCommentPost)
 	}
+
 	return router
 }

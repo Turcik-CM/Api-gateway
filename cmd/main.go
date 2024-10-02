@@ -5,6 +5,7 @@ import (
 	config2 "api-gateway/pkg/config"
 	"api-gateway/pkg/logger"
 	"api-gateway/pkg/minio"
+	redis2 "api-gateway/service/redis"
 	"github.com/casbin/casbin/v2"
 	"log"
 	"os"
@@ -12,7 +13,7 @@ import (
 
 func main() {
 	appLogger := logger.NewLogger()
-
+	redis := redis2.NewRedisStorage(redis2.ConnectDB(), appLogger)
 	config := config2.Load()
 
 	err := minio.InitUserMinio()
@@ -31,6 +32,6 @@ func main() {
 		panic(err)
 	}
 
-	controller := api.NewRouter(&config, appLogger, casbinEnforcer)
+	controller := api.NewRouter(&config, appLogger, casbinEnforcer, redis)
 	controller.Run(config.API_GATEWAY)
 }
