@@ -746,7 +746,6 @@ paths:
       - description: Upload image file
         in: formData
         name: file
-        required: true
         type: file
       - description: Name of the attraction
         in: formData

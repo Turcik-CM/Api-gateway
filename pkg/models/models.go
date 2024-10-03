@@ -213,12 +213,14 @@ type UpdateAPost struct {
 
 // Post represents the structure for creating a post
 type Post struct {
-	Country     string `json:"country"`
-	Location    string `json:"location"`
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	Hashtag     string `json:"hashtag"`
-	Content     string `json:"content"`
+	Title       string `form:"title" binding:"required"`
+	Content     string `form:"content" binding:"required"`
+	Country     string `form:"country" binding:"required"`
+	Description string `form:"description" binding:"required"`
+	Hashtag     string `form:"hashtag" binding:"required"`
+	Location    string `form:"location" binding:"required"`
+	ImageUrl    string `form:"image_url"`
+	UserId      string `form:"user_id"`
 }
 
 // LikeCount represents the count of likes for a post
