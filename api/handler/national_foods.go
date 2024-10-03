@@ -6,6 +6,7 @@ import (
 	"api-gateway/service"
 	"context"
 	"github.com/gin-gonic/gin"
+	"log"
 	"log/slog"
 	"net/http"
 	"strconv"
@@ -34,49 +35,67 @@ func NewNationalFoodHandler(service service.Service, logger *slog.Logger) Nation
 }
 
 // CreateNationalFood godoc
-// @Summary Create NationalFood
-// @Description Create a new NationalFood
+// @Summary Create a new NationalFood
+// @Description Create a new NationalFood, including an optional image upload
 // @Security BearerAuth
 // @Tags NationalFood
-// @Accept json
+// @Accept multipart/form-data
 // @Produce json
-// @Param file formData file true "Upload image"
-// @Param Create body models.NationalFood true "Create NationalFood"
-// @Success 201 {object} models.NationalFoodResponse
-// @Failure 400 {object} models.Error
-// @Failure 500 {object} models.Error
+// @Param file formData file false "Upload image file (optional)"
+// @Param country formData string true "Country of the food"
+// @Param created_at formData string false "Creation date"
+// @Param description formData string true "Description of the food"
+// @Param food_type formData string true "Type of the food"
+// @Param ingredients formData string true "Ingredients"
+// @Param name formData string true "Name of the food"
+// @Param nationality formData string true "Nationality of the food"
+// @Param rating formData number true "Rating of the food"
+// @Success 201 {object} models.NationalFoodResponse "National food successfully created"
+// @Failure 400 {object} models.Error "Bad request, validation error or invalid file"
+// @Failure 500 {object} models.Error "Internal server error"
 // @Router /national/create [post]
 func (h *nationalFoodHandler) CreateNationalFood(c *gin.Context) {
+	log.Println("Request received")
+
+	// Declare a new NationalFood struct to hold the form data
 	var nat pb.NationalFood
 
-	if err := c.ShouldBindJSON(&nat); err != nil {
-		h.logger.Error("Error occurred while binding json", err)
+	// Parse the multipart form data, including file and fields
+	if err := c.ShouldBind(&nat); err != nil {
+		log.Println("Failed to bind form data")
+		h.logger.Error("Error occurred while binding form data:", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
+	// Handle optional file upload
+	var url string
 	file, err := c.FormFile("file")
-	if err != nil {
-		h.logger.Error("Error occurred while getting file from form", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+	if err == nil {
+		// If a file is uploaded, proceed with uploading it
+		url, err = minio.UploadNationality(file)
+		if err != nil {
+			log.Println("Error occurred while uploading file")
+			h.logger.Error("Error occurred while uploading file:", err)
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		// Set the ImageUrl in the NationalFood struct
+		nat.ImageUrl = url
+	} else {
+		log.Println("No file uploaded, continuing without an image")
 	}
 
-	url, err := minio.UploadNationality(file)
-	if err != nil {
-		h.logger.Error("Error occurred while uploading file", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	nat.ImageUrl = url
-
+	// Create the national food using the service layer
 	resp, err := h.nationalFoodService.CreateNationalFood(context.Background(), &nat)
 	if err != nil {
-		h.logger.Error("Error occurred while creating national food", err)
+		log.Println("Error occurred while creating national food in service")
+		h.logger.Error("Error occurred while creating national food:", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+
+	// Return the created national food response
 	c.JSON(http.StatusCreated, gin.H{"response": resp})
 }
 

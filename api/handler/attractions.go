@@ -42,52 +42,64 @@ func NewAttractionsHandler(attrService service.Service, logger *slog.Logger) Att
 }
 
 // CreateAttraction godoc
-// @Summary Create Attraction
-// @Description Create a new Attraction
+// @Summary Create a new Attraction
+// @Description Create a new Attraction, including an image upload
 // @Security BearerAuth
 // @Tags Attraction
-// @Accept json
+// @Accept multipart/form-data
 // @Produce json
-// @Param Create body models.Attraction true "Create Attraction"
-// @Param file formData file true "Upload image"
-// @Success 201 {object} models.AttractionResponse
-// @Failure 400 {object} models.Error
-// @Failure 500 {object} models.Error
+// @Param file formData file false "Upload image file"
+// @Param name formData string true "Name of the attraction"
+// @Param description formData string true "Description of the attraction"
+// @Param location formData string true "Location of the attraction"
+// @Param country formData string true "Country of the attraction"
+// @Param category formData string true "Category of the attraction"
+// @Success 201 {object} models.AttractionResponse "Attraction successfully created"
+// @Failure 400 {object} models.Error "Bad request, validation error or invalid file"
+// @Failure 500 {object} models.Error "Internal server error"
 // @Router /attraction/create [post]
 func (h *attractionsHandler) CreateAttraction(c *gin.Context) {
+	log.Println("Request received for creating a new attraction")
+
+	// Declare a new Attraction struct to hold the form data
 	var att pb.Attraction
 
-	if err := c.ShouldBindJSON(&att); err != nil {
-		h.logger.Error("Error occurred while binding json", err)
+	// Bind form data (including non-file fields) using ShouldBind
+	if err := c.ShouldBind(&att); err != nil {
+		h.logger.Error("Error occurred while binding form data", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
+	// Handle file upload (required in this case)
 	file, err := c.FormFile("file")
 	if err != nil {
-		h.logger.Error("Error occurred while getting file from form", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		h.logger.Error("Error occurred while retrieving file from form", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": "File upload is required"})
 		return
 	}
 
+	// Upload the file to MinIO (or another storage service)
 	url, err := minio.UploadNationality(file)
 	if err != nil {
 		h.logger.Error("Error occurred while uploading file", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error occurred while uploading file"})
 		return
 	}
 
+	// Set the ImageUrl in the Attraction struct
 	att.ImageUrl = url
 
+	// Create the attraction using the service layer
 	req, err := h.attractionsService.CreateAttraction(context.Background(), &att)
 	if err != nil {
 		h.logger.Error("Error occurred while creating attraction", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
 
-	req.ImageUrl = url
-
-	c.JSON(http.StatusOK, req)
+	// Return the created attraction response
+	c.JSON(http.StatusCreated, req)
 }
 
 // GetAttractionByID godoc
