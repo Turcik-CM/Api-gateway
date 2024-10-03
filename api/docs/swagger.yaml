@@ -463,9 +463,6 @@ definitions:
       id:
         default: dodi
         type: string
-      image_url:
-        default: dodi
-        type: string
       location:
         default: dodi
         type: string

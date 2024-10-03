@@ -4870,10 +4870,6 @@ const docTemplate = `{
                     "type": "string",
                     "default": "dodi"
                 },
-                "image_url": {
-                    "type": "string",
-                    "default": "dodi"
-                },
                 "location": {
                     "type": "string",
                     "default": "dodi"
