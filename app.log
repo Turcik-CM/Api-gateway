@@ -220,3 +220,5 @@ time=2024-10-03T18:24:32.498+05:00 level=ERROR msg="Error occurred while creatin
 time=2024-10-03T18:26:08.966+05:00 level=ERROR msg="Error occurred while creating attraction type" !BADKEY="rpc error: code = Unimplemented desc = unknown method CreateAttractionType for service nationality.NationalityService"
 time=2024-10-03T18:27:15.293+05:00 level=ERROR msg="Error occurred while creating attraction type" !BADKEY="rpc error: code = Unknown desc = error creating attraction type: dial tcp: lookup postgres_national on 127.0.0.53:53: server misbehaving"
 >>>>>>> 430fd845409671b415dbc7be4fad0f2db9760014
+time=2024-10-03T19:45:55.684+05:00 level=ERROR msg="Error occurred while creating attraction type" !BADKEY="rpc error: code = Unknown desc = error creating attraction type: pq: relation \"attraction_type\" does not exist"
+time=2024-10-03T19:46:13.432+05:00 level=ERROR msg="Error occurred while creating attraction type" !BADKEY="rpc error: code = Unknown desc = error creating attraction type: pq: relation \"attraction_type\" does not exist"
