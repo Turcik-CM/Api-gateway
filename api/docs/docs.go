@@ -224,6 +224,254 @@ const docTemplate = `{
                 }
             }
         },
+        "/attraction-type/create": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new Attraction Type",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AttractionType"
+                ],
+                "summary": "Create a new Attraction Type",
+                "parameters": [
+                    {
+                        "description": "Attraction Type Info",
+                        "name": "CreateAttractionTypeRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/nationality.CreateAttractionTypeRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Attraction Type successfully created",
+                        "schema": {
+                            "$ref": "#/definitions/nationality.CreateAttractionTypeResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request, validation error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/attraction-type/delete/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete Attraction Type by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AttractionType"
+                ],
+                "summary": "Delete Attraction Type",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Attraction Type ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Message"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/attraction-type/get/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get Attraction Type by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AttractionType"
+                ],
+                "summary": "Get Attraction Type by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Attraction Type ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/nationality.GetAttractionTypeResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/attraction-type/list": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get a list of Attraction Types",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AttractionType"
+                ],
+                "summary": "List Attraction Types",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "offset",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/nationality.ListAttractionTypesResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/attraction-type/update": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update Attraction Type",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AttractionType"
+                ],
+                "summary": "Update Attraction Type",
+                "parameters": [
+                    {
+                        "description": "Update Attraction Type",
+                        "name": "UpdateAttractionTypeRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/nationality.UpdateAttractionTypeRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/nationality.UpdateAttractionTypeResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/attraction/create": {
             "post": {
                 "security": [
@@ -4823,6 +5071,80 @@ const docTemplate = `{
         },
         "models.Void": {
             "type": "object"
+        },
+        "nationality.AttractionType1": {
+            "type": "object",
+            "properties": {
+                "activity": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "nationality.CreateAttractionTypeRequest": {
+            "type": "object",
+            "properties": {
+                "activity": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "nationality.CreateAttractionTypeResponse": {
+            "type": "object",
+            "properties": {
+                "attraction_type": {
+                    "$ref": "#/definitions/nationality.AttractionType1"
+                }
+            }
+        },
+        "nationality.GetAttractionTypeResponse": {
+            "type": "object",
+            "properties": {
+                "attraction_type": {
+                    "$ref": "#/definitions/nationality.AttractionType1"
+                }
+            }
+        },
+        "nationality.ListAttractionTypesResponse": {
+            "type": "object",
+            "properties": {
+                "attraction_types": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/nationality.AttractionType1"
+                    }
+                }
+            }
+        },
+        "nationality.UpdateAttractionTypeRequest": {
+            "type": "object",
+            "properties": {
+                "activity": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "nationality.UpdateAttractionTypeResponse": {
+            "type": "object",
+            "properties": {
+                "attraction_type": {
+                    "$ref": "#/definitions/nationality.AttractionType1"
+                }
+            }
         },
         "user.FollowUser": {
             "type": "object",
