@@ -70,14 +70,15 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer, re
 		attraction.PUT("/image/:id", att.UpdateImage)
 		attraction.DELETE("/remove-image/:id", att.RemoveHistoricalImage)
 
-		attractionType := router1.Group("attraction-type")
-		{
-			attractionType.POST("/create", att.CreateAttractionType)
-			attractionType.PUT("/update", att.UpdateAttractionType)
-			attractionType.GET("/get/:id", att.GetAttractionByIDType)
-			attractionType.DELETE("/delete/:id", att.DeleteAttractionType)
-			attractionType.GET("/list", att.ListAttractionsType)
-		}
+	}
+
+	attractionType := router1.Group("attraction-type")
+	{
+		attractionType.POST("/create", att.CreateAttractionType)
+		attractionType.PUT("/update", att.UpdateAttractionType)
+		attractionType.GET("/get/:id", att.GetAttractionByIDType)
+		attractionType.DELETE("/delete/:id", att.DeleteAttractionType)
+		attractionType.GET("/list", att.ListAttractionsType)
 	}
 
 	nationalCountry := router1.Group("/country")
