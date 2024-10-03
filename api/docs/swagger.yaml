@@ -566,6 +566,19 @@ definitions:
       name:
         type: string
     type: object
+  nationality.Country:
+    properties:
+      city:
+        type: string
+      country:
+        type: string
+      id:
+        type: string
+      image_url:
+        type: string
+      nationality:
+        type: string
+    type: object
   nationality.CreateAttractionTypeRequest:
     properties:
       activity:
@@ -578,16 +591,60 @@ definitions:
       attraction_type:
         $ref: '#/definitions/nationality.AttractionType1'
     type: object
+  nationality.CreateCountryRequest:
+    properties:
+      city:
+        type: string
+      country:
+        type: string
+      image_url:
+        type: string
+      nationality:
+        type: string
+    type: object
+  nationality.CreateCountryResponse:
+    properties:
+      city:
+        type: string
+      country:
+        type: string
+      id:
+        type: string
+      image_url:
+        type: string
+      nationality:
+        type: string
+    type: object
   nationality.GetAttractionTypeResponse:
     properties:
       attraction_type:
         $ref: '#/definitions/nationality.AttractionType1'
+    type: object
+  nationality.GetCountryResponse:
+    properties:
+      city:
+        type: string
+      country:
+        type: string
+      id:
+        type: string
+      image_url:
+        type: string
+      nationality:
+        type: string
     type: object
   nationality.ListAttractionTypesResponse:
     properties:
       attraction_types:
         items:
           $ref: '#/definitions/nationality.AttractionType1'
+        type: array
+    type: object
+  nationality.ListCountriesResponse:
+    properties:
+      countries:
+        items:
+          $ref: '#/definitions/nationality.Country'
         type: array
     type: object
   nationality.UpdateAttractionTypeRequest:
@@ -603,6 +660,32 @@ definitions:
     properties:
       attraction_type:
         $ref: '#/definitions/nationality.AttractionType1'
+    type: object
+  nationality.UpdateCountryRequest:
+    properties:
+      city:
+        type: string
+      country:
+        type: string
+      id:
+        type: string
+      image_url:
+        type: string
+      nationality:
+        type: string
+    type: object
+  nationality.UpdateCountryResponse:
+    properties:
+      city:
+        type: string
+      country:
+        type: string
+      id:
+        type: string
+      image_url:
+        type: string
+      nationality:
+        type: string
     type: object
   user.FollowUser:
     properties:
@@ -1984,6 +2067,164 @@ paths:
       summary: Update Comment
       tags:
       - Comment
+  /country/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a new country
+      parameters:
+      - description: Country Info
+        in: body
+        name: CreateCountryRequest
+        required: true
+        schema:
+          $ref: '#/definitions/nationality.CreateCountryRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Country successfully created
+          schema:
+            $ref: '#/definitions/nationality.CreateCountryResponse'
+        "400":
+          description: Bad request, validation error
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Create a new Country
+      tags:
+      - Country
+  /country/delete/{id}:
+    delete:
+      description: Delete a country by its ID
+      parameters:
+      - description: Country ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Message'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete Country
+      tags:
+      - Country
+  /country/get/{id}:
+    get:
+      description: Get a country by its ID
+      parameters:
+      - description: Country ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/nationality.GetCountryResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Country by ID
+      tags:
+      - Country
+  /country/list:
+    get:
+      description: Get a list of countries
+      parameters:
+      - in: query
+        name: city
+        type: string
+      - in: query
+        name: country
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/nationality.ListCountriesResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: List Countries
+      tags:
+      - Country
+  /country/update:
+    put:
+      consumes:
+      - application/json
+      description: Update a country's information
+      parameters:
+      - description: Update Country Info
+        in: body
+        name: UpdateCountryRequest
+        required: true
+        schema:
+          $ref: '#/definitions/nationality.UpdateCountryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/nationality.UpdateCountryResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Update Country
+      tags:
+      - Country
   /historical/create:
     post:
       consumes:
