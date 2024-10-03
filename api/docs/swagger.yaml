@@ -360,6 +360,17 @@ definitions:
         type: string
       updated_at:
         type: string
+    required:
+    - content
+    - country
+    - created_at
+    - description
+    - hashtag
+    - id
+    - image_url
+    - location
+    - title
+    - updated_at
     type: object
   models.RegisterRequest:
     properties:

@@ -4444,6 +4444,18 @@ const docTemplate = `{
         },
         "models.PostResponse": {
             "type": "object",
+            "required": [
+                "content",
+                "country",
+                "created_at",
+                "description",
+                "hashtag",
+                "id",
+                "image_url",
+                "location",
+                "title",
+                "updated_at"
+            ],
             "properties": {
                 "content": {
                     "type": "string"
