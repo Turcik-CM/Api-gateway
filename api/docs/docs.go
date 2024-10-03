@@ -473,31 +473,37 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "default": "culture",
                         "name": "category",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "default": "Uzbekistan",
                         "name": "country",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "default": "dodi",
                         "name": "description",
                         "in": "query"
                     },
                     {
                         "type": "integer",
+                        "default": 0,
                         "name": "limit",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "default": "dodi",
                         "name": "name",
                         "in": "query"
                     },
                     {
                         "type": "integer",
+                        "default": 0,
                         "name": "offset",
                         "in": "query"
                     }
@@ -542,16 +548,19 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "default": "10",
                         "name": "limit",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "default": "0",
                         "name": "offset",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "default": "dodi",
                         "name": "search_term",
                         "in": "query"
                     }
@@ -1324,16 +1333,19 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "default": "0",
                         "name": "chat_id",
                         "in": "query"
                     },
                     {
                         "type": "integer",
+                        "default": 10,
                         "name": "limit",
                         "in": "query"
                     },
                     {
                         "type": "integer",
+                        "default": 0,
                         "name": "offset",
                         "in": "query"
                     }
@@ -1743,16 +1755,19 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "integer",
+                        "default": 10,
                         "name": "limit",
                         "in": "query"
                     },
                     {
                         "type": "integer",
+                        "default": 0,
                         "name": "offset",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "default": "0",
                         "name": "post_id",
                         "in": "query"
                     }
@@ -2119,16 +2134,19 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "default": "Uzbekistan",
                         "name": "country",
                         "in": "query"
                     },
                     {
                         "type": "integer",
+                        "default": 10,
                         "name": "limit",
                         "in": "query"
                     },
                     {
                         "type": "integer",
+                        "default": 0,
                         "name": "offset",
                         "in": "query"
                     }
@@ -2173,6 +2191,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "default": "dodi",
                         "name": "search",
                         "in": "query"
                     }
@@ -2689,13 +2708,6 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Creation date",
-                        "name": "created_at",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
                         "description": "Description of the food",
                         "name": "description",
                         "in": "formData",
@@ -2925,16 +2937,19 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "default": "Uzbekistan",
                         "name": "country",
                         "in": "query"
                     },
                     {
                         "type": "integer",
+                        "default": 10,
                         "name": "limit",
                         "in": "query"
                     },
                     {
                         "type": "integer",
+                        "default": 0,
                         "name": "offset",
                         "in": "query"
                     }
@@ -3314,21 +3329,25 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "default": "Uzbekistan",
                         "name": "country",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "default": "dodi",
                         "name": "hashtag",
                         "in": "query"
                     },
                     {
                         "type": "integer",
+                        "default": 10,
                         "name": "limit",
                         "in": "query"
                     },
                     {
                         "type": "integer",
+                        "default": 0,
                         "name": "offset",
                         "in": "query"
                     }
@@ -3987,13 +4006,16 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "2023-01-01T00:00:00Z"
                 },
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 },
                 "user2_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 }
             }
         },
@@ -4012,10 +4034,12 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "content": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "post_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 }
             }
         },
@@ -4057,7 +4081,8 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "user2_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 }
             }
         },
@@ -4065,16 +4090,20 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "chat_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 },
                 "content": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "Hello"
                 },
                 "content_type": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "text"
                 },
                 "sender_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 }
             }
         },
@@ -4274,7 +4303,8 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "post_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 }
             }
         },
@@ -4319,28 +4349,36 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "chat_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 },
                 "content": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "Hello"
                 },
                 "content_type": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "text"
                 },
                 "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "2023-01-01T00:00:00Z"
                 },
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 },
                 "is_read": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "default": false
                 },
                 "sender_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 },
                 "updated_at": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "2023-01-01T00:00:00Z"
                 }
             }
         },
@@ -4359,7 +4397,8 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "chat_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 }
             }
         },
@@ -4527,10 +4566,12 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "code": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "123456"
                 },
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "example@gmail.com"
                 },
                 "new_password": {
                     "type": "string",
@@ -4553,10 +4594,12 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "content": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 }
             }
         },
@@ -4564,25 +4607,32 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "content": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "country": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "Uzbekistan"
                 },
                 "hashtag": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "image_url": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "location": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "title": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 }
             }
         },
@@ -4590,25 +4640,32 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "category": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "culture"
                 },
                 "country": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "Uzbekistan"
                 },
                 "description": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 },
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 },
                 "image_url": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 },
                 "location": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 }
             }
         },
@@ -4616,28 +4673,28 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "city": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "Uzbekistan"
                 },
                 "country": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "Uzbekistan"
                 },
                 "description": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 },
                 "image_url": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 },
                 "name": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 }
             }
         },
@@ -4645,10 +4702,12 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "message_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "123456"
                 },
                 "text": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "Hello"
                 }
             }
         },
@@ -4656,37 +4715,40 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "country": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "description": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "food_type": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 },
                 "image_url": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 },
                 "ingredients": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "nationality": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "rating": {
-                    "type": "integer"
-                },
-                "updated_at": {
-                    "type": "string"
+                    "type": "integer",
+                    "default": 120000
                 }
             }
         },
