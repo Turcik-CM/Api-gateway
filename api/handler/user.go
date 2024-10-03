@@ -2,6 +2,7 @@ package handler
 
 import (
 	pb "api-gateway/genproto/user"
+	"api-gateway/pkg/minio"
 	"api-gateway/pkg/models"
 	"api-gateway/service"
 	"context"
@@ -24,14 +25,11 @@ type UserHandler interface {
 	ListOfFollowing(c *gin.Context)
 	ListOfFollowers(c *gin.Context)
 	DeleteUser(c *gin.Context)
+	DeleteProfile(c *gin.Context)
 	GetProfileById(c *gin.Context)
-	UpdateProfileById(c *gin.Context)
-	ChangeProfileImageById(c *gin.Context)
 
 	Follow(c *gin.Context)
 	Unfollow(c *gin.Context)
-	GetUserFollowers(c *gin.Context)
-	GetUserFollows(c *gin.Context)
 	MostPopularUser(c *gin.Context)
 }
 
@@ -63,7 +61,7 @@ func NewUserHandler(userService service.Service, logger *slog.Logger) UserHandle
 // @Success 201 {object} models.UserResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /admin/create [post]
+// @Router /admin/create-user [post]
 func (h *userHandler) Create(c *gin.Context) {
 	var user pb.CreateRequest
 
@@ -103,7 +101,7 @@ func (h *userHandler) Create(c *gin.Context) {
 // @Success 200 {object} models.GetProfileResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /user/get_profile [get]
+// @Router /user/get-profile [get]
 func (h *userHandler) GetProfile(c *gin.Context) {
 	req := pb.Id{
 		UserId: c.MustGet("user_id").(string),
@@ -129,10 +127,10 @@ func (h *userHandler) GetProfile(c *gin.Context) {
 // @Success 200 {object} models.GetProfileResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /admin/get_profile_by_id/{user_id} [get]
+// @Router /admin/user-by-id/{id} [get]
 func (h *userHandler) GetProfileById(c *gin.Context) {
 	req := pb.Id{
-		UserId: c.Param("user_id"),
+		UserId: c.Param("id"),
 	}
 
 	res, err := h.userService.GetProfile(context.Background(), &req)
@@ -155,7 +153,7 @@ func (h *userHandler) GetProfileById(c *gin.Context) {
 // @Success 200 {object} models.UserResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /user/update_profile [put]
+// @Router /user/update-profile [put]
 func (h *userHandler) UpdateProfile(c *gin.Context) {
 	var user pb.UpdateProfileRequest
 	if err := c.ShouldBindJSON(&user); err != nil {
@@ -165,46 +163,6 @@ func (h *userHandler) UpdateProfile(c *gin.Context) {
 	}
 	res := pb.UpdateProfileRequest{
 		UserId:       c.MustGet("user_id").(string),
-		FirstName:    user.FirstName,
-		LastName:     user.LastName,
-		PhoneNumber:  user.PhoneNumber,
-		Username:     user.Username,
-		Nationality:  user.Nationality,
-		Bio:          user.Bio,
-		ProfileImage: user.ProfileImage,
-	}
-
-	req, err := h.userService.UpdateProfile(context.Background(), &res)
-	if err != nil {
-		h.logger.Error("Error occurred while updating user", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusOK, req)
-}
-
-// UpdateProfileById godoc
-// @Summary Update User Profile
-// @Description Update user profile details
-// @Security BearerAuth
-// @Tags Admin
-// @Accept json
-// @Produce json
-// @Param user_id path string true "User ID"
-// @Param UpdateProfileById body models.UpdateProfileRequest true "Update user profile"
-// @Success 200 {object} models.UserResponse
-// @Failure 400 {object} models.Error
-// @Failure 500 {object} models.Error
-// @Router /admin/update_profile_by_id/{user_id} [put]
-func (h *userHandler) UpdateProfileById(c *gin.Context) {
-	var user pb.UpdateProfileRequest
-	if err := c.ShouldBindJSON(&user); err != nil {
-		h.logger.Error("Error occurred while binding json", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	res := pb.UpdateProfileRequest{
-		UserId:       c.Param("user_id"),
 		FirstName:    user.FirstName,
 		LastName:     user.LastName,
 		PhoneNumber:  user.PhoneNumber,
@@ -234,7 +192,7 @@ func (h *userHandler) UpdateProfileById(c *gin.Context) {
 // @Success 200 {object} models.ChangePasswordResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /user/change_password [put]
+// @Router /user/change-password [put]
 func (h *userHandler) ChangePassword(c *gin.Context) {
 	var user pb.ChangePasswordRequest
 	if err := c.ShouldBindJSON(&user); err != nil {
@@ -281,71 +239,50 @@ func (h *userHandler) ChangePassword(c *gin.Context) {
 // @Description Update the profile image of a user
 // @Security BearerAuth
 // @Tags User
-// @Accept json
+// @Accept multipart/form-data
 // @Produce json
-// @Param ChangeProfileImage body models.URL true "Change profile image"
+// @Param file formData file true "Upload new profile image"
 // @Success 200 {object} models.Void
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /user/change_profile_image [put]
+// @Router /user/change-profile-image [put]
 func (h *userHandler) ChangeProfileImage(c *gin.Context) {
-	var user pb.URL
-	if err := c.ShouldBindJSON(&user); err != nil {
-		h.logger.Error("Error occurred while binding json", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	res := pb.URL{
-		UserId: c.MustGet("user_id").(string),
-		Url:    user.Url,
-	}
-	req, err := h.userService.ChangeProfileImage(context.Background(), &res)
-	if err != nil {
-		h.logger.Error("Error occurred while changing user", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusOK, req)
-}
 
-// ChangeProfileImageById godoc
-// @Summary Change User Profile Image
-// @Description Update the profile image of a user
-// @Security BearerAuth
-// @Tags Admin
-// @Accept json
-// @Produce json
-// @Param user_id path string true "User ID"
-// @Param ChangeProfileImageById body models.URL true "Change profile image"
-// @Success 200 {object} models.Void
-// @Failure 400 {object} models.Error
-// @Failure 500 {object} models.Error
-// @Router /admin/change_profile_image_by_id/{user_id} [put]
-func (h *userHandler) ChangeProfileImageById(c *gin.Context) {
-	var user pb.URL
-	if err := c.ShouldBindJSON(&user); err != nil {
-		h.logger.Error("Error occurred while binding json", err)
+	file, err := c.FormFile("file")
+	if err != nil {
+		h.logger.Error("Error occurred while getting file", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	res := pb.URL{
-		UserId: c.Param("user_id"),
-		Url:    user.Url,
+
+	url, err := minio.UploadUser(file)
+	if err != nil {
+		h.logger.Error("Error occurred while uploading file", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
-	req, err := h.userService.ChangeProfileImage(context.Background(), &res)
+
+	log.Println(url)
+
+	change := pb.URL{
+		UserId: c.MustGet("user_id").(string),
+		Url:    url,
+	}
+
+	_, err = h.userService.ChangeProfileImage(context.Background(), &change)
 	if err != nil {
 		h.logger.Error("Error occurred while changing user", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, req)
+	c.JSON(http.StatusOK, url)
 }
 
 // FetchUsers godoc
 // @Summary Fetch Users
 // @Description Retrieve a list of users with filtering options
 // @Security BearerAuth
-// @Tags User
+// @Tags Admin
 // @Accept json
 // @Produce json
 // @Param page query int false "Page number"
@@ -354,7 +291,7 @@ func (h *userHandler) ChangeProfileImageById(c *gin.Context) {
 // @Success 200 {object} user.UserResponses
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /user/fetch_users [get]
+// @Router /admin/fetch_users [get]
 func (h *userHandler) FetchUsers(c *gin.Context) {
 	pageStr := c.Query("page")
 	limitStr := c.Query("limit")
@@ -445,10 +382,37 @@ func (h *userHandler) ListOfFollowers(c *gin.Context) {
 // @Success 200 {object} models.Message
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /admin/delete/{user_id} [delete]
+// @Router /admin/delete-user/{id} [delete]
 func (h *userHandler) DeleteUser(c *gin.Context) {
 	res := pb.Id{
 		UserId: c.Param("user_id"),
+	}
+	req, err := h.userService.DeleteUser(context.Background(), &res)
+	if err != nil {
+		h.logger.Error("Error occurred while deleting user", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, models.Message{Massage: "Successfully deleted user" + req.String()})
+}
+
+// DeleteUser godoc
+// @Summary Delete User Profile
+// @Description Delete a user account
+// @Security BearerAuth
+// @Tags User
+// @Accept json
+// @Produce json
+// @Success 200 {object} models.Message
+// @Failure 400 {object} models.Error
+// @Failure 500 {object} models.Error
+// @Router /user/delete [delete]
+func (h *userHandler) DeleteProfile(c *gin.Context) {
+
+	id := c.MustGet("user_id").(string)
+
+	res := pb.Id{
+		UserId: id,
 	}
 	req, err := h.userService.DeleteUser(context.Background(), &res)
 	if err != nil {
@@ -500,72 +464,18 @@ func (h *userHandler) Follow(c *gin.Context) {
 // @Tags User
 // @Accept json
 // @Produce json
-// @Param Unfollow body models.FollowReq true "put user"
+// @Param id path string true "Unfollow code"
 // @Success 200 {object} models.DFollowRes
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /user/unfollow [delete]
 func (h *userHandler) Unfollow(c *gin.Context) {
-	var user pb.FollowReq
-	if err := c.ShouldBindJSON(&user); err != nil {
-		h.logger.Error("Error occurred while binding json", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
 	res := pb.FollowReq{
-		FollowingId: user.FollowingId,
+		FollowingId: c.Param("id"),
 		FollowerId:  c.MustGet("user_id").(string),
 	}
 
 	req, err := h.userService.Unfollow(context.Background(), &res)
-	if err != nil {
-		h.logger.Error("Error occurred while following", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusOK, req)
-}
-
-// GetUserFollowers godoc
-// @Summary Get User Followers
-// @Description Retrieve a list of followers for a specific user
-// @Security BearerAuth
-// @Tags User
-// @Accept json
-// @Produce json
-// @Success 200 {object} models.Count
-// @Failure 400 {object} models.Error
-// @Failure 500 {object} models.Error
-// @Router /user/get_user_followers [get]
-func (h *userHandler) GetUserFollowers(c *gin.Context) {
-	res := pb.Id{
-		UserId: c.MustGet("user_id").(string),
-	}
-	req, err := h.userService.GetUserFollowers(context.Background(), &res)
-	if err != nil {
-		h.logger.Error("Error occurred while following", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusOK, req)
-}
-
-// GetUserFollows godoc
-// @Summary Get User Follows
-// @Description Retrieve a list of users that a specific user is following
-// @Security BearerAuth
-// @Tags User
-// @Accept json
-// @Produce json
-// @Success 200 {object} models.Count
-// @Failure 400 {object} models.Error
-// @Failure 500 {object} models.Error
-// @Router /user/get_user_follows [get]
-func (h *userHandler) GetUserFollows(c *gin.Context) {
-	res := pb.Id{
-		UserId: c.MustGet("user_id").(string),
-	}
-	req, err := h.userService.GetUserFollows(context.Background(), &res)
 	if err != nil {
 		h.logger.Error("Error occurred while following", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -584,7 +494,7 @@ func (h *userHandler) GetUserFollows(c *gin.Context) {
 // @Success 200 {object} models.UserResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /user/most_popular [get]
+// @Router /user/most-popular-user [get]
 func (h *userHandler) MostPopularUser(c *gin.Context) {
 	res := pb.Void{}
 	req, err := h.userService.MostPopularUser(context.Background(), &res)

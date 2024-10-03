@@ -15,65 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/admin/change_profile_image_by_id/{user_id}": {
-            "put": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Update the profile image of a user",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Admin"
-                ],
-                "summary": "Change User Profile Image",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "User ID",
-                        "name": "user_id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Change profile image",
-                        "name": "ChangeProfileImageById",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.URL"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.Void"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/admin/create": {
+        "/admin/create-user": {
             "post": {
                 "security": [
                     {
@@ -124,7 +66,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin/delete/{user_id}": {
+        "/admin/delete-user/{id}": {
             "delete": {
                 "security": [
                     {
@@ -173,7 +115,67 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin/get_profile_by_id/{user_id}": {
+        "/admin/fetch_users": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of users with filtering options",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Fetch Users",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Number of users per page",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Username",
+                        "name": "name",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/user.UserResponses"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/user-by-id/{id}": {
             "get": {
                 "security": [
                     {
@@ -222,14 +224,14 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin/update_profile_by_id/{user_id}": {
-            "put": {
+        "/attraction-type/create": {
+            "post": {
                 "security": [
                     {
                         "BearerAuth": []
                     }
                 ],
-                "description": "Update user profile details",
+                "description": "Create a new Attraction Type",
                 "consumes": [
                     "application/json"
                 ],
@@ -237,24 +239,214 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "AttractionType"
                 ],
-                "summary": "Update User Profile",
+                "summary": "Create a new Attraction Type",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "User ID",
-                        "name": "user_id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Update user profile",
-                        "name": "UpdateProfileById",
+                        "description": "Attraction Type Info",
+                        "name": "CreateAttractionTypeRequest",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.UpdateProfileRequest"
+                            "$ref": "#/definitions/nationality.CreateAttractionTypeRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Attraction Type successfully created",
+                        "schema": {
+                            "$ref": "#/definitions/nationality.CreateAttractionTypeResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request, validation error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/attraction-type/delete/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete Attraction Type by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AttractionType"
+                ],
+                "summary": "Delete Attraction Type",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Attraction Type ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Message"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/attraction-type/get/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get Attraction Type by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AttractionType"
+                ],
+                "summary": "Get Attraction Type by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Attraction Type ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/nationality.GetAttractionTypeResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/attraction-type/list": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get a list of Attraction Types",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AttractionType"
+                ],
+                "summary": "List Attraction Types",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "offset",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/nationality.ListAttractionTypesResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/attraction-type/update": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update Attraction Type",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AttractionType"
+                ],
+                "summary": "Update Attraction Type",
+                "parameters": [
+                    {
+                        "description": "Update Attraction Type",
+                        "name": "UpdateAttractionTypeRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/nationality.UpdateAttractionTypeRequest"
                         }
                     }
                 ],
@@ -262,7 +454,775 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.UserResponse"
+                            "$ref": "#/definitions/nationality.UpdateAttractionTypeResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/attraction/create": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new Attraction, including an image upload",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Attraction"
+                ],
+                "summary": "Create a new Attraction",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "Upload image file",
+                        "name": "file",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Name of the attraction",
+                        "name": "name",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Description of the attraction",
+                        "name": "description",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Location of the attraction",
+                        "name": "location",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Country of the attraction",
+                        "name": "country",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Category of the attraction",
+                        "name": "category",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Attraction successfully created",
+                        "schema": {
+                            "$ref": "#/definitions/models.AttractionResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request, validation error or invalid file",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/attraction/delete/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete Attraction by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Attraction"
+                ],
+                "summary": "Delete Attraction",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Attraction ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Message"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/attraction/getBy/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get Attraction by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Attraction"
+                ],
+                "summary": "Get Attraction by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Attraction ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.AttractionResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/attraction/image/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Add an image to a Attraction by Attraction ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Attraction"
+                ],
+                "summary": "Add Image to Attraction",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "attraction id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "Upload image",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Message"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/attraction/list": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get a list of Attraction with optional filtering",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Attraction"
+                ],
+                "summary": "List Attraction",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "culture",
+                        "name": "category",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "Uzbekistan",
+                        "name": "country",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "dodi",
+                        "name": "description",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 0,
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "dodi",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 0,
+                        "name": "offset",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.AttractionListResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/attraction/list_search": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get a list of Attraction with optional filtering",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Attraction"
+                ],
+                "summary": "List Attraction",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "10",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "0",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "dodi",
+                        "name": "search_term",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.AttractionListResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/attraction/remove-image/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Remove an image from a Attraction by Attraction ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Attraction"
+                ],
+                "summary": "Remove Image from Attraction",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Image URL",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Message"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/attraction/update": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update attractions",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Attraction"
+                ],
+                "summary": "Update Attraction",
+                "parameters": [
+                    {
+                        "description": "Update Attraction",
+                        "name": "Update",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UpdateAttraction"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.AttractionResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/accept-code": {
+            "post": {
+                "description": "it accepts code to register",
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Accept code to register",
+                "parameters": [
+                    {
+                        "description": "enough",
+                        "name": "token",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.AcceptCode"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.RegisterResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/forgot-password": {
+            "post": {
+                "description": "it sends code to your email address",
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Forgot Password",
+                "parameters": [
+                    {
+                        "description": "enough",
+                        "name": "token",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ForgotPasswordRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "message",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/login/email": {
+            "post": {
+                "description": "sign in user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "LoginEmail Users",
+                "parameters": [
+                    {
+                        "description": "register user",
+                        "name": "LoginEmail",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.LoginEmailRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Tokens"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/login/username": {
+            "post": {
+                "description": "sign in user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "LoginUsername Users",
+                "parameters": [
+                    {
+                        "description": "register user",
+                        "name": "LoginUsername",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.LoginUsernameRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Tokens"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/register": {
+            "post": {
+                "description": "create users",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register Users",
+                "parameters": [
+                    {
+                        "description": "register user",
+                        "name": "Register",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.RegisterRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.RegisterResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/register-admin": {
+            "post": {
+                "description": "Registers a new user` + "`" + `",
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Registers user",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Message"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/reset-password": {
+            "post": {
+                "description": "it Reset your Password",
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Reset Password",
+                "parameters": [
+                    {
+                        "description": "enough",
+                        "name": "token",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ResetPassReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "message",
+                        "schema": {
+                            "type": "string"
                         }
                     },
                     "400": {
@@ -295,7 +1255,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Chat"
                 ],
                 "summary": "Create Chat",
                 "parameters": [
@@ -346,7 +1306,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Chat"
                 ],
                 "summary": "Create Chat",
                 "parameters": [
@@ -382,7 +1342,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/chat/delete_chat{id}": {
+        "/chat/delete_chat/{id}": {
             "delete": {
                 "security": [
                     {
@@ -394,7 +1354,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Chat"
                 ],
                 "summary": "Delete Chat",
                 "parameters": [
@@ -428,7 +1388,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/chat/delete_massage{id}": {
+        "/chat/delete_massage/{id}": {
             "delete": {
                 "security": [
                     {
@@ -440,7 +1400,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Chat"
                 ],
                 "summary": "Delete Chat",
                 "parameters": [
@@ -474,7 +1434,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/chat/get_massage": {
+        "/chat/get_massage/{id}": {
             "get": {
                 "security": [
                     {
@@ -486,7 +1446,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Posts"
+                    "Chat"
                 ],
                 "summary": "Get Chat by ID",
                 "parameters": [
@@ -520,7 +1480,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/chat/get_today": {
+        "/chat/get_today/{id}": {
             "get": {
                 "security": [
                     {
@@ -532,7 +1492,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Posts"
+                    "Chat"
                 ],
                 "summary": "Get Chat by ID",
                 "parameters": [
@@ -578,7 +1538,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Posts"
+                    "Chat"
                 ],
                 "summary": "Get Chat by ID",
                 "responses": {
@@ -615,22 +1575,25 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Posts"
+                    "Chat"
                 ],
                 "summary": "List Chat",
                 "parameters": [
                     {
                         "type": "string",
+                        "default": "0",
                         "name": "chat_id",
                         "in": "query"
                     },
                     {
                         "type": "integer",
+                        "default": 10,
                         "name": "limit",
                         "in": "query"
                     },
                     {
                         "type": "integer",
+                        "default": 0,
                         "name": "offset",
                         "in": "query"
                     }
@@ -672,7 +1635,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Chat"
                 ],
                 "summary": "Create Chat",
                 "parameters": [
@@ -723,7 +1686,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Chat"
                 ],
                 "summary": "Update Chat",
                 "parameters": [
@@ -771,7 +1734,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Posts"
+                    "Comment"
                 ],
                 "summary": "Get Comment by Country",
                 "responses": {
@@ -811,7 +1774,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Comment"
                 ],
                 "summary": "Create Comment",
                 "parameters": [
@@ -859,7 +1822,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Comment"
                 ],
                 "summary": "Delete Comment",
                 "parameters": [
@@ -893,7 +1856,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/comment/getByUser{id}": {
+        "/comment/getBy/{id}": {
             "get": {
                 "security": [
                     {
@@ -905,7 +1868,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Posts"
+                    "Comment"
                 ],
                 "summary": "Get Comment by ID",
                 "parameters": [
@@ -939,7 +1902,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/comment/getBy{id}": {
+        "/comment/getByUser/{id}": {
             "get": {
                 "security": [
                     {
@@ -951,18 +1914,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Posts"
+                    "Comment"
                 ],
                 "summary": "Get Comment by ID",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Comment ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -997,7 +1951,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Posts"
+                    "Comment"
                 ],
                 "summary": "Get Comment by Country",
                 "parameters": [
@@ -1043,22 +1997,25 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Posts"
+                    "Comment"
                 ],
                 "summary": "List Comment",
                 "parameters": [
                     {
                         "type": "integer",
+                        "default": 10,
                         "name": "limit",
                         "in": "query"
                     },
                     {
                         "type": "integer",
+                        "default": 0,
                         "name": "offset",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "default": "0",
                         "name": "post_id",
                         "in": "query"
                     }
@@ -1097,7 +2054,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Posts"
+                    "Comment"
                 ],
                 "summary": "Get Posts by Country",
                 "parameters": [
@@ -1146,7 +2103,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Comment"
                 ],
                 "summary": "Update Comment",
                 "parameters": [
@@ -1165,6 +2122,384 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/models.CommentResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/historical/create": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new Historical record, including an image upload",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Historical"
+                ],
+                "summary": "Create a new Historical record",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "Upload image file",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Name of the historical site",
+                        "name": "name",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Description of the historical site",
+                        "name": "description",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "City of the historical site",
+                        "name": "city",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Country of the historical site",
+                        "name": "country",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Historical record successfully created",
+                        "schema": {
+                            "$ref": "#/definitions/models.HistoricalResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request, validation error or invalid file",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/historical/delete/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete Historical by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Historical"
+                ],
+                "summary": "Delete Historical",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Historical ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Message"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/historical/getBy/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get Historical by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Historical"
+                ],
+                "summary": "Get Historical by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Historical ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.HistoricalResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/historical/image/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Add an image to a Historical by Historical ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Historical"
+                ],
+                "summary": "Add Image to Historical",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "historical att-n id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "Upload image",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Message"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/historical/list": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get a list of Historical with optional filtering",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Historical"
+                ],
+                "summary": "List Historical",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Uzbekistan",
+                        "name": "country",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 10,
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 0,
+                        "name": "offset",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.HistoricalListResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/historical/list_search": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get a list of Historical with optional filtering",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Historical"
+                ],
+                "summary": "List Historical",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "dodi",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.HistoricalListResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/historical/update": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update Historical",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Historical"
+                ],
+                "summary": "Update Historical",
+                "parameters": [
+                    {
+                        "description": "Update Historical",
+                        "name": "Update",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UpdateHistorical"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.HistoricalResponse"
                         }
                     },
                     "400": {
@@ -1202,15 +2537,6 @@ const docTemplate = `{
                 "summary": "Add Like to a Comment",
                 "parameters": [
                     {
-                        "description": "Comment ID",
-                        "name": "comment",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
                         "description": "Like Comment",
                         "name": "like",
                         "in": "body",
@@ -1242,7 +2568,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/like/comment/delete{commit_id}": {
+        "/like/comment/delete/{commit_id}": {
             "delete": {
                 "security": [
                     {
@@ -1264,14 +2590,9 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Comment ID",
-                        "name": "id",
+                        "name": "commit_id",
                         "in": "path",
                         "required": true
-                    },
-                    {
-                        "type": "string",
-                        "name": "commit_id",
-                        "in": "path"
                     }
                 ],
                 "responses": {
@@ -1296,7 +2617,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/like/comment/most-liked{post_id}": {
+        "/like/comment/most-liked/{post_id}": {
             "get": {
                 "security": [
                     {
@@ -1318,7 +2639,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Post ID",
-                        "name": "id",
+                        "name": "post_id",
                         "in": "path",
                         "required": true
                     }
@@ -1345,7 +2666,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/like/comment/users{comment_id}": {
+        "/like/comment/users/{comment_id}": {
             "get": {
                 "security": [
                     {
@@ -1367,7 +2688,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Comment ID",
-                        "name": "id",
+                        "name": "comment_id",
                         "in": "path",
                         "required": true
                     }
@@ -1414,15 +2735,6 @@ const docTemplate = `{
                 "summary": "Create Like",
                 "parameters": [
                     {
-                        "description": "Like create",
-                        "name": "id",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
                         "description": "Like Post",
                         "name": "like",
                         "in": "body",
@@ -1454,7 +2766,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/like/delete{post_id}": {
+        "/like/delete/{id}": {
             "delete": {
                 "security": [
                     {
@@ -1512,7 +2824,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/like/post/count{post_id}": {
+        "/like/post/count/{post_id}": {
             "get": {
                 "security": [
                     {
@@ -1534,7 +2846,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Post ID",
-                        "name": "id",
+                        "name": "post_id",
                         "in": "path",
                         "required": true
                     }
@@ -1561,7 +2873,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/like/post/users{post_id}": {
+        "/like/post/users/{post_id}": {
             "get": {
                 "security": [
                     {
@@ -1583,7 +2895,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Post ID",
-                        "name": "id",
+                        "name": "post_id",
                         "in": "path",
                         "required": true
                     }
@@ -1610,14 +2922,203 @@ const docTemplate = `{
                 }
             }
         },
-        "/post/add-image": {
+        "/national/create": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new NationalFood, including an optional image upload",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "NationalFood"
+                ],
+                "summary": "Create a new NationalFood",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "Upload image file (optional)",
+                        "name": "file",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Country of the food",
+                        "name": "country",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Description of the food",
+                        "name": "description",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Type of the food",
+                        "name": "food_type",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Ingredients",
+                        "name": "ingredients",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Name of the food",
+                        "name": "name",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Nationality of the food",
+                        "name": "nationality",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "Rating of the food",
+                        "name": "rating",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "National food successfully created",
+                        "schema": {
+                            "$ref": "#/definitions/models.NationalFoodResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request, validation error or invalid file",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/national/delete/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete NationalFood by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "NationalFood"
+                ],
+                "summary": "Delete NationalFood",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "NationalFood ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Message"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/national/getBy/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get NationalFood by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "NationalFood"
+                ],
+                "summary": "Get NationalFood by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "NationalFood ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.NationalFoodResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/national/image/{id}": {
             "put": {
                 "security": [
                     {
                         "BearerAuth": []
                     }
                 ],
-                "description": "Add an image to a post by post ID",
+                "description": "Add an image to a NationalFood by NationalFood ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -1625,24 +3126,130 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "NationalFood"
                 ],
-                "summary": "Add Image to Post",
+                "summary": "Add Image to NationalFood",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Post ID",
+                        "description": "National food id",
                         "name": "id",
                         "in": "path",
                         "required": true
                     },
                     {
-                        "description": "Image URL",
-                        "name": "image",
+                        "type": "file",
+                        "description": "Upload image",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Message"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/national/list": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get a list of NationalFood with optional filtering",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "NationalFood"
+                ],
+                "summary": "List NationalFood",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Uzbekistan",
+                        "name": "country",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 10,
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 0,
+                        "name": "offset",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.NationalFoodListResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/national/update": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update NationalFood",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "NationalFood"
+                ],
+                "summary": "Update NationalFood",
+                "parameters": [
+                    {
+                        "description": "Update NationalFood",
+                        "name": "Update",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.ImageUrl"
+                            "$ref": "#/definitions/models.UpdateNationalFood"
                         }
                     }
                 ],
@@ -1650,7 +3257,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.PostResponse"
+                            "$ref": "#/definitions/models.NationalFoodResponse"
                         }
                     },
                     "400": {
@@ -1721,43 +3328,82 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Create a new post",
+                "description": "Create a new post, including an optional image upload",
                 "consumes": [
-                    "application/json"
+                    "multipart/form-data"
                 ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Posts"
                 ],
-                "summary": "Create Post",
+                "summary": "Create a new post",
                 "parameters": [
                     {
-                        "description": "Create post",
-                        "name": "Create",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.Post"
-                        }
+                        "type": "file",
+                        "description": "Upload image file (optional)",
+                        "name": "file",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Content of the post",
+                        "name": "content",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Country of the post",
+                        "name": "country",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Description of the post",
+                        "name": "description",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Hashtag for the post",
+                        "name": "hashtag",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Location for the post",
+                        "name": "location",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Title of the post",
+                        "name": "title",
+                        "in": "formData",
+                        "required": true
                     }
                 ],
                 "responses": {
                     "201": {
-                        "description": "Created",
+                        "description": "Post successfully created",
                         "schema": {
                             "$ref": "#/definitions/models.PostResponse"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Bad request, validation error or invalid file",
                         "schema": {
                             "$ref": "#/definitions/models.Error"
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "Internal server error",
                         "schema": {
                             "$ref": "#/definitions/models.Error"
                         }
@@ -1765,7 +3411,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/post/delete{id}": {
+        "/post/delete/{id}": {
             "delete": {
                 "security": [
                     {
@@ -1777,7 +3423,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Posts"
                 ],
                 "summary": "Delete Post",
                 "parameters": [
@@ -1811,7 +3457,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/post/getBy{id}": {
+        "/post/getBy/{id}": {
             "get": {
                 "security": [
                     {
@@ -1857,6 +3503,62 @@ const docTemplate = `{
                 }
             }
         },
+        "/post/image/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Add an image to a post by post ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Add Image to Post",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "post id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "Upload image",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.PostResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/post/list": {
             "get": {
                 "security": [
@@ -1875,21 +3577,25 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "default": "Uzbekistan",
                         "name": "country",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "default": "dodi",
                         "name": "hashtag",
                         "in": "query"
                     },
                     {
                         "type": "integer",
+                        "default": 10,
                         "name": "limit",
                         "in": "query"
                     },
                     {
                         "type": "integer",
+                        "default": 0,
                         "name": "offset",
                         "in": "query"
                     }
@@ -1916,7 +3622,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/post/remove-image": {
+        "/post/remove-image/{id}": {
             "delete": {
                 "security": [
                     {
@@ -1931,28 +3637,14 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Posts"
                 ],
                 "summary": "Remove Image from Post",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Post ID",
+                        "description": "Image URL",
                         "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Image URL",
-                        "name": "post_id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Image URL",
-                        "name": "uel",
                         "in": "path",
                         "required": true
                     }
@@ -1994,7 +3686,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Posts"
                 ],
                 "summary": "Update Post",
                 "parameters": [
@@ -2030,7 +3722,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/change_password": {
+        "/user/change-password": {
             "put": {
                 "security": [
                     {
@@ -2081,7 +3773,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/change_profile_image": {
+        "/user/change-profile-image": {
             "put": {
                 "security": [
                     {
@@ -2090,7 +3782,7 @@ const docTemplate = `{
                 ],
                 "description": "Update the profile image of a user",
                 "consumes": [
-                    "application/json"
+                    "multipart/form-data"
                 ],
                 "produces": [
                     "application/json"
@@ -2101,13 +3793,11 @@ const docTemplate = `{
                 "summary": "Change User Profile Image",
                 "parameters": [
                     {
-                        "description": "Change profile image",
-                        "name": "ChangeProfileImage",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.URL"
-                        }
+                        "type": "file",
+                        "description": "Upload new profile image",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -2132,14 +3822,14 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/fetch_users": {
-            "get": {
+        "/user/delete": {
+            "delete": {
                 "security": [
                     {
                         "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a list of users with filtering options",
+                "description": "Delete a user account",
                 "consumes": [
                     "application/json"
                 ],
@@ -2149,32 +3839,12 @@ const docTemplate = `{
                 "tags": [
                     "User"
                 ],
-                "summary": "Fetch Users",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Page number",
-                        "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Number of users per page",
-                        "name": "limit",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Username",
-                        "name": "name",
-                        "in": "query"
-                    }
-                ],
+                "summary": "Delete User Profile",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/user.UserResponses"
+                            "$ref": "#/definitions/models.Message"
                         }
                     },
                     "400": {
@@ -2243,7 +3913,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/get_profile": {
+        "/user/get-profile": {
             "get": {
                 "security": [
                     {
@@ -2266,86 +3936,6 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/models.GetProfileResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/get_user_followers": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Retrieve a list of followers for a specific user",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "User"
-                ],
-                "summary": "Get User Followers",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.Count"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/get_user_follows": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Retrieve a list of users that a specific user is following",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "User"
-                ],
-                "summary": "Get User Follows",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.Count"
                         }
                     },
                     "400": {
@@ -2443,7 +4033,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/most_popular": {
+        "/user/most-popular-user": {
             "get": {
                 "security": [
                     {
@@ -2503,13 +4093,11 @@ const docTemplate = `{
                 "summary": "Unfollow User",
                 "parameters": [
                     {
-                        "description": "put user",
-                        "name": "Unfollow",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.FollowReq"
-                        }
+                        "type": "string",
+                        "description": "Unfollow code",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -2534,7 +4122,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/update_profile": {
+        "/user/update-profile": {
             "put": {
                 "security": [
                     {
@@ -2587,6 +4175,62 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "models.AcceptCode": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "default": "12369"
+                },
+                "email": {
+                    "type": "string",
+                    "default": "code cogan email ni kiriting"
+                }
+            }
+        },
+        "models.AttractionListResponse": {
+            "type": "object",
+            "properties": {
+                "attractions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.AttractionResponse"
+                    }
+                }
+            }
+        },
+        "models.AttractionResponse": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
         "models.ChangePasswordRequest": {
             "type": "object",
             "properties": {
@@ -2610,13 +4254,16 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "2023-01-01T00:00:00Z"
                 },
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 },
                 "user2_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 }
             }
         },
@@ -2635,13 +4282,12 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "content": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "post_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 }
             }
         },
@@ -2679,22 +4325,12 @@ const docTemplate = `{
                 }
             }
         },
-        "models.Count": {
-            "type": "object",
-            "properties": {
-                "count": {
-                    "type": "integer"
-                },
-                "description": {
-                    "type": "string"
-                }
-            }
-        },
         "models.CreateChat": {
             "type": "object",
             "properties": {
                 "user2_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 }
             }
         },
@@ -2702,16 +4338,20 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "chat_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 },
                 "content": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "Hello"
                 },
                 "content_type": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "text"
                 },
                 "sender_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 }
             }
         },
@@ -2737,6 +4377,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "phone": {
+                    "type": "string"
+                },
+                "role": {
                     "type": "string"
                 },
                 "username": {
@@ -2778,6 +4421,14 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "following_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.ForgotPasswordRequest": {
+            "type": "object",
+            "properties": {
+                "email": {
                     "type": "string"
                 }
             }
@@ -2826,13 +4477,42 @@ const docTemplate = `{
                 }
             }
         },
-        "models.ImageUrl": {
+        "models.HistoricalListResponse": {
             "type": "object",
             "properties": {
-                "post_id": {
+                "historical": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.HistoricalResponse"
+                    }
+                }
+            }
+        },
+        "models.HistoricalResponse": {
+            "type": "object",
+            "properties": {
+                "city": {
                     "type": "string"
                 },
-                "url": {
+                "country": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updated_at": {
                     "type": "string"
                 }
             }
@@ -2871,7 +4551,8 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "post_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 }
             }
         },
@@ -2886,32 +4567,66 @@ const docTemplate = `{
                 }
             }
         },
+        "models.LoginEmailRequest": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "default": "registerdagi email ni kiritng"
+                },
+                "password": {
+                    "type": "string",
+                    "default": "123456"
+                }
+            }
+        },
+        "models.LoginUsernameRequest": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string",
+                    "default": "123456"
+                },
+                "username": {
+                    "type": "string",
+                    "default": "tom0011"
+                }
+            }
+        },
         "models.MassageResponse": {
             "type": "object",
             "properties": {
                 "chat_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 },
                 "content": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "Hello"
                 },
                 "content_type": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "text"
                 },
                 "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "2023-01-01T00:00:00Z"
                 },
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 },
                 "is_read": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "default": false
                 },
                 "sender_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 },
                 "updated_at": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "2023-01-01T00:00:00Z"
                 }
             }
         },
@@ -2930,7 +4645,8 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "chat_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 }
             }
         },
@@ -2942,25 +4658,51 @@ const docTemplate = `{
                 }
             }
         },
-        "models.Post": {
+        "models.NationalFoodListResponse": {
             "type": "object",
             "properties": {
-                "content": {
+                "national_food": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.NationalFoodResponse"
+                    }
+                }
+            }
+        },
+        "models.NationalFoodResponse": {
+            "type": "object",
+            "properties": {
+                "country": {
                     "type": "string"
                 },
-                "country": {
+                "created_at": {
                     "type": "string"
                 },
                 "description": {
                     "type": "string"
                 },
-                "hashtag": {
+                "food_type": {
                     "type": "string"
                 },
-                "location": {
+                "id": {
                     "type": "string"
                 },
-                "title": {
+                "image_url": {
+                    "type": "string"
+                },
+                "ingredients": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "nationality": {
+                    "type": "string"
+                },
+                "rating": {
+                    "type": "integer"
+                },
+                "updated_at": {
                     "type": "string"
                 }
             }
@@ -3011,13 +4753,87 @@ const docTemplate = `{
                 }
             }
         },
-        "models.URL": {
+        "models.RegisterRequest": {
             "type": "object",
             "properties": {
-                "url": {
+                "bio": {
+                    "type": "string",
+                    "default": "holasela berish shartmas"
+                },
+                "country": {
+                    "type": "string",
+                    "default": "Uzbekistan"
+                },
+                "email": {
+                    "type": "string",
+                    "default": "your email"
+                },
+                "first_name": {
+                    "type": "string",
+                    "default": "Tom"
+                },
+                "last_name": {
+                    "type": "string",
+                    "default": "Joe"
+                },
+                "password": {
+                    "type": "string",
+                    "default": "123456"
+                },
+                "phone": {
+                    "type": "string",
+                    "default": "+123456789123456"
+                },
+                "username": {
+                    "type": "string",
+                    "default": "tom0011"
+                }
+            }
+        },
+        "models.RegisterResponse": {
+            "type": "object",
+            "properties": {
+                "access_token": {
                     "type": "string"
                 },
-                "user_id": {
+                "email": {
+                    "type": "string"
+                },
+                "flag": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "refresh_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.ResetPassReq": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "default": "123456"
+                },
+                "email": {
+                    "type": "string",
+                    "default": "example@gmail.com"
+                },
+                "new_password": {
+                    "type": "string",
+                    "default": "123369"
+                }
+            }
+        },
+        "models.Tokens": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string"
+                },
+                "refresh_token": {
                     "type": "string"
                 }
             }
@@ -3026,10 +4842,12 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "content": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 }
             }
         },
@@ -3037,25 +4855,94 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "content": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "country": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "Uzbekistan"
                 },
                 "hashtag": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "image_url": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "location": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "title": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
+                }
+            }
+        },
+        "models.UpdateAttraction": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "type": "string",
+                    "default": "culture"
+                },
+                "country": {
+                    "type": "string",
+                    "default": "Uzbekistan"
+                },
+                "description": {
+                    "type": "string",
+                    "default": "0"
+                },
+                "id": {
+                    "type": "string",
+                    "default": "0"
+                },
+                "image_url": {
+                    "type": "string",
+                    "default": "0"
+                },
+                "location": {
+                    "type": "string",
+                    "default": "dodi"
+                },
+                "name": {
+                    "type": "string",
+                    "default": "0"
+                }
+            }
+        },
+        "models.UpdateHistorical": {
+            "type": "object",
+            "properties": {
+                "city": {
+                    "type": "string",
+                    "default": "Uzbekistan"
+                },
+                "country": {
+                    "type": "string",
+                    "default": "Uzbekistan"
+                },
+                "description": {
+                    "type": "string",
+                    "default": "dodi"
+                },
+                "id": {
+                    "type": "string",
+                    "default": "0"
+                },
+                "image_url": {
+                    "type": "string",
+                    "default": "0"
+                },
+                "name": {
+                    "type": "string",
+                    "default": "dodi"
                 }
             }
         },
@@ -3063,10 +4950,53 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "message_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "123456"
                 },
                 "text": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "Hello"
+                }
+            }
+        },
+        "models.UpdateNationalFood": {
+            "type": "object",
+            "properties": {
+                "country": {
+                    "type": "string",
+                    "default": "dodi"
+                },
+                "description": {
+                    "type": "string",
+                    "default": "dodi"
+                },
+                "food_type": {
+                    "type": "string",
+                    "default": "dodi"
+                },
+                "id": {
+                    "type": "string",
+                    "default": "0"
+                },
+                "image_url": {
+                    "type": "string",
+                    "default": "0"
+                },
+                "ingredients": {
+                    "type": "string",
+                    "default": "dodi"
+                },
+                "name": {
+                    "type": "string",
+                    "default": "dodi"
+                },
+                "nationality": {
+                    "type": "string",
+                    "default": "dodi"
+                },
+                "rating": {
+                    "type": "integer",
+                    "default": 120000
                 }
             }
         },
@@ -3142,6 +5072,80 @@ const docTemplate = `{
         "models.Void": {
             "type": "object"
         },
+        "nationality.AttractionType1": {
+            "type": "object",
+            "properties": {
+                "activity": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "nationality.CreateAttractionTypeRequest": {
+            "type": "object",
+            "properties": {
+                "activity": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "nationality.CreateAttractionTypeResponse": {
+            "type": "object",
+            "properties": {
+                "attraction_type": {
+                    "$ref": "#/definitions/nationality.AttractionType1"
+                }
+            }
+        },
+        "nationality.GetAttractionTypeResponse": {
+            "type": "object",
+            "properties": {
+                "attraction_type": {
+                    "$ref": "#/definitions/nationality.AttractionType1"
+                }
+            }
+        },
+        "nationality.ListAttractionTypesResponse": {
+            "type": "object",
+            "properties": {
+                "attraction_types": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/nationality.AttractionType1"
+                    }
+                }
+            }
+        },
+        "nationality.UpdateAttractionTypeRequest": {
+            "type": "object",
+            "properties": {
+                "activity": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "nationality.UpdateAttractionTypeResponse": {
+            "type": "object",
+            "properties": {
+                "attraction_type": {
+                    "$ref": "#/definitions/nationality.AttractionType1"
+                }
+            }
+        },
         "user.FollowUser": {
             "type": "object",
             "properties": {
@@ -3210,6 +5214,7 @@ const docTemplate = `{
     },
     "securityDefinitions": {
         "BearerAuth": {
+            "description": "Enter your bearer token here",
             "type": "apiKey",
             "name": "Authorization",
             "in": "header"
@@ -3223,8 +5228,8 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "",
 	BasePath:         "",
 	Schemes:          []string{},
-	Title:            "Api-Geteway service for Turk-SM",
-	Description:      "API for Api-Geteway Service",
+	Title:            "API Gateway Service for Turk-SM",
+	Description:      "API for API Gateway Service",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

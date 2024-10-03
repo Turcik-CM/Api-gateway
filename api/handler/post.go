@@ -2,9 +2,11 @@ package handler
 
 import (
 	pb "api-gateway/genproto/post"
-	t "api-gateway/pkg/token"
+	"api-gateway/pkg/minio"
+	"api-gateway/pkg/models"
 	"api-gateway/service"
 	"context"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
 	"log/slog"
@@ -18,7 +20,7 @@ type PostHandler interface {
 	GetPostByID(c *gin.Context)
 	ListPosts(c *gin.Context)
 	DeletePost(c *gin.Context)
-	AddImageToPost(c *gin.Context)
+	UpdateImageToPost(c *gin.Context)
 	RemoveImageFromPost(c *gin.Context)
 	GetPostByCountry(c *gin.Context)
 }
@@ -41,40 +43,76 @@ func NewPostHandler(postService service.Service, logger *slog.Logger) PostHandle
 }
 
 // CreatePost godoc
-// @Summary Create Post
-// @Description Create a new post
+// @Summary Create a new post
+// @Description Create a new post, including an optional image upload
 // @Security BearerAuth
-// @Tags Admin
-// @Accept json
+// @Tags Posts
+// @Accept multipart/form-data
 // @Produce json
-// @Param Create body models.Post true "Create post"
-// @Success 201 {object} models.PostResponse
-// @Failure 400 {object} models.Error
-// @Failure 500 {object} models.Error
+// @Param file formData file false "Upload image file (optional)"
+// @Param content formData string true "Content of the post"
+// @Param country formData string true "Country of the post"
+// @Param description formData string true "Description of the post"
+// @Param hashtag formData string true "Hashtag for the post"
+// @Param location formData string true "Location for the post"
+// @Param title formData string true "Title of the post"
+// @Success 201 {object} models.PostResponse "Post successfully created"
+// @Failure 400 {object} models.Error "Bad request, validation error or invalid file"
+// @Failure 500 {object} models.Error "Internal server error"
 // @Router /post/create [post]
 func (h *postHandler) CreatePost(c *gin.Context) {
-	var post pb.Post
-	if err := c.ShouldBindJSON(&post); err != nil {
-		h.logger.Error("Error occurred while binding json", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	token := c.GetHeader("Authorization")
-	cl, err := t.ExtractClaims(token)
-	if err != nil {
-		h.logger.Error("Error occurred while extracting claims", err)
+	log.Println("Request received")
+
+	var post models.Post
+
+	if err := c.ShouldBind(&post); err != nil {
+		log.Println("Failed to bind form data")
+		h.logger.Error("Error occurred while binding form data:", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	post.UserId = cl["user_id"].(string)
+	var url string
+	file, err := c.FormFile("file")
+	if err == nil {
+		url, err = minio.UploadPost(file)
+		if err != nil {
+			log.Println("Error occurred while uploading file")
+			h.logger.Error("Error occurred while uploading file:", err)
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		post.ImageUrl = url
+	}
 
-	req, err := h.postService.CreatePost(context.Background(), &post)
-	if err != nil {
-		h.logger.Error("Error occurred while creating post", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	userId, exists := c.Get("user_id")
+	if !exists {
+		log.Println("User ID not found in context")
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
 		return
 	}
+	post.UserId = userId.(string)
+
+	resp := pb.Post{
+		Location:    post.Location,
+		Country:     post.Country,
+		ImageUrl:    post.ImageUrl,
+		UserId:      post.UserId,
+		Title:       post.Title,
+		Description: post.Description,
+		Hashtag:     post.Hashtag,
+		Content:     post.Content,
+	}
+
+	req, err := h.postService.CreatePost(context.Background(), &resp)
+	if err != nil {
+		log.Println("Error occurred while creating post in service")
+		h.logger.Error("Error occurred while creating post:", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Return the created post response
 	c.JSON(http.StatusCreated, gin.H{"post": req})
 }
 
@@ -82,7 +120,7 @@ func (h *postHandler) CreatePost(c *gin.Context) {
 // @Summary Update Post
 // @Description Update a post
 // @Security BearerAuth
-// @Tags Admin
+// @Tags Posts
 // @Accept json
 // @Produce json
 // @Param Update body models.UpdateAPost true "Update post"
@@ -117,7 +155,7 @@ func (h *postHandler) UpdatePost(c *gin.Context) {
 // @Success 200 {object} models.PostResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /post/getBy{id} [get]
+// @Router /post/getBy/{id} [get]
 func (h *postHandler) GetPostByID(c *gin.Context) {
 	var post pb.PostId
 	post.Id = c.Param("id")
@@ -176,13 +214,13 @@ func (h *postHandler) ListPosts(c *gin.Context) {
 // @Summary Delete Post
 // @Description Delete a post by its ID
 // @Security BearerAuth
-// @Tags Admin
+// @Tags Posts
 // @Produce json
 // @Param id path string true "Post ID"
 // @Success 200 {object} models.Message
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /post/delete{id} [delete]
+// @Router /post/delete/{id} [delete]
 func (h *postHandler) DeletePost(c *gin.Context) {
 	var post pb.PostId
 	post.Id = c.Param("id")
@@ -199,28 +237,44 @@ func (h *postHandler) DeletePost(c *gin.Context) {
 // @Summary Add Image to Post
 // @Description Add an image to a post by post ID
 // @Security BearerAuth
-// @Tags Admin
+// @Tags Posts
 // @Accept json
 // @Produce json
-// @Param id path string true "Post ID"
-// @Param image body models.ImageUrl true "Image URL"
+// @Param id path string true "post id"
+// @Param file formData file true "Upload image"
 // @Success 200 {object} models.PostResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /post/add-image [put]
-func (h *postHandler) AddImageToPost(c *gin.Context) {
+// @Router /post/image/{id} [put]
+func (h *postHandler) UpdateImageToPost(c *gin.Context) {
 	var post pb.ImageUrl
-	if err := c.ShouldBindUri(&post); err != nil {
-		h.logger.Error("Error occurred while binding uri ", err)
+
+	id := c.Param("id")
+
+	file, err := c.FormFile("file")
+	if err != nil {
+		h.logger.Error("Error occurred while getting file from form", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	url, err := minio.UploadPost(file)
+	if err != nil {
+		h.logger.Error("Error occurred while uploading file", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	post.Url = url
+	post.PostId = id
+
 	req, err := h.postService.AddImageToPost(c.Request.Context(), &post)
 	if err != nil {
 		h.logger.Error("Error occurred while adding image to post", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	fmt.Println(req)
 	c.JSON(http.StatusOK, gin.H{"post": req})
 }
 
@@ -228,20 +282,17 @@ func (h *postHandler) AddImageToPost(c *gin.Context) {
 // @Summary Remove Image from Post
 // @Description Remove an image from a post by post ID
 // @Security BearerAuth
-// @Tags Admin
+// @Tags Posts
 // @Accept json
 // @Produce json
-// @Param id path string true "Post ID"
-// @Param post_id path string true "Image URL"
-// @Param uel path string true "Image URL"
+// @Param id path string true "Image URL"
 // @Success 200 {object} models.PostResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /post/remove-image [delete]
+// @Router /post/remove-image/{id} [delete]
 func (h *postHandler) RemoveImageFromPost(c *gin.Context) {
 	var post pb.ImageUrl
 	post.PostId = c.Param("id")
-	post.Url = c.Param("url")
 	req, err := h.postService.RemoveImageFromPost(c.Request.Context(), &post)
 	if err != nil {
 		h.logger.Error("Error occurred while removing image from post", err)
@@ -265,7 +316,9 @@ func (h *postHandler) RemoveImageFromPost(c *gin.Context) {
 func (h *postHandler) GetPostByCountry(c *gin.Context) {
 	var post pb.PostCountry
 
-	post.Country = c.Query("country")
+	p := c.Param("country")
+
+	post.Country = p
 
 	req, err := h.postService.GetPostByCountry(c.Request.Context(), &post)
 	if err != nil {
@@ -273,5 +326,6 @@ func (h *postHandler) GetPostByCountry(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	fmt.Println(req)
 	c.JSON(http.StatusOK, gin.H{"post": req})
 }

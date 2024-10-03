@@ -4,24 +4,22 @@ import (
 	"api-gateway/api"
 	config2 "api-gateway/pkg/config"
 	"api-gateway/pkg/logger"
+	"api-gateway/pkg/minio"
+	redis2 "api-gateway/service/redis"
 	"github.com/casbin/casbin/v2"
-	amqp "github.com/rabbitmq/amqp091-go"
 	"log"
 	"os"
 )
 
 func main() {
 	appLogger := logger.NewLogger()
+	redis := redis2.NewRedisStorage(redis2.ConnectDB(), appLogger)
+	config := config2.Load()
 
-	config := config2.Config{}
-
-	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
-	failOnError(err, "Failed to connect to RabbitMQ")
-	defer conn.Close()
-
-	ch, err := conn.Channel()
-	failOnError(err, "Failed to open a channel")
-	defer ch.Close()
+	err := minio.InitUserMinio()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	path, err := os.Getwd()
 	if err != nil {
@@ -34,12 +32,6 @@ func main() {
 		panic(err)
 	}
 
-	controller := api.NewRouter(&config, appLogger, casbinEnforcer)
-	controller.Run(":8087")
-}
-
-func failOnError(err error, msg string) {
-	if err != nil {
-		log.Fatalf("%s: %s", msg, err)
-	}
+	controller := api.NewRouter(&config, appLogger, casbinEnforcer, redis)
+	controller.Run(config.API_GATEWAY)
 }
