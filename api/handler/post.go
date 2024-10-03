@@ -60,8 +60,6 @@ func NewPostHandler(postService service.Service, logger *slog.Logger) PostHandle
 // @Failure 500 {object} models.Error "Internal server error"
 // @Router /post/create [post]
 func (h *postHandler) CreatePost(c *gin.Context) {
-	log.Println("Request received")
-
 	// Declare a new Post struct to hold the form data
 	var post pb.Post
 
@@ -73,6 +71,11 @@ func (h *postHandler) CreatePost(c *gin.Context) {
 		return
 	}
 
+	log.Println(post.Country)
+	log.Println(post.Country)
+	log.Println(post.Country)
+	log.Println(post.Country)
+
 	// Handle optional file upload
 	var url string
 	file, err := c.FormFile("file")
@@ -80,7 +83,6 @@ func (h *postHandler) CreatePost(c *gin.Context) {
 		// If a file is uploaded, proceed with uploading it
 		url, err = minio.UploadPost(file)
 		if err != nil {
-			log.Println("Error occurred while uploading file")
 			h.logger.Error("Error occurred while uploading file:", err)
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
@@ -103,7 +105,6 @@ func (h *postHandler) CreatePost(c *gin.Context) {
 	// Create the post using the service layer
 	req, err := h.postService.CreatePost(context.Background(), &post)
 	if err != nil {
-		log.Println("Error occurred while creating post in service")
 		h.logger.Error("Error occurred while creating post:", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return

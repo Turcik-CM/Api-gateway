@@ -43,7 +43,6 @@ func NewNationalFoodHandler(service service.Service, logger *slog.Logger) Nation
 // @Produce json
 // @Param file formData file false "Upload image file (optional)"
 // @Param country formData string true "Country of the food"
-// @Param created_at formData string false "Creation date"
 // @Param description formData string true "Description of the food"
 // @Param food_type formData string true "Type of the food"
 // @Param ingredients formData string true "Ingredients"
@@ -258,5 +257,7 @@ func (h *nationalFoodHandler) UpdateImage(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+
+	resp.Message = url
 	c.JSON(http.StatusCreated, gin.H{"response": resp})
 }

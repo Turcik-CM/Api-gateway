@@ -144,6 +144,7 @@ func (h *attractionsHandler) UpdateAttraction(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
 	req, err := h.attractionsService.UpdateAttractions(context.Background(), &att)
 	if err != nil {
 		h.logger.Error("Error occurred while updating attraction", err)
