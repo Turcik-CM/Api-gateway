@@ -224,6 +224,254 @@ const docTemplate = `{
                 }
             }
         },
+        "/attraction-type/create": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new Attraction Type",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AttractionType"
+                ],
+                "summary": "Create a new Attraction Type",
+                "parameters": [
+                    {
+                        "description": "Attraction Type Info",
+                        "name": "CreateAttractionTypeRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/nationality.CreateAttractionTypeRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Attraction Type successfully created",
+                        "schema": {
+                            "$ref": "#/definitions/nationality.CreateAttractionTypeResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request, validation error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/attraction-type/delete/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete Attraction Type by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AttractionType"
+                ],
+                "summary": "Delete Attraction Type",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Attraction Type ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Message"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/attraction-type/get/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get Attraction Type by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AttractionType"
+                ],
+                "summary": "Get Attraction Type by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Attraction Type ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/nationality.GetAttractionTypeResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/attraction-type/list": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get a list of Attraction Types",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AttractionType"
+                ],
+                "summary": "List Attraction Types",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "offset",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/nationality.ListAttractionTypesResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/attraction-type/update": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update Attraction Type",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AttractionType"
+                ],
+                "summary": "Update Attraction Type",
+                "parameters": [
+                    {
+                        "description": "Update Attraction Type",
+                        "name": "UpdateAttractionTypeRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/nationality.UpdateAttractionTypeRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/nationality.UpdateAttractionTypeResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/attraction/create": {
             "post": {
                 "security": [
@@ -247,8 +495,7 @@ const docTemplate = `{
                         "type": "file",
                         "description": "Upload image file",
                         "name": "file",
-                        "in": "formData",
-                        "required": true
+                        "in": "formData"
                     },
                     {
                         "type": "string",
@@ -474,31 +721,37 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "default": "culture",
                         "name": "category",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "default": "Uzbekistan",
                         "name": "country",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "default": "dodi",
                         "name": "description",
                         "in": "query"
                     },
                     {
                         "type": "integer",
+                        "default": 0,
                         "name": "limit",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "default": "dodi",
                         "name": "name",
                         "in": "query"
                     },
                     {
                         "type": "integer",
+                        "default": 0,
                         "name": "offset",
                         "in": "query"
                     }
@@ -543,16 +796,19 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "default": "10",
                         "name": "limit",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "default": "0",
                         "name": "offset",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "default": "dodi",
                         "name": "search_term",
                         "in": "query"
                     }
@@ -1325,16 +1581,19 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "default": "0",
                         "name": "chat_id",
                         "in": "query"
                     },
                     {
                         "type": "integer",
+                        "default": 10,
                         "name": "limit",
                         "in": "query"
                     },
                     {
                         "type": "integer",
+                        "default": 0,
                         "name": "offset",
                         "in": "query"
                     }
@@ -1744,16 +2003,19 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "integer",
+                        "default": 10,
                         "name": "limit",
                         "in": "query"
                     },
                     {
                         "type": "integer",
+                        "default": 0,
                         "name": "offset",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "default": "0",
                         "name": "post_id",
                         "in": "query"
                     }
@@ -1930,18 +2192,6 @@ const docTemplate = `{
                         "name": "country",
                         "in": "formData",
                         "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Creation date of the historical site",
-                        "name": "created_at",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Update date of the historical site",
-                        "name": "updated_at",
-                        "in": "formData"
                     }
                 ],
                 "responses": {
@@ -2132,16 +2382,19 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "default": "Uzbekistan",
                         "name": "country",
                         "in": "query"
                     },
                     {
                         "type": "integer",
+                        "default": 10,
                         "name": "limit",
                         "in": "query"
                     },
                     {
                         "type": "integer",
+                        "default": 0,
                         "name": "offset",
                         "in": "query"
                     }
@@ -2186,6 +2439,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "default": "dodi",
                         "name": "search",
                         "in": "query"
                     }
@@ -2702,12 +2956,6 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Creation date",
-                        "name": "created_at",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "string",
                         "description": "Description of the food",
                         "name": "description",
                         "in": "formData",
@@ -2937,16 +3185,19 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "default": "Uzbekistan",
                         "name": "country",
                         "in": "query"
                     },
                     {
                         "type": "integer",
+                        "default": 10,
                         "name": "limit",
                         "in": "query"
                     },
                     {
                         "type": "integer",
+                        "default": 0,
                         "name": "offset",
                         "in": "query"
                     }
@@ -3326,21 +3577,25 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "default": "Uzbekistan",
                         "name": "country",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "default": "dodi",
                         "name": "hashtag",
                         "in": "query"
                     },
                     {
                         "type": "integer",
+                        "default": 10,
                         "name": "limit",
                         "in": "query"
                     },
                     {
                         "type": "integer",
+                        "default": 0,
                         "name": "offset",
                         "in": "query"
                     }
@@ -3999,13 +4254,16 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "2023-01-01T00:00:00Z"
                 },
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 },
                 "user2_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 }
             }
         },
@@ -4024,10 +4282,12 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "content": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "post_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 }
             }
         },
@@ -4069,7 +4329,8 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "user2_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 }
             }
         },
@@ -4077,16 +4338,20 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "chat_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 },
                 "content": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "Hello"
                 },
                 "content_type": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "text"
                 },
                 "sender_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 }
             }
         },
@@ -4286,7 +4551,8 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "post_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 }
             }
         },
@@ -4331,28 +4597,36 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "chat_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 },
                 "content": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "Hello"
                 },
                 "content_type": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "text"
                 },
                 "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "2023-01-01T00:00:00Z"
                 },
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 },
                 "is_read": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "default": false
                 },
                 "sender_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 },
                 "updated_at": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "2023-01-01T00:00:00Z"
                 }
             }
         },
@@ -4371,7 +4645,8 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "chat_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 }
             }
         },
@@ -4539,10 +4814,12 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "code": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "123456"
                 },
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "example@gmail.com"
                 },
                 "new_password": {
                     "type": "string",
@@ -4565,10 +4842,12 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "content": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 }
             }
         },
@@ -4576,25 +4855,32 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "content": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "country": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "Uzbekistan"
                 },
                 "hashtag": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "image_url": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "location": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "title": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 }
             }
         },
@@ -4602,25 +4888,32 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "category": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "culture"
                 },
                 "country": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "Uzbekistan"
                 },
                 "description": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 },
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 },
                 "image_url": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 },
                 "location": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 }
             }
         },
@@ -4628,28 +4921,28 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "city": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "Uzbekistan"
                 },
                 "country": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "Uzbekistan"
                 },
                 "description": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 },
                 "image_url": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 },
                 "name": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 }
             }
         },
@@ -4657,10 +4950,12 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "message_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "123456"
                 },
                 "text": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "Hello"
                 }
             }
         },
@@ -4668,37 +4963,40 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "country": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "description": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "food_type": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 },
                 "image_url": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "0"
                 },
                 "ingredients": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "nationality": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "dodi"
                 },
                 "rating": {
-                    "type": "integer"
-                },
-                "updated_at": {
-                    "type": "string"
+                    "type": "integer",
+                    "default": 120000
                 }
             }
         },
@@ -4773,6 +5071,80 @@ const docTemplate = `{
         },
         "models.Void": {
             "type": "object"
+        },
+        "nationality.AttractionType1": {
+            "type": "object",
+            "properties": {
+                "activity": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "nationality.CreateAttractionTypeRequest": {
+            "type": "object",
+            "properties": {
+                "activity": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "nationality.CreateAttractionTypeResponse": {
+            "type": "object",
+            "properties": {
+                "attraction_type": {
+                    "$ref": "#/definitions/nationality.AttractionType1"
+                }
+            }
+        },
+        "nationality.GetAttractionTypeResponse": {
+            "type": "object",
+            "properties": {
+                "attraction_type": {
+                    "$ref": "#/definitions/nationality.AttractionType1"
+                }
+            }
+        },
+        "nationality.ListAttractionTypesResponse": {
+            "type": "object",
+            "properties": {
+                "attraction_types": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/nationality.AttractionType1"
+                    }
+                }
+            }
+        },
+        "nationality.UpdateAttractionTypeRequest": {
+            "type": "object",
+            "properties": {
+                "activity": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "nationality.UpdateAttractionTypeResponse": {
+            "type": "object",
+            "properties": {
+                "attraction_type": {
+                    "$ref": "#/definitions/nationality.AttractionType1"
+                }
+            }
         },
         "user.FollowUser": {
             "type": "object",

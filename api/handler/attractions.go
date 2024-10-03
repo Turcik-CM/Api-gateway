@@ -3,6 +3,7 @@ package handler
 import (
 	pb "api-gateway/genproto/nationality"
 	"api-gateway/pkg/minio"
+	"api-gateway/pkg/models"
 	"api-gateway/service"
 	"context"
 	"github.com/gin-gonic/gin"
@@ -10,6 +11,7 @@ import (
 	"log/slog"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 type AttractionsHandler interface {
@@ -21,6 +23,11 @@ type AttractionsHandler interface {
 	SearchAttractions(c *gin.Context)
 	UpdateImage(c *gin.Context)
 	RemoveHistoricalImage(c *gin.Context)
+	CreateAttractionType(c *gin.Context)
+	GetAttractionByIDType(c *gin.Context)
+	UpdateAttractionType(c *gin.Context)
+	DeleteAttractionType(c *gin.Context)
+	ListAttractionsType(c *gin.Context)
 }
 
 type attractionsHandler struct {
@@ -61,17 +68,14 @@ func NewAttractionsHandler(attrService service.Service, logger *slog.Logger) Att
 func (h *attractionsHandler) CreateAttraction(c *gin.Context) {
 	log.Println("Request received for creating a new attraction")
 
-	// Declare a new Attraction struct to hold the form data
-	var att pb.Attraction
+	var att models.Attraction
 
-	// Bind form data (including non-file fields) using ShouldBind
 	if err := c.ShouldBind(&att); err != nil {
 		h.logger.Error("Error occurred while binding form data", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// Handle file upload (required in this case)
 	file, err := c.FormFile("file")
 	if err != nil {
 		h.logger.Error("Error occurred while retrieving file from form", err)
@@ -79,7 +83,6 @@ func (h *attractionsHandler) CreateAttraction(c *gin.Context) {
 		return
 	}
 
-	// Upload the file to MinIO (or another storage service)
 	url, err := minio.UploadNationality(file)
 	if err != nil {
 		h.logger.Error("Error occurred while uploading file", err)
@@ -87,18 +90,26 @@ func (h *attractionsHandler) CreateAttraction(c *gin.Context) {
 		return
 	}
 
-	// Set the ImageUrl in the Attraction struct
-	att.ImageUrl = url
+	att.ImageURL = url
 
-	// Create the attraction using the service layer
-	req, err := h.attractionsService.CreateAttraction(context.Background(), &att)
+	res := pb.Attraction{
+		Country:     att.Country,
+		Name:        att.Name,
+		Description: att.Description,
+		Category:    att.Category,
+		ImageUrl:    att.ImageURL,
+		Location:    att.Location,
+		CreatedAt:   time.Now().String(),
+		UpdatedAt:   time.Now().String(),
+	}
+
+	req, err := h.attractionsService.CreateAttraction(context.Background(), &res)
 	if err != nil {
 		h.logger.Error("Error occurred while creating attraction", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	// Return the created attraction response
 	c.JSON(http.StatusCreated, req)
 }
 
@@ -326,4 +337,150 @@ func (h *attractionsHandler) RemoveHistoricalImage(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, req)
+}
+
+// CreateAttractionType godoc
+// @Summary Create a new Attraction Type
+// @Description Create a new Attraction Type
+// @Security BearerAuth
+// @Tags AttractionType
+// @Accept json
+// @Produce json
+// @Param CreateAttractionTypeRequest body nationality.CreateAttractionTypeRequest true "Attraction Type Info"
+// @Success 201 {object} nationality.CreateAttractionTypeResponse "Attraction Type successfully created"
+// @Failure 400 {object} models.Error "Bad request, validation error"
+// @Failure 500 {object} models.Error "Internal server error"
+// @Router /attraction-type/create [post]
+func (h *attractionsHandler) CreateAttractionType(c *gin.Context) {
+	var req pb.CreateAttractionTypeRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		h.logger.Error("Error occurred while binding JSON", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	resp, err := h.attractionsService.CreateAttractionType(context.Background(), &req)
+	if err != nil {
+		h.logger.Error("Error occurred while creating attraction type", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusCreated, resp)
+}
+
+// GetAttractionByIDType godoc
+// @Summary Get Attraction Type by ID
+// @Description Get Attraction Type by its ID
+// @Security BearerAuth
+// @Tags AttractionType
+// @Produce json
+// @Param id path string true "Attraction Type ID"
+// @Success 200 {object} nationality.GetAttractionTypeResponse
+// @Failure 400 {object} models.Error
+// @Failure 500 {object} models.Error
+// @Router /attraction-type/get/{id} [get]
+func (h *attractionsHandler) GetAttractionByIDType(c *gin.Context) {
+	id := c.Param("id")
+
+	resp, err := h.attractionsService.GetAttractionType(context.Background(), &pb.GetAttractionTypeRequest{Id: id})
+	if err != nil {
+		h.logger.Error("Error occurred while getting attraction type", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, resp)
+}
+
+// UpdateAttractionType godoc
+// @Summary Update Attraction Type
+// @Description Update Attraction Type
+// @Security BearerAuth
+// @Tags AttractionType
+// @Accept json
+// @Produce json
+// @Param UpdateAttractionTypeRequest body nationality.UpdateAttractionTypeRequest true "Update Attraction Type"
+// @Success 200 {object} nationality.UpdateAttractionTypeResponse
+// @Failure 400 {object} models.Error
+// @Failure 500 {object} models.Error
+// @Router /attraction-type/update [put]
+func (h *attractionsHandler) UpdateAttractionType(c *gin.Context) {
+	var req pb.UpdateAttractionTypeRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		h.logger.Error("Error occurred while binding JSON", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	resp, err := h.attractionsService.UpdateAttractionType(context.Background(), &req)
+	if err != nil {
+		h.logger.Error("Error occurred while updating attraction type", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, resp)
+}
+
+// DeleteAttractionType godoc
+// @Summary Delete Attraction Type
+// @Description Delete Attraction Type by its ID
+// @Security BearerAuth
+// @Tags AttractionType
+// @Produce json
+// @Param id path string true "Attraction Type ID"
+// @Success 200 {object} models.Message
+// @Failure 400 {object} models.Error
+// @Failure 500 {object} models.Error
+// @Router /attraction-type/delete/{id} [delete]
+func (h *attractionsHandler) DeleteAttractionType(c *gin.Context) {
+	id := c.Param("id")
+
+	resp, err := h.attractionsService.DeleteAttractionType(context.Background(), &pb.DeleteAttractionTypeRequest{Id: id})
+	if err != nil {
+		h.logger.Error("Error occurred while deleting attraction type", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, resp)
+}
+
+// ListAttractionsType godoc
+// @Summary List Attraction Types
+// @Description Get a list of Attraction Types
+// @Security BearerAuth
+// @Tags AttractionType
+// @Produce json
+// @Param filter query nationality.ListAttractionTypesRequest false "Filter Attraction Types"
+// @Success 200 {object} nationality.ListAttractionTypesResponse
+// @Failure 400 {object} models.Error
+// @Failure 500 {object} models.Error
+// @Router /attraction-type/list [get]
+func (h *attractionsHandler) ListAttractionsType(c *gin.Context) {
+	var req pb.ListAttractionTypesRequest
+
+	limit := c.Query("limit")
+	offset := c.Query("offset")
+
+	limits, err := strconv.Atoi(limit)
+	if err != nil {
+		limits = 10
+	}
+
+	offsets, err := strconv.Atoi(offset)
+	if err != nil {
+		offsets = 0
+	}
+
+	req.Limit = int64(limits)
+	req.Offset = int64(offsets)
+
+	resp, err := h.attractionsService.ListAttractionTypes(context.Background(), &req)
+	if err != nil {
+		h.logger.Error("Error occurred while listing attraction types", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, resp)
 }

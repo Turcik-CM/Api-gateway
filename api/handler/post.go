@@ -3,6 +3,7 @@ package handler
 import (
 	pb "api-gateway/genproto/post"
 	"api-gateway/pkg/minio"
+	"api-gateway/pkg/models"
 	"api-gateway/service"
 	"context"
 	"fmt"
@@ -60,10 +61,10 @@ func NewPostHandler(postService service.Service, logger *slog.Logger) PostHandle
 // @Failure 500 {object} models.Error "Internal server error"
 // @Router /post/create [post]
 func (h *postHandler) CreatePost(c *gin.Context) {
-	// Declare a new Post struct to hold the form data
-	var post pb.Post
+	log.Println("Request received")
 
-	// Parse the multipart form data, including file and fields
+	var post models.Post
+
 	if err := c.ShouldBind(&post); err != nil {
 		log.Println("Failed to bind form data")
 		h.logger.Error("Error occurred while binding form data:", err)
@@ -71,29 +72,19 @@ func (h *postHandler) CreatePost(c *gin.Context) {
 		return
 	}
 
-	log.Println(post.Country)
-	log.Println(post.Country)
-	log.Println(post.Country)
-	log.Println(post.Country)
-
-	// Handle optional file upload
 	var url string
 	file, err := c.FormFile("file")
 	if err == nil {
-		// If a file is uploaded, proceed with uploading it
 		url, err = minio.UploadPost(file)
 		if err != nil {
+			log.Println("Error occurred while uploading file")
 			h.logger.Error("Error occurred while uploading file:", err)
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		// Set the ImageUrl in the post struct
 		post.ImageUrl = url
-	} else {
-		log.Println("No file uploaded, continuing without an image")
 	}
 
-	// Set the user ID from the context (assuming the user is authenticated)
 	userId, exists := c.Get("user_id")
 	if !exists {
 		log.Println("User ID not found in context")
@@ -102,9 +93,20 @@ func (h *postHandler) CreatePost(c *gin.Context) {
 	}
 	post.UserId = userId.(string)
 
-	// Create the post using the service layer
-	req, err := h.postService.CreatePost(context.Background(), &post)
+	resp := pb.Post{
+		Location:    post.Location,
+		Country:     post.Country,
+		ImageUrl:    post.ImageUrl,
+		UserId:      post.UserId,
+		Title:       post.Title,
+		Description: post.Description,
+		Hashtag:     post.Hashtag,
+		Content:     post.Content,
+	}
+
+	req, err := h.postService.CreatePost(context.Background(), &resp)
 	if err != nil {
+		log.Println("Error occurred while creating post in service")
 		h.logger.Error("Error occurred while creating post:", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return

@@ -51,10 +51,13 @@ definitions:
   models.ChatResponse:
     properties:
       created_at:
+        default: "2023-01-01T00:00:00Z"
         type: string
       id:
+        default: "0"
         type: string
       user2_id:
+        default: "0"
         type: string
     type: object
   models.ChatResponseList:
@@ -67,8 +70,10 @@ definitions:
   models.CommentPost:
     properties:
       content:
+        default: dodi
         type: string
       post_id:
+        default: "0"
         type: string
     type: object
   models.CommentResponse:
@@ -96,17 +101,22 @@ definitions:
   models.CreateChat:
     properties:
       user2_id:
+        default: "0"
         type: string
     type: object
   models.CreateMassage:
     properties:
       chat_id:
+        default: "0"
         type: string
       content:
+        default: Hello
         type: string
       content_type:
+        default: text
         type: string
       sender_id:
+        default: "0"
         type: string
     type: object
   models.CreateRequest:
@@ -236,6 +246,7 @@ definitions:
   models.LikePost:
     properties:
       post_id:
+        default: "0"
         type: string
     type: object
   models.LikeResponse:
@@ -266,20 +277,28 @@ definitions:
   models.MassageResponse:
     properties:
       chat_id:
+        default: "0"
         type: string
       content:
+        default: Hello
         type: string
       content_type:
+        default: text
         type: string
       created_at:
+        default: "2023-01-01T00:00:00Z"
         type: string
       id:
+        default: "0"
         type: string
       is_read:
+        default: false
         type: boolean
       sender_id:
+        default: "0"
         type: string
       updated_at:
+        default: "2023-01-01T00:00:00Z"
         type: string
     type: object
   models.MassageResponseList:
@@ -292,6 +311,7 @@ definitions:
   models.MassageTrue:
     properties:
       chat_id:
+        default: "0"
         type: string
     type: object
   models.Message:
@@ -404,8 +424,10 @@ definitions:
   models.ResetPassReq:
     properties:
       code:
+        default: "123456"
         type: string
       email:
+        default: example@gmail.com
         type: string
       new_password:
         default: "123369"
@@ -421,94 +443,119 @@ definitions:
   models.UpdateAComment:
     properties:
       content:
+        default: dodi
         type: string
       id:
+        default: "0"
         type: string
     type: object
   models.UpdateAPost:
     properties:
       content:
+        default: dodi
         type: string
       country:
+        default: Uzbekistan
         type: string
       hashtag:
+        default: dodi
         type: string
       id:
+        default: dodi
         type: string
       image_url:
+        default: dodi
         type: string
       location:
+        default: dodi
         type: string
       title:
+        default: dodi
         type: string
     type: object
   models.UpdateAttraction:
     properties:
       category:
+        default: culture
         type: string
       country:
+        default: Uzbekistan
         type: string
       description:
+        default: "0"
         type: string
       id:
+        default: "0"
         type: string
       image_url:
+        default: "0"
         type: string
       location:
+        default: dodi
         type: string
       name:
+        default: "0"
         type: string
     type: object
   models.UpdateHistorical:
     properties:
       city:
+        default: Uzbekistan
         type: string
       country:
-        type: string
-      created_at:
+        default: Uzbekistan
         type: string
       description:
+        default: dodi
         type: string
       id:
+        default: "0"
         type: string
       image_url:
+        default: "0"
         type: string
       name:
-        type: string
-      updated_at:
+        default: dodi
         type: string
     type: object
   models.UpdateMs:
     properties:
       message_id:
+        default: "123456"
         type: string
       text:
+        default: Hello
         type: string
     type: object
   models.UpdateNationalFood:
     properties:
       country:
-        type: string
-      created_at:
+        default: dodi
         type: string
       description:
+        default: dodi
         type: string
       food_type:
+        default: dodi
         type: string
       id:
+        default: "0"
         type: string
       image_url:
+        default: "0"
         type: string
       ingredients:
+        default: dodi
         type: string
       name:
+        default: dodi
         type: string
       nationality:
+        default: dodi
         type: string
       rating:
+        default: 120000
         type: integer
-      updated_at:
-        type: string
     type: object
   models.UpdateProfileRequest:
     properties:
@@ -556,6 +603,53 @@ definitions:
         type: array
     type: object
   models.Void:
+    type: object
+  nationality.AttractionType1:
+    properties:
+      activity:
+        type: integer
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  nationality.CreateAttractionTypeRequest:
+    properties:
+      activity:
+        type: integer
+      name:
+        type: string
+    type: object
+  nationality.CreateAttractionTypeResponse:
+    properties:
+      attraction_type:
+        $ref: '#/definitions/nationality.AttractionType1'
+    type: object
+  nationality.GetAttractionTypeResponse:
+    properties:
+      attraction_type:
+        $ref: '#/definitions/nationality.AttractionType1'
+    type: object
+  nationality.ListAttractionTypesResponse:
+    properties:
+      attraction_types:
+        items:
+          $ref: '#/definitions/nationality.AttractionType1'
+        type: array
+    type: object
+  nationality.UpdateAttractionTypeRequest:
+    properties:
+      activity:
+        type: integer
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  nationality.UpdateAttractionTypeResponse:
+    properties:
+      attraction_type:
+        $ref: '#/definitions/nationality.AttractionType1'
     type: object
   user.FollowUser:
     properties:
@@ -737,6 +831,161 @@ paths:
       summary: Get User Profile
       tags:
       - Admin
+  /attraction-type/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a new Attraction Type
+      parameters:
+      - description: Attraction Type Info
+        in: body
+        name: CreateAttractionTypeRequest
+        required: true
+        schema:
+          $ref: '#/definitions/nationality.CreateAttractionTypeRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Attraction Type successfully created
+          schema:
+            $ref: '#/definitions/nationality.CreateAttractionTypeResponse'
+        "400":
+          description: Bad request, validation error
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Create a new Attraction Type
+      tags:
+      - AttractionType
+  /attraction-type/delete/{id}:
+    delete:
+      description: Delete Attraction Type by its ID
+      parameters:
+      - description: Attraction Type ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Message'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete Attraction Type
+      tags:
+      - AttractionType
+  /attraction-type/get/{id}:
+    get:
+      description: Get Attraction Type by its ID
+      parameters:
+      - description: Attraction Type ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/nationality.GetAttractionTypeResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Attraction Type by ID
+      tags:
+      - AttractionType
+  /attraction-type/list:
+    get:
+      description: Get a list of Attraction Types
+      parameters:
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: name
+        type: string
+      - in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/nationality.ListAttractionTypesResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: List Attraction Types
+      tags:
+      - AttractionType
+  /attraction-type/update:
+    put:
+      consumes:
+      - application/json
+      description: Update Attraction Type
+      parameters:
+      - description: Update Attraction Type
+        in: body
+        name: UpdateAttractionTypeRequest
+        required: true
+        schema:
+          $ref: '#/definitions/nationality.UpdateAttractionTypeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/nationality.UpdateAttractionTypeResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Update Attraction Type
+      tags:
+      - AttractionType
   /attraction/create:
     post:
       consumes:
@@ -746,7 +995,6 @@ paths:
       - description: Upload image file
         in: formData
         name: file
-        required: true
         type: file
       - description: Name of the attraction
         in: formData
@@ -891,22 +1139,28 @@ paths:
     get:
       description: Get a list of Attraction with optional filtering
       parameters:
-      - in: query
+      - default: culture
+        in: query
         name: category
         type: string
-      - in: query
+      - default: Uzbekistan
+        in: query
         name: country
         type: string
-      - in: query
+      - default: dodi
+        in: query
         name: description
         type: string
-      - in: query
+      - default: 0
+        in: query
         name: limit
         type: integer
-      - in: query
+      - default: dodi
+        in: query
         name: name
         type: string
-      - in: query
+      - default: 0
+        in: query
         name: offset
         type: integer
       produces:
@@ -933,13 +1187,16 @@ paths:
     get:
       description: Get a list of Attraction with optional filtering
       parameters:
-      - in: query
+      - default: "10"
+        in: query
         name: limit
         type: string
-      - in: query
+      - default: "0"
+        in: query
         name: offset
         type: string
-      - in: query
+      - default: dodi
+        in: query
         name: search_term
         type: string
       produces:
@@ -1431,13 +1688,16 @@ paths:
     get:
       description: Get a list of chat with optional filtering
       parameters:
-      - in: query
+      - default: "0"
+        in: query
         name: chat_id
         type: string
-      - in: query
+      - default: 10
+        in: query
         name: limit
         type: integer
-      - in: query
+      - default: 0
+        in: query
         name: offset
         type: integer
       produces:
@@ -1693,13 +1953,16 @@ paths:
     get:
       description: Get a list of Comment with optional filtering
       parameters:
-      - in: query
+      - default: 10
+        in: query
         name: limit
         type: integer
-      - in: query
+      - default: 0
+        in: query
         name: offset
         type: integer
-      - in: query
+      - default: "0"
+        in: query
         name: post_id
         type: string
       produces:
@@ -1813,14 +2076,6 @@ paths:
         in: formData
         name: country
         required: true
-        type: string
-      - description: Creation date of the historical site
-        in: formData
-        name: created_at
-        type: string
-      - description: Update date of the historical site
-        in: formData
-        name: updated_at
         type: string
       produces:
       - application/json
@@ -1940,13 +2195,16 @@ paths:
     get:
       description: Get a list of Historical with optional filtering
       parameters:
-      - in: query
+      - default: Uzbekistan
+        in: query
         name: country
         type: string
-      - in: query
+      - default: 10
+        in: query
         name: limit
         type: integer
-      - in: query
+      - default: 0
+        in: query
         name: offset
         type: integer
       produces:
@@ -1973,7 +2231,8 @@ paths:
     get:
       description: Get a list of Historical with optional filtering
       parameters:
-      - in: query
+      - default: dodi
+        in: query
         name: search
         type: string
       produces:
@@ -2299,10 +2558,6 @@ paths:
         name: country
         required: true
         type: string
-      - description: Creation date
-        in: formData
-        name: created_at
-        type: string
       - description: Description of the food
         in: formData
         name: description
@@ -2451,13 +2706,16 @@ paths:
     get:
       description: Get a list of NationalFood with optional filtering
       parameters:
-      - in: query
+      - default: Uzbekistan
+        in: query
         name: country
         type: string
-      - in: query
+      - default: 10
+        in: query
         name: limit
         type: integer
-      - in: query
+      - default: 0
+        in: query
         name: offset
         type: integer
       produces:
@@ -2699,16 +2957,20 @@ paths:
     get:
       description: Get a list of posts with optional filtering
       parameters:
-      - in: query
+      - default: Uzbekistan
+        in: query
         name: country
         type: string
-      - in: query
+      - default: dodi
+        in: query
         name: hashtag
         type: string
-      - in: query
+      - default: 10
+        in: query
         name: limit
         type: integer
-      - in: query
+      - default: 0
+        in: query
         name: offset
         type: integer
       produces:
