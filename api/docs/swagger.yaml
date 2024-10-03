@@ -557,6 +557,53 @@ definitions:
     type: object
   models.Void:
     type: object
+  nationality.AttractionType1:
+    properties:
+      activity:
+        type: integer
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  nationality.CreateAttractionTypeRequest:
+    properties:
+      activity:
+        type: integer
+      name:
+        type: string
+    type: object
+  nationality.CreateAttractionTypeResponse:
+    properties:
+      attraction_type:
+        $ref: '#/definitions/nationality.AttractionType1'
+    type: object
+  nationality.GetAttractionTypeResponse:
+    properties:
+      attraction_type:
+        $ref: '#/definitions/nationality.AttractionType1'
+    type: object
+  nationality.ListAttractionTypesResponse:
+    properties:
+      attraction_types:
+        items:
+          $ref: '#/definitions/nationality.AttractionType1'
+        type: array
+    type: object
+  nationality.UpdateAttractionTypeRequest:
+    properties:
+      activity:
+        type: integer
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  nationality.UpdateAttractionTypeResponse:
+    properties:
+      attraction_type:
+        $ref: '#/definitions/nationality.AttractionType1'
+    type: object
   user.FollowUser:
     properties:
       id:
@@ -737,6 +784,161 @@ paths:
       summary: Get User Profile
       tags:
       - Admin
+  /attraction-type/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a new Attraction Type
+      parameters:
+      - description: Attraction Type Info
+        in: body
+        name: CreateAttractionTypeRequest
+        required: true
+        schema:
+          $ref: '#/definitions/nationality.CreateAttractionTypeRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Attraction Type successfully created
+          schema:
+            $ref: '#/definitions/nationality.CreateAttractionTypeResponse'
+        "400":
+          description: Bad request, validation error
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Create a new Attraction Type
+      tags:
+      - AttractionType
+  /attraction-type/delete/{id}:
+    delete:
+      description: Delete Attraction Type by its ID
+      parameters:
+      - description: Attraction Type ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Message'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete Attraction Type
+      tags:
+      - AttractionType
+  /attraction-type/get/{id}:
+    get:
+      description: Get Attraction Type by its ID
+      parameters:
+      - description: Attraction Type ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/nationality.GetAttractionTypeResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Attraction Type by ID
+      tags:
+      - AttractionType
+  /attraction-type/list:
+    get:
+      description: Get a list of Attraction Types
+      parameters:
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: name
+        type: string
+      - in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/nationality.ListAttractionTypesResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: List Attraction Types
+      tags:
+      - AttractionType
+  /attraction-type/update:
+    put:
+      consumes:
+      - application/json
+      description: Update Attraction Type
+      parameters:
+      - description: Update Attraction Type
+        in: body
+        name: UpdateAttractionTypeRequest
+        required: true
+        schema:
+          $ref: '#/definitions/nationality.UpdateAttractionTypeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/nationality.UpdateAttractionTypeResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Update Attraction Type
+      tags:
+      - AttractionType
   /attraction/create:
     post:
       consumes:
@@ -2288,11 +2490,6 @@ paths:
       - description: Country of the food
         in: formData
         name: country
-        required: true
-        type: string
-      - description: Creation date
-        in: formData
-        name: created_at
         required: true
         type: string
       - description: Description of the food
