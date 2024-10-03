@@ -1929,18 +1929,6 @@ const docTemplate = `{
                         "name": "country",
                         "in": "formData",
                         "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Creation date of the historical site",
-                        "name": "created_at",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Update date of the historical site",
-                        "name": "updated_at",
-                        "in": "formData"
                     }
                 ],
                 "responses": {
@@ -2703,7 +2691,8 @@ const docTemplate = `{
                         "type": "string",
                         "description": "Creation date",
                         "name": "created_at",
-                        "in": "formData"
+                        "in": "formData",
+                        "required": true
                     },
                     {
                         "type": "string",
@@ -4444,18 +4433,6 @@ const docTemplate = `{
         },
         "models.PostResponse": {
             "type": "object",
-            "required": [
-                "content",
-                "country",
-                "created_at",
-                "description",
-                "hashtag",
-                "id",
-                "image_url",
-                "location",
-                "title",
-                "updated_at"
-            ],
             "properties": {
                 "content": {
                     "type": "string"

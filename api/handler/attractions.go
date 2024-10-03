@@ -3,6 +3,7 @@ package handler
 import (
 	pb "api-gateway/genproto/nationality"
 	"api-gateway/pkg/minio"
+	"api-gateway/pkg/models"
 	"api-gateway/service"
 	"context"
 	"github.com/gin-gonic/gin"
@@ -10,6 +11,7 @@ import (
 	"log/slog"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 type AttractionsHandler interface {
@@ -61,17 +63,14 @@ func NewAttractionsHandler(attrService service.Service, logger *slog.Logger) Att
 func (h *attractionsHandler) CreateAttraction(c *gin.Context) {
 	log.Println("Request received for creating a new attraction")
 
-	// Declare a new Attraction struct to hold the form data
-	var att pb.Attraction
+	var att models.Attraction
 
-	// Bind form data (including non-file fields) using ShouldBind
 	if err := c.ShouldBind(&att); err != nil {
 		h.logger.Error("Error occurred while binding form data", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// Handle file upload (required in this case)
 	file, err := c.FormFile("file")
 	if err != nil {
 		h.logger.Error("Error occurred while retrieving file from form", err)
@@ -79,7 +78,6 @@ func (h *attractionsHandler) CreateAttraction(c *gin.Context) {
 		return
 	}
 
-	// Upload the file to MinIO (or another storage service)
 	url, err := minio.UploadNationality(file)
 	if err != nil {
 		h.logger.Error("Error occurred while uploading file", err)
@@ -87,18 +85,26 @@ func (h *attractionsHandler) CreateAttraction(c *gin.Context) {
 		return
 	}
 
-	// Set the ImageUrl in the Attraction struct
-	att.ImageUrl = url
+	att.ImageURL = url
 
-	// Create the attraction using the service layer
-	req, err := h.attractionsService.CreateAttraction(context.Background(), &att)
+	res := pb.Attraction{
+		Country:     att.Country,
+		Name:        att.Name,
+		Description: att.Description,
+		Category:    att.Category,
+		ImageUrl:    att.ImageURL,
+		Location:    att.Location,
+		CreatedAt:   time.Now().String(),
+		UpdatedAt:   time.Now().String(),
+	}
+
+	req, err := h.attractionsService.CreateAttraction(context.Background(), &res)
 	if err != nil {
 		h.logger.Error("Error occurred while creating attraction", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	// Return the created attraction response
 	c.JSON(http.StatusCreated, req)
 }
 

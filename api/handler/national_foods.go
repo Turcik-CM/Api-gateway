@@ -3,6 +3,7 @@ package handler
 import (
 	pb "api-gateway/genproto/nationality"
 	"api-gateway/pkg/minio"
+	"api-gateway/pkg/models"
 	"api-gateway/service"
 	"context"
 	"github.com/gin-gonic/gin"
@@ -43,7 +44,6 @@ func NewNationalFoodHandler(service service.Service, logger *slog.Logger) Nation
 // @Produce json
 // @Param file formData file false "Upload image file (optional)"
 // @Param country formData string true "Country of the food"
-// @Param created_at formData string false "Creation date"
 // @Param description formData string true "Description of the food"
 // @Param food_type formData string true "Type of the food"
 // @Param ingredients formData string true "Ingredients"
@@ -57,22 +57,18 @@ func NewNationalFoodHandler(service service.Service, logger *slog.Logger) Nation
 func (h *nationalFoodHandler) CreateNationalFood(c *gin.Context) {
 	log.Println("Request received")
 
-	// Declare a new NationalFood struct to hold the form data
-	var nat pb.NationalFood
+	var a models.NationalFood
 
-	// Parse the multipart form data, including file and fields
-	if err := c.ShouldBind(&nat); err != nil {
+	if err := c.ShouldBind(&a); err != nil {
 		log.Println("Failed to bind form data")
 		h.logger.Error("Error occurred while binding form data:", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// Handle optional file upload
 	var url string
 	file, err := c.FormFile("file")
 	if err == nil {
-		// If a file is uploaded, proceed with uploading it
 		url, err = minio.UploadNationality(file)
 		if err != nil {
 			log.Println("Error occurred while uploading file")
@@ -80,14 +76,22 @@ func (h *nationalFoodHandler) CreateNationalFood(c *gin.Context) {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		// Set the ImageUrl in the NationalFood struct
-		nat.ImageUrl = url
+		a.ImageURL = url
 	} else {
 		log.Println("No file uploaded, continuing without an image")
 	}
+	res := pb.NationalFood{
+		Country:     a.Country,
+		Name:        a.Name,
+		Description: a.Description,
+		Nationality: a.Nationality,
+		ImageUrl:    a.ImageURL,
+		Rating:      a.Rating,
+		FoodType:    a.FoodType,
+		Ingredients: a.Ingredients,
+	}
 
-	// Create the national food using the service layer
-	resp, err := h.nationalFoodService.CreateNationalFood(context.Background(), &nat)
+	resp, err := h.nationalFoodService.CreateNationalFood(context.Background(), &res)
 	if err != nil {
 		log.Println("Error occurred while creating national food in service")
 		h.logger.Error("Error occurred while creating national food:", err)
@@ -95,7 +99,6 @@ func (h *nationalFoodHandler) CreateNationalFood(c *gin.Context) {
 		return
 	}
 
-	// Return the created national food response
 	c.JSON(http.StatusCreated, gin.H{"response": resp})
 }
 

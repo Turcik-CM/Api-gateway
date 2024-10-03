@@ -213,12 +213,12 @@ type UpdateAPost struct {
 
 // Post represents the structure for creating a post
 type Post struct {
-	Title       string `form:"title" binding:"required"`
-	Content     string `form:"content" binding:"required"`
-	Country     string `form:"country" binding:"required"`
-	Description string `form:"description" binding:"required"`
-	Hashtag     string `form:"hashtag" binding:"required"`
-	Location    string `form:"location" binding:"required"`
+	Title       string `form:"title"`
+	Content     string `form:"content"`
+	Country     string `form:"country"`
+	Description string `form:"description"`
+	Hashtag     string `form:"hashtag"`
+	Location    string `form:"location"`
 	ImageUrl    string `form:"image_url"`
 	UserId      string `form:"user_id"`
 }
@@ -428,13 +428,11 @@ type UpdateHistorical struct {
 }
 
 type Historical struct {
-	Country     string `json:"country"`
-	City        string `json:"city"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	ImageURL    string `json:"image_url"`
-	CreatedAt   string `json:"created_at"`
-	UpdatedAt   string `json:"updated_at"`
+	Country     string `form:"country"`
+	City        string `form:"city"`
+	Name        string `form:"name"`
+	Description string `form:"description"`
+	ImageURL    string `form:"image_url"`
 }
 
 type HistoricalResponse struct {
@@ -449,16 +447,14 @@ type HistoricalResponse struct {
 }
 
 type NationalFood struct {
-	Country     string `json:"country"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	Nationality string `json:"nationality"`
-	ImageURL    string `json:"image_url"`
-	Rating      int32  `json:"rating"`
-	FoodType    string `json:"food_type"`
-	Ingredients string `json:"ingredients"`
-	CreatedAt   string `json:"created_at"`
-	UpdatedAt   string `json:"updated_at"`
+	Country     string `form:"country"`
+	Name        string `form:"name"`
+	Description string `form:"description"`
+	Nationality string `form:"nationality"`
+	ImageURL    string `form:"image_url"`
+	Rating      int32  `form:"rating"`
+	FoodType    string `form:"food_type"`
+	Ingredients string `form:"ingredients"`
 }
 
 type NationalFoodResponse struct {
@@ -507,11 +503,12 @@ type RatingResponse struct {
 }
 
 type Attraction struct {
-	Country     string `json:"country"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	Category    string `json:"category"`
-	Location    string `json:"location"`
+	Country     string `form:"country"`
+	Name        string `form:"name"`
+	Description string `form:"description"`
+	Category    string `form:"category"`
+	ImageURL    string `form:"image_url"`
+	Location    string `form:"location"`
 }
 
 type AttractionList struct {

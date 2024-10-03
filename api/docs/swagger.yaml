@@ -360,17 +360,6 @@ definitions:
         type: string
       updated_at:
         type: string
-    required:
-    - content
-    - country
-    - created_at
-    - description
-    - hashtag
-    - id
-    - image_url
-    - location
-    - title
-    - updated_at
     type: object
   models.RegisterRequest:
     properties:
@@ -1824,14 +1813,6 @@ paths:
         name: country
         required: true
         type: string
-      - description: Creation date of the historical site
-        in: formData
-        name: created_at
-        type: string
-      - description: Update date of the historical site
-        in: formData
-        name: updated_at
-        type: string
       produces:
       - application/json
       responses:
@@ -2312,6 +2293,7 @@ paths:
       - description: Creation date
         in: formData
         name: created_at
+        required: true
         type: string
       - description: Description of the food
         in: formData
