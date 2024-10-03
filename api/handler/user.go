@@ -333,7 +333,7 @@ func (h *userHandler) FetchUsers(c *gin.Context) {
 // @Success 200 {object} user.Follows
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /user/list_of_following [get]
+// @Router /user/list-of-following [get]
 func (h *userHandler) ListOfFollowing(c *gin.Context) {
 	res := pb.Id{
 		UserId: c.MustGet("user_id").(string),
@@ -357,7 +357,7 @@ func (h *userHandler) ListOfFollowing(c *gin.Context) {
 // @Success 200 {object} user.Follows
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /user/list_of_followers [get]
+// @Router /user/list-of-followers [get]
 func (h *userHandler) ListOfFollowers(c *gin.Context) {
 	res := pb.Id{
 		UserId: c.MustGet("user_id").(string),
@@ -468,7 +468,7 @@ func (h *userHandler) Follow(c *gin.Context) {
 // @Success 200 {object} models.DFollowRes
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /user/unfollow [delete]
+// @Router /user/unfollow/{id} [delete]
 func (h *userHandler) Unfollow(c *gin.Context) {
 	res := pb.FollowReq{
 		FollowingId: c.Param("id"),

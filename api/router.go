@@ -85,7 +85,7 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer, re
 	{
 		nationalCountry.POST("/create", country.CreateCountry)
 		nationalCountry.PUT("/update", country.UpdateCountry)
-		nationalCountry.GET("/getBy/:id", country.GetCountryByID)
+		nationalCountry.GET("/get/:id", country.GetCountryByID)
 		nationalCountry.DELETE("/delete/:id", country.DeleteCountry)
 		nationalCountry.GET("/list", country.ListCountries)
 	}
@@ -129,7 +129,7 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer, re
 		userGroup.GET("/list-of-followers", user.ListOfFollowers)
 		userGroup.DELETE("/delete", user.DeleteProfile)
 		userGroup.POST("/follow", user.Follow)
-		userGroup.DELETE("/unfollow/:user_id", user.Unfollow)
+		userGroup.DELETE("/unfollow/:id", user.Unfollow)
 		userGroup.GET("/most-popular-user", user.MostPopularUser)
 	}
 
