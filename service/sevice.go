@@ -44,8 +44,8 @@ func NewService(cfg *config.Config) (Service, error) {
 		return nil, err
 	}
 
-	//NationalityConn, err := grpc.NewClient(cfg.NATIONAL_HOST+cfg.NATIONAL_SERVICE, grpc.WithTransportCredentials(insecure.NewCredentials()))
-	NationalityConn, err := grpc.NewClient("127.0.0.1:7080", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	NationalityConn, err := grpc.NewClient(cfg.NATIONAL_HOST+cfg.NATIONAL_SERVICE, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	//NationalityConn, err := grpc.NewClient("127.0.0.1:7080", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		return nil, err
 	}
