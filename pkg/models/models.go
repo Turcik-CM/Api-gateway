@@ -208,7 +208,6 @@ type UpdateAPost struct {
 	Title    string `json:"title" default:"dodi"`
 	Content  string `json:"content" default:"dodi"`
 	Hashtag  string `json:"hashtag" default:"dodi"`
-	ImageURL string `json:"image_url" default:"dodi"`
 }
 
 // Post represents the structure for creating a post
