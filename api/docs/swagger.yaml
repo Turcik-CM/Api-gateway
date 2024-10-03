@@ -51,10 +51,13 @@ definitions:
   models.ChatResponse:
     properties:
       created_at:
+        default: "2023-01-01T00:00:00Z"
         type: string
       id:
+        default: "0"
         type: string
       user2_id:
+        default: "0"
         type: string
     type: object
   models.ChatResponseList:
@@ -67,8 +70,10 @@ definitions:
   models.CommentPost:
     properties:
       content:
+        default: dodi
         type: string
       post_id:
+        default: "0"
         type: string
     type: object
   models.CommentResponse:
@@ -96,17 +101,22 @@ definitions:
   models.CreateChat:
     properties:
       user2_id:
+        default: "0"
         type: string
     type: object
   models.CreateMassage:
     properties:
       chat_id:
+        default: "0"
         type: string
       content:
+        default: Hello
         type: string
       content_type:
+        default: text
         type: string
       sender_id:
+        default: "0"
         type: string
     type: object
   models.CreateRequest:
@@ -236,6 +246,7 @@ definitions:
   models.LikePost:
     properties:
       post_id:
+        default: "0"
         type: string
     type: object
   models.LikeResponse:
@@ -266,20 +277,28 @@ definitions:
   models.MassageResponse:
     properties:
       chat_id:
+        default: "0"
         type: string
       content:
+        default: Hello
         type: string
       content_type:
+        default: text
         type: string
       created_at:
+        default: "2023-01-01T00:00:00Z"
         type: string
       id:
+        default: "0"
         type: string
       is_read:
+        default: false
         type: boolean
       sender_id:
+        default: "0"
         type: string
       updated_at:
+        default: "2023-01-01T00:00:00Z"
         type: string
     type: object
   models.MassageResponseList:
@@ -292,6 +311,7 @@ definitions:
   models.MassageTrue:
     properties:
       chat_id:
+        default: "0"
         type: string
     type: object
   models.Message:
@@ -404,8 +424,10 @@ definitions:
   models.ResetPassReq:
     properties:
       code:
+        default: "123456"
         type: string
       email:
+        default: example@gmail.com
         type: string
       new_password:
         default: "123369"
@@ -421,94 +443,116 @@ definitions:
   models.UpdateAComment:
     properties:
       content:
+        default: dodi
         type: string
       id:
+        default: "0"
         type: string
     type: object
   models.UpdateAPost:
     properties:
       content:
+        default: dodi
         type: string
       country:
+        default: Uzbekistan
         type: string
       hashtag:
+        default: dodi
         type: string
       id:
-        type: string
-      image_url:
+        default: dodi
         type: string
       location:
+        default: dodi
         type: string
       title:
+        default: dodi
         type: string
     type: object
   models.UpdateAttraction:
     properties:
       category:
+        default: culture
         type: string
       country:
+        default: Uzbekistan
         type: string
       description:
+        default: "0"
         type: string
       id:
+        default: "0"
         type: string
       image_url:
+        default: "0"
         type: string
       location:
+        default: dodi
         type: string
       name:
+        default: "0"
         type: string
     type: object
   models.UpdateHistorical:
     properties:
       city:
+        default: Uzbekistan
         type: string
       country:
-        type: string
-      created_at:
+        default: Uzbekistan
         type: string
       description:
+        default: dodi
         type: string
       id:
+        default: "0"
         type: string
       image_url:
+        default: "0"
         type: string
       name:
-        type: string
-      updated_at:
+        default: dodi
         type: string
     type: object
   models.UpdateMs:
     properties:
       message_id:
+        default: "123456"
         type: string
       text:
+        default: Hello
         type: string
     type: object
   models.UpdateNationalFood:
     properties:
       country:
-        type: string
-      created_at:
+        default: dodi
         type: string
       description:
+        default: dodi
         type: string
       food_type:
+        default: dodi
         type: string
       id:
+        default: "0"
         type: string
       image_url:
+        default: "0"
         type: string
       ingredients:
+        default: dodi
         type: string
       name:
+        default: dodi
         type: string
       nationality:
+        default: dodi
         type: string
       rating:
+        default: 120000
         type: integer
-      updated_at:
-        type: string
     type: object
   models.UpdateProfileRequest:
     properties:
@@ -1175,22 +1219,28 @@ paths:
     get:
       description: Get a list of Attraction with optional filtering
       parameters:
-      - in: query
+      - default: culture
+        in: query
         name: category
         type: string
-      - in: query
+      - default: Uzbekistan
+        in: query
         name: country
         type: string
-      - in: query
+      - default: dodi
+        in: query
         name: description
         type: string
-      - in: query
+      - default: 0
+        in: query
         name: limit
         type: integer
-      - in: query
+      - default: dodi
+        in: query
         name: name
         type: string
-      - in: query
+      - default: 0
+        in: query
         name: offset
         type: integer
       produces:
@@ -1217,13 +1267,16 @@ paths:
     get:
       description: Get a list of Attraction with optional filtering
       parameters:
-      - in: query
+      - default: "10"
+        in: query
         name: limit
         type: string
-      - in: query
+      - default: "0"
+        in: query
         name: offset
         type: string
-      - in: query
+      - default: dodi
+        in: query
         name: search_term
         type: string
       produces:
@@ -1715,13 +1768,16 @@ paths:
     get:
       description: Get a list of chat with optional filtering
       parameters:
-      - in: query
+      - default: "0"
+        in: query
         name: chat_id
         type: string
-      - in: query
+      - default: 10
+        in: query
         name: limit
         type: integer
-      - in: query
+      - default: 0
+        in: query
         name: offset
         type: integer
       produces:
@@ -1977,13 +2033,16 @@ paths:
     get:
       description: Get a list of Comment with optional filtering
       parameters:
-      - in: query
+      - default: 10
+        in: query
         name: limit
         type: integer
-      - in: query
+      - default: 0
+        in: query
         name: offset
         type: integer
-      - in: query
+      - default: "0"
+        in: query
         name: post_id
         type: string
       produces:
@@ -2374,13 +2433,16 @@ paths:
     get:
       description: Get a list of Historical with optional filtering
       parameters:
-      - in: query
+      - default: Uzbekistan
+        in: query
         name: country
         type: string
-      - in: query
+      - default: 10
+        in: query
         name: limit
         type: integer
-      - in: query
+      - default: 0
+        in: query
         name: offset
         type: integer
       produces:
@@ -2407,7 +2469,8 @@ paths:
     get:
       description: Get a list of Historical with optional filtering
       parameters:
-      - in: query
+      - default: dodi
+        in: query
         name: search
         type: string
       produces:
@@ -2881,13 +2944,16 @@ paths:
     get:
       description: Get a list of NationalFood with optional filtering
       parameters:
-      - in: query
+      - default: Uzbekistan
+        in: query
         name: country
         type: string
-      - in: query
+      - default: 10
+        in: query
         name: limit
         type: integer
-      - in: query
+      - default: 0
+        in: query
         name: offset
         type: integer
       produces:
@@ -3129,16 +3195,20 @@ paths:
     get:
       description: Get a list of posts with optional filtering
       parameters:
-      - in: query
+      - default: Uzbekistan
+        in: query
         name: country
         type: string
-      - in: query
+      - default: dodi
+        in: query
         name: hashtag
         type: string
-      - in: query
+      - default: 10
+        in: query
         name: limit
         type: integer
-      - in: query
+      - default: 0
+        in: query
         name: offset
         type: integer
       produces:
