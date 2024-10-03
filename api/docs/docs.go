@@ -231,9 +231,9 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Create a new Attraction",
+                "description": "Create a new Attraction, including an image upload",
                 "consumes": [
-                    "application/json"
+                    "multipart/form-data"
                 ],
                 "produces": [
                     "application/json"
@@ -241,40 +241,66 @@ const docTemplate = `{
                 "tags": [
                     "Attraction"
                 ],
-                "summary": "Create Attraction",
+                "summary": "Create a new Attraction",
                 "parameters": [
                     {
-                        "description": "Create Attraction",
-                        "name": "Create",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.Attraction"
-                        }
+                        "type": "file",
+                        "description": "Upload image file",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
                     },
                     {
-                        "type": "file",
-                        "description": "Upload image",
-                        "name": "file",
+                        "type": "string",
+                        "description": "Name of the attraction",
+                        "name": "name",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Description of the attraction",
+                        "name": "description",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Location of the attraction",
+                        "name": "location",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Country of the attraction",
+                        "name": "country",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Category of the attraction",
+                        "name": "category",
                         "in": "formData",
                         "required": true
                     }
                 ],
                 "responses": {
                     "201": {
-                        "description": "Created",
+                        "description": "Attraction successfully created",
                         "schema": {
                             "$ref": "#/definitions/models.AttractionResponse"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Bad request, validation error or invalid file",
                         "schema": {
                             "$ref": "#/definitions/models.Error"
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "Internal server error",
                         "schema": {
                             "$ref": "#/definitions/models.Error"
                         }
@@ -1858,9 +1884,9 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Create a new Historical",
+                "description": "Create a new Historical record, including an image upload",
                 "consumes": [
-                    "application/json"
+                    "multipart/form-data"
                 ],
                 "produces": [
                     "application/json"
@@ -1868,40 +1894,71 @@ const docTemplate = `{
                 "tags": [
                     "Historical"
                 ],
-                "summary": "Create Historical",
+                "summary": "Create a new Historical record",
                 "parameters": [
                     {
-                        "description": "Create Historical",
-                        "name": "Create",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.Historical"
-                        }
-                    },
-                    {
                         "type": "file",
-                        "description": "Upload image",
+                        "description": "Upload image file",
                         "name": "file",
                         "in": "formData",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Name of the historical site",
+                        "name": "name",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Description of the historical site",
+                        "name": "description",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "City of the historical site",
+                        "name": "city",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Country of the historical site",
+                        "name": "country",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Creation date of the historical site",
+                        "name": "created_at",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Update date of the historical site",
+                        "name": "updated_at",
+                        "in": "formData"
                     }
                 ],
                 "responses": {
                     "201": {
-                        "description": "Created",
+                        "description": "Historical record successfully created",
                         "schema": {
                             "$ref": "#/definitions/models.HistoricalResponse"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Bad request, validation error or invalid file",
                         "schema": {
                             "$ref": "#/definitions/models.Error"
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "Internal server error",
                         "schema": {
                             "$ref": "#/definitions/models.Error"
                         }
@@ -2618,9 +2675,9 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Create a new NationalFood",
+                "description": "Create a new NationalFood, including an optional image upload",
                 "consumes": [
-                    "application/json"
+                    "multipart/form-data"
                 ],
                 "produces": [
                     "application/json"
@@ -2628,40 +2685,85 @@ const docTemplate = `{
                 "tags": [
                     "NationalFood"
                 ],
-                "summary": "Create NationalFood",
+                "summary": "Create a new NationalFood",
                 "parameters": [
                     {
                         "type": "file",
-                        "description": "Upload image",
+                        "description": "Upload image file (optional)",
                         "name": "file",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Country of the food",
+                        "name": "country",
                         "in": "formData",
                         "required": true
                     },
                     {
-                        "description": "Create NationalFood",
-                        "name": "Create",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.NationalFood"
-                        }
+                        "type": "string",
+                        "description": "Creation date",
+                        "name": "created_at",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Description of the food",
+                        "name": "description",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Type of the food",
+                        "name": "food_type",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Ingredients",
+                        "name": "ingredients",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Name of the food",
+                        "name": "name",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Nationality of the food",
+                        "name": "nationality",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "Rating of the food",
+                        "name": "rating",
+                        "in": "formData",
+                        "required": true
                     }
                 ],
                 "responses": {
                     "201": {
-                        "description": "Created",
+                        "description": "National food successfully created",
                         "schema": {
                             "$ref": "#/definitions/models.NationalFoodResponse"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Bad request, validation error or invalid file",
                         "schema": {
                             "$ref": "#/definitions/models.Error"
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "Internal server error",
                         "schema": {
                             "$ref": "#/definitions/models.Error"
                         }
@@ -2975,9 +3077,9 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Create a new post",
+                "description": "Create a new post, including an optional image upload",
                 "consumes": [
-                    "application/json"
+                    "multipart/form-data"
                 ],
                 "produces": [
                     "application/json"
@@ -2985,40 +3087,72 @@ const docTemplate = `{
                 "tags": [
                     "Posts"
                 ],
-                "summary": "Create Post",
+                "summary": "Create a new post",
                 "parameters": [
                     {
-                        "description": "Create post",
-                        "name": "Create",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.Post"
-                        }
+                        "type": "file",
+                        "description": "Upload image file (optional)",
+                        "name": "file",
+                        "in": "formData"
                     },
                     {
-                        "type": "file",
-                        "description": "Upload image",
-                        "name": "file",
+                        "type": "string",
+                        "description": "Content of the post",
+                        "name": "content",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Country of the post",
+                        "name": "country",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Description of the post",
+                        "name": "description",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Hashtag for the post",
+                        "name": "hashtag",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Location for the post",
+                        "name": "location",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Title of the post",
+                        "name": "title",
                         "in": "formData",
                         "required": true
                     }
                 ],
                 "responses": {
                     "201": {
-                        "description": "Created",
+                        "description": "Post successfully created",
                         "schema": {
                             "$ref": "#/definitions/models.PostResponse"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Bad request, validation error or invalid file",
                         "schema": {
                             "$ref": "#/definitions/models.Error"
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "Internal server error",
                         "schema": {
                             "$ref": "#/definitions/models.Error"
                         }
@@ -3799,26 +3933,6 @@ const docTemplate = `{
                 }
             }
         },
-        "models.Attraction": {
-            "type": "object",
-            "properties": {
-                "category": {
-                    "type": "string"
-                },
-                "country": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "location": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
         "models.AttractionListResponse": {
             "type": "object",
             "properties": {
@@ -4098,32 +4212,6 @@ const docTemplate = `{
                 }
             }
         },
-        "models.Historical": {
-            "type": "object",
-            "properties": {
-                "city": {
-                    "type": "string"
-                },
-                "country": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "image_url": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                }
-            }
-        },
         "models.HistoricalListResponse": {
             "type": "object",
             "properties": {
@@ -4295,41 +4383,6 @@ const docTemplate = `{
                 }
             }
         },
-        "models.NationalFood": {
-            "type": "object",
-            "properties": {
-                "country": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "food_type": {
-                    "type": "string"
-                },
-                "image_url": {
-                    "type": "string"
-                },
-                "ingredients": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "nationality": {
-                    "type": "string"
-                },
-                "rating": {
-                    "type": "integer"
-                },
-                "updated_at": {
-                    "type": "string"
-                }
-            }
-        },
         "models.NationalFoodListResponse": {
             "type": "object",
             "properties": {
@@ -4375,29 +4428,6 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "updated_at": {
-                    "type": "string"
-                }
-            }
-        },
-        "models.Post": {
-            "type": "object",
-            "properties": {
-                "content": {
-                    "type": "string"
-                },
-                "country": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "hashtag": {
-                    "type": "string"
-                },
-                "location": {
-                    "type": "string"
-                },
-                "title": {
                     "type": "string"
                 }
             }

@@ -41,49 +41,64 @@ func NewHistoryHandler(historyService service.Service, logger *slog.Logger) Hist
 }
 
 // AddHistorical godoc
-// @Summary Create Historical
-// @Description Create a new Historical
+// @Summary Create a new Historical record
+// @Description Create a new Historical record, including an image upload
 // @Security BearerAuth
 // @Tags Historical
-// @Accept json
+// @Accept multipart/form-data
 // @Produce json
-// @Param Create body models.Historical true "Create Historical"
-// @Param file formData file true "Upload image"
-// @Success 201 {object} models.HistoricalResponse
-// @Failure 400 {object} models.Error
-// @Failure 500 {object} models.Error
+// @Param file formData file true "Upload image file"
+// @Param name formData string true "Name of the historical site"
+// @Param description formData string true "Description of the historical site"
+// @Param city formData string true "City of the historical site"
+// @Param country formData string true "Country of the historical site"
+// @Param created_at formData string false "Creation date of the historical site"
+// @Param updated_at formData string false "Update date of the historical site"
+// @Success 201 {object} models.HistoricalResponse "Historical record successfully created"
+// @Failure 400 {object} models.Error "Bad request, validation error or invalid file"
+// @Failure 500 {object} models.Error "Internal server error"
 // @Router /historical/create [post]
 func (h *historyHandler) AddHistorical(c *gin.Context) {
+	log.Println("Request received for creating a historical record")
+
+	// Declare a new Historical struct to hold the form data
 	var his pb.Historical
 
-	if err := c.ShouldBindJSON(&his); err != nil {
-		h.logger.Error("Error occurred while binding json", err)
+	// Bind form data (including non-file fields) using ShouldBind
+	if err := c.ShouldBind(&his); err != nil {
+		h.logger.Error("Error occurred while binding form data", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
+	// Handle file upload (required in this case)
 	file, err := c.FormFile("file")
 	if err != nil {
-		h.logger.Error("Error occurred while getting file from form", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		h.logger.Error("Error occurred while retrieving file from form", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": "File upload is required"})
 		return
 	}
 
+	// Upload the file to MinIO (or another storage service)
 	url, err := minio.UploadNationality(file)
 	if err != nil {
 		h.logger.Error("Error occurred while uploading file", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error occurred while uploading file"})
 		return
 	}
 
+	// Set the ImageUrl in the Historical struct
 	his.ImageUrl = url
 
+	// Create the historical record using the service layer
 	req, err := h.historyService.AddHistorical(context.Background(), &his)
 	if err != nil {
 		h.logger.Error("Error occurred while calling AddHistorical", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+
+	// Return the created historical record response
 	c.JSON(http.StatusCreated, req)
 }
 

@@ -8,19 +8,6 @@ definitions:
         default: code cogan email ni kiriting
         type: string
     type: object
-  models.Attraction:
-    properties:
-      category:
-        type: string
-      country:
-        type: string
-      description:
-        type: string
-      location:
-        type: string
-      name:
-        type: string
-    type: object
   models.AttractionListResponse:
     properties:
       attractions:
@@ -201,23 +188,6 @@ definitions:
       username:
         type: string
     type: object
-  models.Historical:
-    properties:
-      city:
-        type: string
-      country:
-        type: string
-      created_at:
-        type: string
-      description:
-        type: string
-      image_url:
-        type: string
-      name:
-        type: string
-      updated_at:
-        type: string
-    type: object
   models.HistoricalListResponse:
     properties:
       historical:
@@ -329,29 +299,6 @@ definitions:
       massage:
         type: string
     type: object
-  models.NationalFood:
-    properties:
-      country:
-        type: string
-      created_at:
-        type: string
-      description:
-        type: string
-      food_type:
-        type: string
-      image_url:
-        type: string
-      ingredients:
-        type: string
-      name:
-        type: string
-      nationality:
-        type: string
-      rating:
-        type: integer
-      updated_at:
-        type: string
-    type: object
   models.NationalFoodListResponse:
     properties:
       national_food:
@@ -382,21 +329,6 @@ definitions:
       rating:
         type: integer
       updated_at:
-        type: string
-    type: object
-  models.Post:
-    properties:
-      content:
-        type: string
-      country:
-        type: string
-      description:
-        type: string
-      hashtag:
-        type: string
-      location:
-        type: string
-      title:
         type: string
     type: object
   models.PostListResponse:
@@ -808,38 +740,57 @@ paths:
   /attraction/create:
     post:
       consumes:
-      - application/json
-      description: Create a new Attraction
+      - multipart/form-data
+      description: Create a new Attraction, including an image upload
       parameters:
-      - description: Create Attraction
-        in: body
-        name: Create
-        required: true
-        schema:
-          $ref: '#/definitions/models.Attraction'
-      - description: Upload image
+      - description: Upload image file
         in: formData
         name: file
         required: true
         type: file
+      - description: Name of the attraction
+        in: formData
+        name: name
+        required: true
+        type: string
+      - description: Description of the attraction
+        in: formData
+        name: description
+        required: true
+        type: string
+      - description: Location of the attraction
+        in: formData
+        name: location
+        required: true
+        type: string
+      - description: Country of the attraction
+        in: formData
+        name: country
+        required: true
+        type: string
+      - description: Category of the attraction
+        in: formData
+        name: category
+        required: true
+        type: string
       produces:
       - application/json
       responses:
         "201":
-          description: Created
+          description: Attraction successfully created
           schema:
             $ref: '#/definitions/models.AttractionResponse'
         "400":
-          description: Bad Request
+          description: Bad request, validation error or invalid file
           schema:
             $ref: '#/definitions/models.Error'
         "500":
-          description: Internal Server Error
+          description: Internal server error
           schema:
             $ref: '#/definitions/models.Error'
       security:
       - BearerAuth: []
-      summary: Create Attraction
+      summary: Create a new Attraction
       tags:
       - Attraction
   /attraction/delete/{id}:
@@ -1835,38 +1786,60 @@ paths:
   /historical/create:
     post:
       consumes:
-      - application/json
-      description: Create a new Historical
+      - multipart/form-data
+      description: Create a new Historical record, including an image upload
       parameters:
-      - description: Create Historical
-        in: body
-        name: Create
-        required: true
-        schema:
-          $ref: '#/definitions/models.Historical'
-      - description: Upload image
+      - description: Upload image file
         in: formData
         name: file
         required: true
         type: file
+      - description: Name of the historical site
+        in: formData
+        name: name
+        required: true
+        type: string
+      - description: Description of the historical site
+        in: formData
+        name: description
+        required: true
+        type: string
+      - description: City of the historical site
+        in: formData
+        name: city
+        required: true
+        type: string
+      - description: Country of the historical site
+        in: formData
+        name: country
+        required: true
+        type: string
+      - description: Creation date of the historical site
+        in: formData
+        name: created_at
+        type: string
+      - description: Update date of the historical site
+        in: formData
+        name: updated_at
+        type: string
       produces:
       - application/json
       responses:
         "201":
-          description: Created
+          description: Historical record successfully created
           schema:
             $ref: '#/definitions/models.HistoricalResponse'
         "400":
-          description: Bad Request
+          description: Bad request, validation error or invalid file
           schema:
             $ref: '#/definitions/models.Error'
         "500":
-          description: Internal Server Error
+          description: Internal server error
           schema:
             $ref: '#/definitions/models.Error'
       security:
       - BearerAuth: []
-      summary: Create Historical
+      summary: Create a new Historical record
       tags:
       - Historical
   /historical/delete/{id}:
@@ -2314,38 +2287,70 @@ paths:
   /national/create:
     post:
       consumes:
-      - application/json
-      description: Create a new NationalFood
+      - multipart/form-data
+      description: Create a new NationalFood, including an optional image upload
       parameters:
-      - description: Upload image
+      - description: Upload image file (optional)
         in: formData
         name: file
-        required: true
         type: file
-      - description: Create NationalFood
-        in: body
-        name: Create
+      - description: Country of the food
+        in: formData
+        name: country
         required: true
-        schema:
-          $ref: '#/definitions/models.NationalFood'
+        type: string
+      - description: Creation date
+        in: formData
+        name: created_at
+        type: string
+      - description: Description of the food
+        in: formData
+        name: description
+        required: true
+        type: string
+      - description: Type of the food
+        in: formData
+        name: food_type
+        required: true
+        type: string
+      - description: Ingredients
+        in: formData
+        name: ingredients
+        required: true
+        type: string
+      - description: Name of the food
+        in: formData
+        name: name
+        required: true
+        type: string
+      - description: Nationality of the food
+        in: formData
+        name: nationality
+        required: true
+        type: string
+      - description: Rating of the food
+        in: formData
+        name: rating
+        required: true
+        type: number
       produces:
       - application/json
       responses:
         "201":
-          description: Created
+          description: National food successfully created
           schema:
             $ref: '#/definitions/models.NationalFoodResponse'
         "400":
-          description: Bad Request
+          description: Bad request, validation error or invalid file
           schema:
             $ref: '#/definitions/models.Error'
         "500":
-          description: Internal Server Error
+          description: Internal server error
           schema:
             $ref: '#/definitions/models.Error'
       security:
       - BearerAuth: []
-      summary: Create NationalFood
+      summary: Create a new NationalFood
       tags:
       - NationalFood
   /national/delete/{id}:
@@ -2539,38 +2544,61 @@ paths:
   /post/create:
     post:
       consumes:
-      - application/json
-      description: Create a new post
+      - multipart/form-data
+      description: Create a new post, including an optional image upload
       parameters:
-      - description: Create post
-        in: body
-        name: Create
-        required: true
-        schema:
-          $ref: '#/definitions/models.Post'
-      - description: Upload image
+      - description: Upload image file (optional)
         in: formData
         name: file
-        required: true
         type: file
+      - description: Content of the post
+        in: formData
+        name: content
+        required: true
+        type: string
+      - description: Country of the post
+        in: formData
+        name: country
+        required: true
+        type: string
+      - description: Description of the post
+        in: formData
+        name: description
+        required: true
+        type: string
+      - description: Hashtag for the post
+        in: formData
+        name: hashtag
+        required: true
+        type: string
+      - description: Location for the post
+        in: formData
+        name: location
+        required: true
+        type: string
+      - description: Title of the post
+        in: formData
+        name: title
+        required: true
+        type: string
       produces:
       - application/json
       responses:
         "201":
-          description: Created
+          description: Post successfully created
           schema:
             $ref: '#/definitions/models.PostResponse'
         "400":
-          description: Bad Request
+          description: Bad request, validation error or invalid file
           schema:
             $ref: '#/definitions/models.Error'
         "500":
-          description: Internal Server Error
+          description: Internal server error
           schema:
             $ref: '#/definitions/models.Error'
       security:
       - BearerAuth: []
-      summary: Create Post
+      summary: Create a new post
       tags:
       - Posts
   /post/delete/{id}:

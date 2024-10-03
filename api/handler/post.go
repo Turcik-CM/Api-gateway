@@ -42,50 +42,74 @@ func NewPostHandler(postService service.Service, logger *slog.Logger) PostHandle
 }
 
 // CreatePost godoc
-// @Summary Create Post
-// @Description Create a new post
+// @Summary Create a new post
+// @Description Create a new post, including an optional image upload
 // @Security BearerAuth
 // @Tags Posts
-// @Accept json
+// @Accept multipart/form-data
 // @Produce json
-// @Param Create body models.Post true "Create post"
-// @Param file formData file true "Upload image"
-// @Success 201 {object} models.PostResponse
-// @Failure 400 {object} models.Error
-// @Failure 500 {object} models.Error
+// @Param file formData file false "Upload image file (optional)"
+// @Param content formData string true "Content of the post"
+// @Param country formData string true "Country of the post"
+// @Param description formData string true "Description of the post"
+// @Param hashtag formData string true "Hashtag for the post"
+// @Param location formData string true "Location for the post"
+// @Param title formData string true "Title of the post"
+// @Success 201 {object} models.PostResponse "Post successfully created"
+// @Failure 400 {object} models.Error "Bad request, validation error or invalid file"
+// @Failure 500 {object} models.Error "Internal server error"
 // @Router /post/create [post]
 func (h *postHandler) CreatePost(c *gin.Context) {
+	log.Println("Request received")
+
+	// Declare a new Post struct to hold the form data
 	var post pb.Post
 
-	if err := c.ShouldBindJSON(&post); err != nil {
-		h.logger.Error("Error occurred while binding json", err)
+	// Parse the multipart form data, including file and fields
+	if err := c.ShouldBind(&post); err != nil {
+		log.Println("Failed to bind form data")
+		h.logger.Error("Error occurred while binding form data:", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
+	// Handle optional file upload
+	var url string
 	file, err := c.FormFile("file")
-	if err != nil {
-		h.logger.Error("Error occurred while getting file from form", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+	if err == nil {
+		// If a file is uploaded, proceed with uploading it
+		url, err = minio.UploadPost(file)
+		if err != nil {
+			log.Println("Error occurred while uploading file")
+			h.logger.Error("Error occurred while uploading file:", err)
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		// Set the ImageUrl in the post struct
+		post.ImageUrl = url
+	} else {
+		log.Println("No file uploaded, continuing without an image")
 	}
 
-	url, err := minio.UploadPost(file)
-	if err != nil {
-		h.logger.Error("Error occurred while uploading file", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	// Set the user ID from the context (assuming the user is authenticated)
+	userId, exists := c.Get("user_id")
+	if !exists {
+		log.Println("User ID not found in context")
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
 		return
 	}
+	post.UserId = userId.(string)
 
-	post.ImageUrl = url
-	post.UserId = c.MustGet("user_id").(string)
-
+	// Create the post using the service layer
 	req, err := h.postService.CreatePost(context.Background(), &post)
 	if err != nil {
-		h.logger.Error("Error occurred while creating post", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		log.Println("Error occurred while creating post in service")
+		h.logger.Error("Error occurred while creating post:", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+
+	// Return the created post response
 	c.JSON(http.StatusCreated, gin.H{"post": req})
 }
 
