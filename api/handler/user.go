@@ -31,6 +31,12 @@ type UserHandler interface {
 	Follow(c *gin.Context)
 	Unfollow(c *gin.Context)
 	MostPopularUser(c *gin.Context)
+
+	AddNationality(c *gin.Context)
+	GetNationalityById(c *gin.Context)
+	UpdateNationality(c *gin.Context)
+	ListNationalities(c *gin.Context)
+	DeleteNationality(c *gin.Context)
 }
 
 type userHandler struct {
@@ -498,4 +504,162 @@ func (h *userHandler) MostPopularUser(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, req)
+}
+
+// AddNationality godoc
+// @Summary Add Nationality
+// @Description Add a new nationality
+// @Security BearerAuth
+// @Tags Admin
+// @Accept json
+// @Produce json
+// @Param Nationality body user.Nat true "Nationality data"
+// @Success 200 {object} user.Nationality
+// @Failure 400 {object} models.Error
+// @Failure 500 {object} models.Error
+// @Router /admin/add-nationality [post]
+func (h *userHandler) AddNationality(c *gin.Context) {
+	var nationality pb.Nat
+
+	if err := c.ShouldBindJSON(&nationality); err != nil {
+		h.logger.Error("Error occurred while binding json", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	res, err := h.userService.AddNationality(context.Background(), &nationality)
+	if err != nil {
+		h.logger.Error("Error occurred while adding nationality", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, res)
+}
+
+// GetNationalityById godoc
+// @Summary Get Nationality by ID
+// @Description Retrieve nationality information by ID
+// @Security BearerAuth
+// @Tags Admin
+// @Accept json
+// @Produce json
+// @Param id path string true "Nationality ID"
+// @Success 200 {object} user.Nationality
+// @Failure 400 {object} models.Error
+// @Failure 500 {object} models.Error
+// @Router /admin/nationality/{id} [get]
+func (h *userHandler) GetNationalityById(c *gin.Context) {
+	req := pb.NId{
+		Id: c.Param("id"),
+	}
+
+	res, err := h.userService.GetNationalityById(context.Background(), &req)
+	if err != nil {
+		h.logger.Error("Error occurred while fetching nationality", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, res)
+}
+
+// ListNationalities godoc
+// @Summary List Nationalities
+// @Description Retrieve a paginated list of nationalities
+// @Security BearerAuth
+// @Tags Admin
+// @Accept json
+// @Produce json
+// @Param page query int false "Page number"
+// @Param limit query int false "Limit of nationalities per page"
+// @Success 200 {object} user.Nationalities
+// @Failure 400 {object} models.Error
+// @Failure 500 {object} models.Error
+// @Router /admin/nationalities [get]
+func (h *userHandler) ListNationalities(c *gin.Context) {
+	pageStr := c.Query("page")
+	limitStr := c.Query("limit")
+
+	page, err := strconv.Atoi(pageStr)
+	if err != nil {
+		page = 1
+	}
+
+	limit, err := strconv.Atoi(limitStr)
+	if err != nil {
+		limit = 10
+	}
+
+	req := pb.Pagination{
+		Page:  int32(page),
+		Limit: int32(limit),
+	}
+
+	res, err := h.userService.ListNationalities(context.Background(), &req)
+	if err != nil {
+		h.logger.Error("Error occurred while listing nationalities", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, res)
+}
+
+// UpdateNationality godoc
+// @Summary Update Nationality
+// @Description Update nationality details
+// @Security BearerAuth
+// @Tags Admin
+// @Accept json
+// @Produce json
+// @Param Nationality body user.Nationality true "Nationality data"
+// @Success 200 {object} models.Void
+// @Failure 400 {object} models.Error
+// @Failure 500 {object} models.Error
+// @Router /admin/update-nationality [put]
+func (h *userHandler) UpdateNationality(c *gin.Context) {
+	var nationality pb.Nationality
+
+	if err := c.ShouldBindJSON(&nationality); err != nil {
+		h.logger.Error("Error occurred while binding json", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	_, err := h.userService.UpdateNationality(context.Background(), &nationality)
+	if err != nil {
+		h.logger.Error("Error occurred while updating nationality", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Nationality updated successfully"})
+}
+
+// DeleteNationality godoc
+// @Summary Delete Nationality
+// @Description Delete a nationality by ID
+// @Security BearerAuth
+// @Tags Admin
+// @Accept json
+// @Produce json
+// @Param id path string true "Nationality ID"
+// @Success 200 {object} models.Void
+// @Failure 400 {object} models.Error
+// @Failure 500 {object} models.Error
+// @Router /admin/delete-nationality/{id} [delete]
+func (h *userHandler) DeleteNationality(c *gin.Context) {
+	req := pb.NId{
+		Id: c.Param("id"),
+	}
+
+	_, err := h.userService.DeleteNationality(context.Background(), &req)
+	if err != nil {
+		h.logger.Error("Error occurred while deleting nationality", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Nationality deleted successfully"})
 }

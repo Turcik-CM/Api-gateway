@@ -94,7 +94,7 @@ func (h *attractionsHandler) CreateAttraction(c *gin.Context) {
 	att.ImageURL = url
 
 	res := pb.Attraction{
-		Country:     att.Country,
+		City:        att.Country,
 		Name:        att.Name,
 		Description: att.Description,
 		Category:    att.Category,
@@ -224,7 +224,7 @@ func (h *attractionsHandler) ListAttractions(c *gin.Context) {
 	post.Offset = int64(offsets)
 	post.Name = name
 	post.Description = description
-	post.Country = country
+	post.City = country
 	post.Category = category
 
 	req, err := h.attractionsService.ListAttraction(context.Background(), &post)

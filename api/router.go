@@ -116,6 +116,11 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer, re
 		admin.POST("/create-user", user.Create)
 		admin.DELETE("/delete-user/:user_id", user.DeleteUser)
 		admin.GET("/user-by-id/:id", user.GetProfileById)
+		admin.POST("/add-nationality", user.AddNationality)
+		admin.GET("/nationality/:id", user.GetNationalityById)
+		admin.GET("/nationalities", user.ListNationalities)
+		admin.PUT("/update-nationality", user.UpdateNationality)
+		admin.DELETE("/delete-nationality/:id", user.DeleteNationality)
 	}
 
 	userGroup := router1.Group("/user")

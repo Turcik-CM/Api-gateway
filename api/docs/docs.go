@@ -15,6 +15,57 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/admin/add-nationality": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Add a new nationality",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Add Nationality",
+                "parameters": [
+                    {
+                        "description": "Nationality data",
+                        "name": "Nationality",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.Nat"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/user.Nationality"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/admin/create-user": {
             "post": {
                 "security": [
@@ -49,6 +100,55 @@ const docTemplate = `{
                         "description": "Created",
                         "schema": {
                             "$ref": "#/definitions/models.UserResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/delete-nationality/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete a nationality by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Delete Nationality",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Nationality ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Void"
                         }
                     },
                     "400": {
@@ -158,6 +258,160 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/user.UserResponses"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/nationalities": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a paginated list of nationalities",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "List Nationalities",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Limit of nationalities per page",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/user.Nationalities"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/nationality/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve nationality information by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Get Nationality by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Nationality ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/user.Nationality"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/update-nationality": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update nationality details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Update Nationality",
+                "parameters": [
+                    {
+                        "description": "Nationality data",
+                        "name": "Nationality",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.Nationality"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Void"
                         }
                     },
                     "400": {
@@ -537,7 +791,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Attraction successfully created",
                         "schema": {
-                            "$ref": "#/definitions/models.AttractionResponse"
+                            "$ref": "#/definitions/nationality.AttractionResponse"
                         }
                     },
                     "400": {
@@ -629,7 +883,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.AttractionResponse"
+                            "$ref": "#/definitions/nationality.AttractionResponse"
                         }
                     },
                     "400": {
@@ -760,7 +1014,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.AttractionListResponse"
+                            "$ref": "#/definitions/nationality.AttractionListResponse"
                         }
                     },
                     "400": {
@@ -817,7 +1071,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.AttractionListResponse"
+                            "$ref": "#/definitions/nationality.AttractionListResponse"
                         }
                     },
                     "400": {
@@ -917,7 +1171,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.AttractionResponse"
+                            "$ref": "#/definitions/nationality.AttractionResponse"
                         }
                     },
                     "400": {
@@ -2453,7 +2707,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Attraction successfully created",
                         "schema": {
-                            "$ref": "#/definitions/models.AttractionResponse"
+                            "$ref": "#/definitions/nationality.AttractionResponse"
                         }
                     },
                     "400": {
@@ -2738,7 +2992,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Historical record successfully created",
                         "schema": {
-                            "$ref": "#/definitions/models.HistoricalResponse"
+                            "$ref": "#/definitions/nationality.HistoricalResponse"
                         }
                     },
                     "400": {
@@ -2830,7 +3084,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.HistoricalResponse"
+                            "$ref": "#/definitions/nationality.HistoricalResponse"
                         }
                     },
                     "400": {
@@ -2922,19 +3176,21 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "default": "Uzbekistan",
+                        "name": "city",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
                         "name": "country",
                         "in": "query"
                     },
                     {
                         "type": "integer",
-                        "default": 10,
                         "name": "limit",
                         "in": "query"
                     },
                     {
                         "type": "integer",
-                        "default": 0,
                         "name": "offset",
                         "in": "query"
                     }
@@ -2943,7 +3199,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.HistoricalListResponse"
+                            "$ref": "#/definitions/nationality.HistoricalListResponse"
                         }
                     },
                     "400": {
@@ -2979,7 +3235,6 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "default": "dodi",
                         "name": "search",
                         "in": "query"
                     }
@@ -2988,7 +3243,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.HistoricalListResponse"
+                            "$ref": "#/definitions/nationality.HistoricalListResponse"
                         }
                     },
                     "400": {
@@ -3031,7 +3286,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.UpdateHistorical"
+                            "$ref": "#/definitions/nationality.UpdateHistorical"
                         }
                     }
                 ],
@@ -3039,7 +3294,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.HistoricalResponse"
+                            "$ref": "#/definitions/nationality.HistoricalResponse"
                         }
                     },
                     "400": {
@@ -3489,50 +3744,36 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Country of the food",
-                        "name": "country",
+                        "description": "food_name of the food",
+                        "name": "food_name",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Description of the food",
-                        "name": "description",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Type of the food",
+                        "description": "food_type of the food",
                         "name": "food_type",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Ingredients",
+                        "description": "country_id of the food",
+                        "name": "country_id",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "description",
+                        "name": "description",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "ingredients of the food",
                         "name": "ingredients",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Name of the food",
-                        "name": "name",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Nationality of the food",
-                        "name": "nationality",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "number",
-                        "description": "Rating of the food",
-                        "name": "rating",
                         "in": "formData",
                         "required": true
                     }
@@ -3633,7 +3874,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.NationalFoodResponse"
+                            "$ref": "#/definitions/nationality.NationalFoodResponse"
                         }
                     },
                     "400": {
@@ -3746,7 +3987,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.NationalFoodListResponse"
+                            "$ref": "#/definitions/nationality.NationalFoodListResponse"
                         }
                     },
                     "400": {
@@ -3797,7 +4038,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.NationalFoodResponse"
+                            "$ref": "#/definitions/nationality.NationalFoodResponse"
                         }
                     },
                     "400": {
@@ -4726,49 +4967,6 @@ const docTemplate = `{
                 }
             }
         },
-        "models.AttractionListResponse": {
-            "type": "object",
-            "properties": {
-                "attractions": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/models.AttractionResponse"
-                    }
-                }
-            }
-        },
-        "models.AttractionResponse": {
-            "type": "object",
-            "properties": {
-                "category": {
-                    "type": "string"
-                },
-                "country": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "image_url": {
-                    "type": "string"
-                },
-                "location": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                }
-            }
-        },
         "models.ChangePasswordRequest": {
             "type": "object",
             "properties": {
@@ -5007,46 +5205,6 @@ const docTemplate = `{
                 }
             }
         },
-        "models.HistoricalListResponse": {
-            "type": "object",
-            "properties": {
-                "historical": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/models.HistoricalResponse"
-                    }
-                }
-            }
-        },
-        "models.HistoricalResponse": {
-            "type": "object",
-            "properties": {
-                "city": {
-                    "type": "string"
-                },
-                "country": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "image_url": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                }
-            }
-        },
         "models.LikeComResponse": {
             "type": "object",
             "properties": {
@@ -5185,17 +5343,6 @@ const docTemplate = `{
             "properties": {
                 "massage": {
                     "type": "string"
-                }
-            }
-        },
-        "models.NationalFoodListResponse": {
-            "type": "object",
-            "properties": {
-                "national_food": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/models.NationalFoodResponse"
-                    }
                 }
             }
         },
@@ -5443,35 +5590,6 @@ const docTemplate = `{
                 }
             }
         },
-        "models.UpdateHistorical": {
-            "type": "object",
-            "properties": {
-                "city": {
-                    "type": "string",
-                    "default": "Uzbekistan"
-                },
-                "country": {
-                    "type": "string",
-                    "default": "Uzbekistan"
-                },
-                "description": {
-                    "type": "string",
-                    "default": "dodi"
-                },
-                "id": {
-                    "type": "string",
-                    "default": "0"
-                },
-                "image_url": {
-                    "type": "string",
-                    "default": "0"
-                },
-                "name": {
-                    "type": "string",
-                    "default": "dodi"
-                }
-            }
-        },
         "models.UpdateMs": {
             "type": "object",
             "properties": {
@@ -5547,9 +5665,6 @@ const docTemplate = `{
                 "phone_number": {
                     "type": "string"
                 },
-                "profile_image": {
-                    "type": "string"
-                },
                 "username": {
                     "type": "string"
                 }
@@ -5598,6 +5713,49 @@ const docTemplate = `{
         "models.Void": {
             "type": "object"
         },
+        "nationality.AttractionListResponse": {
+            "type": "object",
+            "properties": {
+                "attractions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/nationality.AttractionResponse"
+                    }
+                }
+            }
+        },
+        "nationality.AttractionResponse": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
         "nationality.AttractionType1": {
             "type": "object",
             "properties": {
@@ -5615,19 +5773,13 @@ const docTemplate = `{
         "nationality.Country": {
             "type": "object",
             "properties": {
-                "city": {
-                    "type": "string"
-                },
-                "country": {
-                    "type": "string"
-                },
                 "id": {
                     "type": "string"
                 },
                 "image_url": {
                     "type": "string"
                 },
-                "nationality": {
+                "name": {
                     "type": "string"
                 }
             }
@@ -5698,6 +5850,46 @@ const docTemplate = `{
                 }
             }
         },
+        "nationality.HistoricalListResponse": {
+            "type": "object",
+            "properties": {
+                "historical": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/nationality.HistoricalResponse"
+                    }
+                }
+            }
+        },
+        "nationality.HistoricalResponse": {
+            "type": "object",
+            "properties": {
+                "city": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
         "nationality.ListAttractionTypesResponse": {
             "type": "object",
             "properties": {
@@ -5725,6 +5917,46 @@ const docTemplate = `{
             "properties": {
                 "message": {
                     "description": "Corrected typo",
+                    "type": "string"
+                }
+            }
+        },
+        "nationality.NationalFoodListResponse": {
+            "type": "object",
+            "properties": {
+                "national_food": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/nationality.NationalFoodResponse"
+                    }
+                }
+            }
+        },
+        "nationality.NationalFoodResponse": {
+            "type": "object",
+            "properties": {
+                "country_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "food_name": {
+                    "type": "string"
+                },
+                "food_type": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "ingredients": {
                     "type": "string"
                 }
             }
@@ -5779,6 +6011,35 @@ const docTemplate = `{
                 }
             }
         },
+        "nationality.UpdateHistorical": {
+            "type": "object",
+            "properties": {
+                "city": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
         "user.FollowUser": {
             "type": "object",
             "properties": {
@@ -5798,6 +6059,42 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/user.FollowUser"
                     }
+                }
+            }
+        },
+        "user.Nat": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "user.Nationalities": {
+            "type": "object",
+            "properties": {
+                "nationalities": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/user.Nationality"
+                    }
+                }
+            }
+        },
+        "user.Nationality": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
                 }
             }
         },
