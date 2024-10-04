@@ -241,7 +241,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/nationality.CreateAttractionTypeRequest"
+                            "$ref": "#/definitions/models.CreateAttractionTypeRequest"
                         }
                     }
                 ],
@@ -249,7 +249,7 @@
                     "201": {
                         "description": "Attraction Type successfully created",
                         "schema": {
-                            "$ref": "#/definitions/nationality.CreateAttractionTypeResponse"
+                            "$ref": "#/definitions/models.CreateAttractionTypeResponse"
                         }
                     },
                     "400": {
@@ -341,7 +341,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/nationality.GetAttractionTypeResponse"
+                            "$ref": "#/definitions/models.GetAttractionTypeResponse"
                         }
                     },
                     "400": {
@@ -395,7 +395,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/nationality.ListAttractionTypesResponse"
+                            "$ref": "#/definitions/models.ListAttractionTypesResponse"
                         }
                     },
                     "400": {
@@ -438,7 +438,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/nationality.UpdateAttractionTypeRequest"
+                            "$ref": "#/definitions/models.UpdateAttractionTypeRequest"
                         }
                     }
                 ],
@@ -446,7 +446,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/nationality.UpdateAttractionTypeResponse"
+                            "$ref": "#/definitions/models.UpdateAttractionTypeResponse"
                         }
                     },
                     "400": {
@@ -4736,6 +4736,20 @@
                 }
             }
         },
+        "models.AttractionType": {
+            "type": "object",
+            "properties": {
+                "activity": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "models.ChangePasswordRequest": {
             "type": "object",
             "properties": {
@@ -4841,6 +4855,25 @@
                 },
                 "name": {
                     "type": "string"
+                }
+            }
+        },
+        "models.CreateAttractionTypeRequest": {
+            "type": "object",
+            "properties": {
+                "activity": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.CreateAttractionTypeResponse": {
+            "type": "object",
+            "properties": {
+                "attraction_type": {
+                    "$ref": "#/definitions/models.AttractionType"
                 }
             }
         },
@@ -4969,6 +5002,14 @@
                 }
             }
         },
+        "models.GetAttractionTypeResponse": {
+            "type": "object",
+            "properties": {
+                "attraction_type": {
+                    "$ref": "#/definitions/models.AttractionType"
+                }
+            }
+        },
         "models.GetCountryResponse": {
             "type": "object",
             "properties": {
@@ -5074,6 +5115,17 @@
                 },
                 "post_id": {
                     "type": "string"
+                }
+            }
+        },
+        "models.ListAttractionTypesResponse": {
+            "type": "object",
+            "properties": {
+                "attraction_types": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.AttractionType"
+                    }
                 }
             }
         },
@@ -5392,6 +5444,28 @@
                 }
             }
         },
+        "models.UpdateAttractionTypeRequest": {
+            "type": "object",
+            "properties": {
+                "activity": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.UpdateAttractionTypeResponse": {
+            "type": "object",
+            "properties": {
+                "attraction_type": {
+                    "$ref": "#/definitions/models.AttractionType"
+                }
+            }
+        },
         "models.UpdateCountryRequest": {
             "type": "object",
             "properties": {
@@ -5574,47 +5648,6 @@
                 }
             }
         },
-        "nationality.AttractionType1": {
-            "type": "object",
-            "properties": {
-                "activity": {
-                    "type": "integer"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "nationality.CreateAttractionTypeRequest": {
-            "type": "object",
-            "properties": {
-                "activity": {
-                    "type": "integer"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "nationality.CreateAttractionTypeResponse": {
-            "type": "object",
-            "properties": {
-                "attraction_type": {
-                    "$ref": "#/definitions/nationality.AttractionType1"
-                }
-            }
-        },
-        "nationality.GetAttractionTypeResponse": {
-            "type": "object",
-            "properties": {
-                "attraction_type": {
-                    "$ref": "#/definitions/nationality.AttractionType1"
-                }
-            }
-        },
         "nationality.HistoricalListResponse": {
             "type": "object",
             "properties": {
@@ -5655,17 +5688,6 @@
                 }
             }
         },
-        "nationality.ListAttractionTypesResponse": {
-            "type": "object",
-            "properties": {
-                "attraction_types": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/nationality.AttractionType1"
-                    }
-                }
-            }
-        },
         "nationality.UpdateAttraction": {
             "type": "object",
             "properties": {
@@ -5695,28 +5717,6 @@
                 },
                 "updated_at": {
                     "type": "string"
-                }
-            }
-        },
-        "nationality.UpdateAttractionTypeRequest": {
-            "type": "object",
-            "properties": {
-                "activity": {
-                    "type": "integer"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "nationality.UpdateAttractionTypeResponse": {
-            "type": "object",
-            "properties": {
-                "attraction_type": {
-                    "$ref": "#/definitions/nationality.AttractionType1"
                 }
             }
         },

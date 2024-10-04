@@ -29,6 +29,15 @@ definitions:
       updated_at:
         type: string
     type: object
+  models.AttractionType:
+    properties:
+      activity:
+        type: integer
+      id:
+        type: string
+      name:
+        type: string
+    type: object
   models.ChangePasswordRequest:
     properties:
       current_password:
@@ -99,6 +108,18 @@ definitions:
         type: string
       name:
         type: string
+    type: object
+  models.CreateAttractionTypeRequest:
+    properties:
+      activity:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.CreateAttractionTypeResponse:
+    properties:
+      attraction_type:
+        $ref: '#/definitions/models.AttractionType'
     type: object
   models.CreateChat:
     properties:
@@ -182,6 +203,11 @@ definitions:
       email:
         type: string
     type: object
+  models.GetAttractionTypeResponse:
+    properties:
+      attraction_type:
+        $ref: '#/definitions/models.AttractionType'
+    type: object
   models.GetCountryResponse:
     properties:
       id:
@@ -251,6 +277,13 @@ definitions:
         type: string
       post_id:
         type: string
+    type: object
+  models.ListAttractionTypesResponse:
+    properties:
+      attraction_types:
+        items:
+          $ref: '#/definitions/models.AttractionType'
+        type: array
     type: object
   models.ListCountriesResponse:
     properties:
@@ -467,6 +500,20 @@ definitions:
         default: dodi
         type: string
     type: object
+  models.UpdateAttractionTypeRequest:
+    properties:
+      activity:
+        type: integer
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  models.UpdateAttractionTypeResponse:
+    properties:
+      attraction_type:
+        $ref: '#/definitions/models.AttractionType'
+    type: object
   models.UpdateCountryRequest:
     properties:
       id:
@@ -586,32 +633,6 @@ definitions:
       updated_at:
         type: string
     type: object
-  nationality.AttractionType1:
-    properties:
-      activity:
-        type: integer
-      id:
-        type: string
-      name:
-        type: string
-    type: object
-  nationality.CreateAttractionTypeRequest:
-    properties:
-      activity:
-        type: integer
-      name:
-        type: string
-    type: object
-  nationality.CreateAttractionTypeResponse:
-    properties:
-      attraction_type:
-        $ref: '#/definitions/nationality.AttractionType1'
-    type: object
-  nationality.GetAttractionTypeResponse:
-    properties:
-      attraction_type:
-        $ref: '#/definitions/nationality.AttractionType1'
-    type: object
   nationality.HistoricalListResponse:
     properties:
       historical:
@@ -638,13 +659,6 @@ definitions:
       updated_at:
         type: string
     type: object
-  nationality.ListAttractionTypesResponse:
-    properties:
-      attraction_types:
-        items:
-          $ref: '#/definitions/nationality.AttractionType1'
-        type: array
-    type: object
   nationality.UpdateAttraction:
     properties:
       category:
@@ -665,20 +679,6 @@ definitions:
         type: string
       updated_at:
         type: string
-    type: object
-  nationality.UpdateAttractionTypeRequest:
-    properties:
-      activity:
-        type: integer
-      id:
-        type: string
-      name:
-        type: string
-    type: object
-  nationality.UpdateAttractionTypeResponse:
-    properties:
-      attraction_type:
-        $ref: '#/definitions/nationality.AttractionType1'
     type: object
   nationality.UpdateHistorical:
     properties:
@@ -890,14 +890,14 @@ paths:
         name: CreateAttractionTypeRequest
         required: true
         schema:
-          $ref: '#/definitions/nationality.CreateAttractionTypeRequest'
+          $ref: '#/definitions/models.CreateAttractionTypeRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Attraction Type successfully created
           schema:
-            $ref: '#/definitions/nationality.CreateAttractionTypeResponse'
+            $ref: '#/definitions/models.CreateAttractionTypeResponse'
         "400":
           description: Bad request, validation error
           schema:
@@ -955,7 +955,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/nationality.GetAttractionTypeResponse'
+            $ref: '#/definitions/models.GetAttractionTypeResponse'
         "400":
           description: Bad Request
           schema:
@@ -988,7 +988,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/nationality.ListAttractionTypesResponse'
+            $ref: '#/definitions/models.ListAttractionTypesResponse'
         "400":
           description: Bad Request
           schema:
@@ -1013,14 +1013,14 @@ paths:
         name: UpdateAttractionTypeRequest
         required: true
         schema:
-          $ref: '#/definitions/nationality.UpdateAttractionTypeRequest'
+          $ref: '#/definitions/models.UpdateAttractionTypeRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/nationality.UpdateAttractionTypeResponse'
+            $ref: '#/definitions/models.UpdateAttractionTypeResponse'
         "400":
           description: Bad Request
           schema:
