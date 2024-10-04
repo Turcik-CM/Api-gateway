@@ -8,6 +8,39 @@ definitions:
         default: code cogan email ni kiriting
         type: string
     type: object
+<<<<<<< HEAD
+=======
+  models.AttractionResponse:
+    properties:
+      category:
+        type: string
+      country:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      image_url:
+        type: string
+      location:
+        type: string
+      name:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.AttractionType:
+    properties:
+      activity:
+        type: integer
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+>>>>>>> 35c4d3b8ab68e0bcd38a5b5efe85c6154a181661
   models.ChangePasswordRequest:
     properties:
       current_password:
@@ -70,10 +103,45 @@ definitions:
           $ref: '#/definitions/models.CommentResponse'
         type: array
     type: object
+  models.Country:
+    properties:
+      id:
+        type: string
+      image_url:
+        type: string
+      name:
+        type: string
+    type: object
+  models.CreateAttractionTypeRequest:
+    properties:
+      activity:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.CreateAttractionTypeResponse:
+    properties:
+      attraction_type:
+        $ref: '#/definitions/models.AttractionType'
+    type: object
   models.CreateChat:
     properties:
       user2_id:
         default: "0"
+        type: string
+    type: object
+  models.CreateCityRequest:
+    properties:
+      country_id:
+        type: string
+      name:
+        type: string
+    type: object
+  models.CreateCityResponse:
+    properties:
+      id:
+        type: string
+      name:
         type: string
     type: object
   models.CreateMassage:
@@ -136,6 +204,20 @@ definitions:
       email:
         type: string
     type: object
+  models.GetAttractionTypeResponse:
+    properties:
+      attraction_type:
+        $ref: '#/definitions/models.AttractionType'
+    type: object
+  models.GetCountryResponse:
+    properties:
+      id:
+        type: string
+      image_url:
+        type: string
+      name:
+        type: string
+    type: object
   models.GetProfileResponse:
     properties:
       bio:
@@ -196,6 +278,20 @@ definitions:
         type: string
       post_id:
         type: string
+    type: object
+  models.ListAttractionTypesResponse:
+    properties:
+      attraction_types:
+        items:
+          $ref: '#/definitions/models.AttractionType'
+        type: array
+    type: object
+  models.ListCountriesResponse:
+    properties:
+      countries:
+        items:
+          $ref: '#/definitions/models.Country'
+        type: array
     type: object
   models.LoginEmailRequest:
     properties:
@@ -268,8 +364,6 @@ definitions:
         type: string
       description:
         type: string
-      food_type:
-        type: string
       id:
         type: string
       image_url:
@@ -278,12 +372,8 @@ definitions:
         type: string
       name:
         type: string
-      nationality:
-        type: string
       rating:
         type: integer
-      updated_at:
-        type: string
     type: object
   models.PostListResponse:
     properties:
@@ -404,30 +494,32 @@ definitions:
         default: dodi
         type: string
     type: object
-  models.UpdateAttraction:
+  models.UpdateAttractionTypeRequest:
     properties:
-      category:
-        default: culture
-        type: string
-      country:
-        default: Uzbekistan
-        type: string
-      description:
-        default: "0"
-        type: string
+      activity:
+        type: integer
       id:
-        default: "0"
-        type: string
-      image_url:
-        default: "0"
-        type: string
-      location:
-        default: dodi
         type: string
       name:
-        default: "0"
         type: string
     type: object
+<<<<<<< HEAD
+=======
+  models.UpdateAttractionTypeResponse:
+    properties:
+      attraction_type:
+        $ref: '#/definitions/models.AttractionType'
+    type: object
+  models.UpdateCountryResponse:
+    properties:
+      id:
+        type: string
+      image_url:
+        type: string
+      name:
+        type: string
+    type: object
+>>>>>>> 35c4d3b8ab68e0bcd38a5b5efe85c6154a181661
   models.UpdateMs:
     properties:
       message_id:
@@ -440,31 +532,20 @@ definitions:
   models.UpdateNationalFood:
     properties:
       country:
-        default: dodi
+        type: string
+      created_at:
         type: string
       description:
-        default: dodi
-        type: string
-      food_type:
-        default: dodi
         type: string
       id:
-        default: "0"
         type: string
       image_url:
-        default: "0"
         type: string
       ingredients:
-        default: dodi
         type: string
       name:
-        default: dodi
-        type: string
-      nationality:
-        default: dodi
         type: string
       rating:
-        default: 120000
         type: integer
     type: object
   models.UpdateProfileRequest:
@@ -513,6 +594,7 @@ definitions:
   models.Void:
     type: object
   nationality.AttractionListResponse:
+<<<<<<< HEAD
     properties:
       attractions:
         items:
@@ -541,20 +623,57 @@ definitions:
         type: string
     type: object
   nationality.AttractionType1:
+=======
+>>>>>>> 35c4d3b8ab68e0bcd38a5b5efe85c6154a181661
     properties:
-      activity:
-        type: integer
-      id:
-        type: string
-      name:
-        type: string
+      attractions:
+        items:
+          $ref: '#/definitions/nationality.AttractionResponse'
+        type: array
     type: object
-  nationality.Country:
+  nationality.AttractionResponse:
     properties:
+      category:
+        type: string
+      city:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
       id:
         type: string
       image_url:
         type: string
+      location:
+        type: string
+      name:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  nationality.HistoricalListResponse:
+    properties:
+      historical:
+        items:
+          $ref: '#/definitions/nationality.HistoricalResponse'
+        type: array
+    type: object
+  nationality.HistoricalResponse:
+    properties:
+<<<<<<< HEAD
+      id:
+=======
+      city:
+        type: string
+      country:
+        type: string
+      created_at:
+>>>>>>> 35c4d3b8ab68e0bcd38a5b5efe85c6154a181661
+        type: string
+      description:
+        type: string
+<<<<<<< HEAD
       name:
         type: string
     type: object
@@ -593,12 +712,15 @@ definitions:
     type: object
   nationality.GetCountryResponse:
     properties:
+=======
+>>>>>>> 35c4d3b8ab68e0bcd38a5b5efe85c6154a181661
       id:
         type: string
       image_url:
         type: string
       name:
         type: string
+<<<<<<< HEAD
     type: object
   nationality.HistoricalListResponse:
     properties:
@@ -673,35 +795,49 @@ definitions:
         type: string
     type: object
   nationality.UpdateAttractionTypeRequest:
+=======
+      updated_at:
+        type: string
+    type: object
+  nationality.UpdateAttraction:
+>>>>>>> 35c4d3b8ab68e0bcd38a5b5efe85c6154a181661
     properties:
-      activity:
-        type: integer
+      category:
+        type: string
+      city:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
       id:
+        type: string
+      image_url:
+        type: string
+      location:
         type: string
       name:
         type: string
+      updated_at:
+        type: string
     type: object
-  nationality.UpdateAttractionTypeResponse:
+  nationality.UpdateHistorical:
     properties:
-      attraction_type:
-        $ref: '#/definitions/nationality.AttractionType1'
-    type: object
-  nationality.UpdateCountryRequest:
-    properties:
+      city:
+        type: string
+      country:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
       id:
         type: string
       image_url:
         type: string
       name:
         type: string
-    type: object
-  nationality.UpdateCountryResponse:
-    properties:
-      id:
-        type: string
-      image_url:
-        type: string
-      name:
+      updated_at:
         type: string
     type: object
   nationality.UpdateHistorical:
@@ -1097,14 +1233,14 @@ paths:
         name: CreateAttractionTypeRequest
         required: true
         schema:
-          $ref: '#/definitions/nationality.CreateAttractionTypeRequest'
+          $ref: '#/definitions/models.CreateAttractionTypeRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Attraction Type successfully created
           schema:
-            $ref: '#/definitions/nationality.CreateAttractionTypeResponse'
+            $ref: '#/definitions/models.CreateAttractionTypeResponse'
         "400":
           description: Bad request, validation error
           schema:
@@ -1162,7 +1298,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/nationality.GetAttractionTypeResponse'
+            $ref: '#/definitions/models.GetAttractionTypeResponse'
         "400":
           description: Bad Request
           schema:
@@ -1195,7 +1331,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/nationality.ListAttractionTypesResponse'
+            $ref: '#/definitions/models.ListAttractionTypesResponse'
         "400":
           description: Bad Request
           schema:
@@ -1220,14 +1356,14 @@ paths:
         name: UpdateAttractionTypeRequest
         required: true
         schema:
-          $ref: '#/definitions/nationality.UpdateAttractionTypeRequest'
+          $ref: '#/definitions/models.UpdateAttractionTypeRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/nationality.UpdateAttractionTypeResponse'
+            $ref: '#/definitions/models.UpdateAttractionTypeResponse'
         "400":
           description: Bad Request
           schema:
@@ -1266,9 +1402,9 @@ paths:
         name: location
         required: true
         type: string
-      - description: Country of the attraction
+      - description: city of the attraction
         in: formData
-        name: country
+        name: city
         required: true
         type: string
       - description: Category of the attraction
@@ -1398,9 +1534,8 @@ paths:
         in: query
         name: category
         type: string
-      - default: Uzbekistan
-        in: query
-        name: country
+      - in: query
+        name: city
         type: string
       - default: dodi
         in: query
@@ -1516,7 +1651,7 @@ paths:
         name: Update
         required: true
         schema:
-          $ref: '#/definitions/models.UpdateAttraction'
+          $ref: '#/definitions/nationality.UpdateAttraction'
       produces:
       - application/json
       responses:
@@ -2047,14 +2182,14 @@ paths:
         in: body
         name: city
         schema:
-          $ref: '#/definitions/nationality.CreateCityRequest'
+          $ref: '#/definitions/models.CreateCityRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/nationality.CreateCityResponse'
+            $ref: '#/definitions/models.CreateCityResponse'
         "400":
           description: Bad Request
           schema:
@@ -2083,7 +2218,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/nationality.Message'
+            $ref: '#/definitions/models.Message'
         "400":
           description: Bad Request
           schema:
@@ -2101,18 +2236,22 @@ paths:
     get:
       description: Get list of city with filter
       parameters:
-      - description: Filter Countries
-        in: query
-        name: filter
-        required: true
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: name
         type: string
+      - in: query
+        name: offset
+        type: integer
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/nationality.CreateCityResponse'
+            $ref: '#/definitions/models.CreateCityResponse'
         "400":
           description: Bad Request
           schema:
@@ -2126,7 +2265,7 @@ paths:
       summary: Get List City
       tags:
       - City
-  /city/get/{country_id}:
+  /city/get-city/{country_id}:
     get:
       description: Get cities by country
       parameters:
@@ -2141,7 +2280,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/nationality.CreateCityResponse'
+            $ref: '#/definitions/models.CreateCityResponse'
         "400":
           description: Bad Request
           schema:
@@ -2170,7 +2309,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/nationality.CreateCityResponse'
+            $ref: '#/definitions/models.CreateCityResponse'
         "400":
           description: Bad Request
           schema:
@@ -2193,14 +2332,14 @@ paths:
         name: city
         required: true
         schema:
-          $ref: '#/definitions/nationality.CreateCityResponse'
+          $ref: '#/definitions/models.CreateCityResponse'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/nationality.UpdateCountryRequest'
+            $ref: '#/definitions/models.CreateCityResponse'
         "400":
           description: Bad Request
           schema:
@@ -2508,7 +2647,7 @@ paths:
       security:
       - BearerAuth: []
       tags:
-      - Attraction
+      - Country
   /country/delete/{id}:
     delete:
       description: Delete a country by its ID
@@ -2553,7 +2692,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/nationality.GetCountryResponse'
+            $ref: '#/definitions/models.GetCountryResponse'
         "400":
           description: Bad Request
           schema:
@@ -2586,7 +2725,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/nationality.ListCountriesResponse'
+            $ref: '#/definitions/models.ListCountriesResponse'
         "400":
           description: Bad Request
           schema:
@@ -2626,7 +2765,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/nationality.UpdateCountryResponse'
+            $ref: '#/definitions/models.UpdateCountryResponse'
         "400":
           description: Bad Request
           schema:
@@ -3291,7 +3430,7 @@ paths:
       parameters:
       - default: Uzbekistan
         in: query
-        name: country
+        name: country_id
         type: string
       - default: 10
         in: query

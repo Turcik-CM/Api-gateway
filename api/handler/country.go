@@ -47,12 +47,12 @@ func NewCountriesHandlers(CountryService service.Service, logger *slog.Logger) *
 
 // CreateCountry godoc
 // @Security BearerAuth
-// @Tags Attraction
+// @Tags Country
 // @Accept multipart/form-data
 // @Produce json
 // @Param file formData file false "Upload image file"
 // @Param country_name formData string true "Country name"
-// @Success 201 {object} nationality.AttractionResponse "Attraction successfully created"
+// @Success 201 {object} models.AttractionResponse "Attraction successfully created"
 // @Failure 400 {object} models.Error "Bad request, validation error or invalid file"
 // @Failure 500 {object} models.Error "Internal server error"
 // @Router /country/create [post]
@@ -101,7 +101,7 @@ func (h *CountriesHandlers) CreateCountry(c *gin.Context) {
 // @Tags Country
 // @Produce json
 // @Param id path string true "Country ID"
-// @Success 200 {object} nationality.GetCountryResponse
+// @Success 200 {object} models.GetCountryResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /country/get/{id} [get]
@@ -127,7 +127,7 @@ func (h *CountriesHandlers) GetCountryByID(c *gin.Context) {
 // @Param file formData file false "Upload image file"
 // @Param id formData string true "Country id"
 // @Param name formData string true "Country name"
-// @Success 200 {object} nationality.UpdateCountryResponse
+// @Success 200 {object} models.UpdateCountryResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /country/update [put]
@@ -206,8 +206,8 @@ func (h *CountriesHandlers) DeleteCountry(c *gin.Context) {
 // @Security BearerAuth
 // @Tags Country
 // @Produce json
-// @Param filter query nationality.ListCountriesRequest false "Filter Countries"
-// @Success 200 {object} nationality.ListCountriesResponse
+// @Param filter query models.ListCountriesRequest false "Filter Countries"
+// @Success 200 {object} models.ListCountriesResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /country/list [get]
@@ -246,8 +246,8 @@ func (h *CountriesHandlers) ListCountries(c *gin.Context) {
 // @Security BearerAuth
 // @Tags City
 // @Produce json
-// @Param city body nationality.CreateCityRequest false "Filter Countries"
-// @Success 200 {object} nationality.CreateCityResponse
+// @Param city body models.CreateCityRequest false "Filter Countries"
+// @Success 200 {object} models.CreateCityResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /city/create [post]
@@ -278,7 +278,7 @@ func (h *CountriesHandlers) CreateCity(c *gin.Context) {
 // @Tags City
 // @Produce json
 // @Param id path string true "Filter Countries"
-// @Success 200 {object} nationality.CreateCityResponse
+// @Success 200 {object} models.CreateCityResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /city/get/{id} [get]
@@ -301,21 +301,23 @@ func (h *CountriesHandlers) GetCityByID(c *gin.Context) {
 // @Security BearerAuth
 // @Tags City
 // @Produce json
-// @Param city body nationality.CreateCityResponse true "Filter Countries"
-// @Success 200 {object} nationality.UpdateCountryRequest
+// @Param city body models.CreateCityResponse true "Filter Countries"
+// @Success 200 {object} models.CreateCityResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /city/update/ [put]
 func (h *CountriesHandlers) UpdateCity(c *gin.Context) {
-	var req pb.UpdateCountryRequest
+	var req pb.CreateCityResponse
 
-	if err := c.ShouldBind(&req); err != nil {
+	if err := c.ShouldBindJSON(&req); err != nil {
 		h.logger.Error("Error occurred while binding JSON", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	res, err := h.countryService.UpdateCountry(context.Background(), &req)
+	log.Println(req.Id)
+
+	res, err := h.countryService.UpdateCity(context.Background(), &req)
 	if err != nil {
 		h.logger.Error("Error occurred while updating city", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -332,7 +334,7 @@ func (h *CountriesHandlers) UpdateCity(c *gin.Context) {
 // @Tags City
 // @Produce json
 // @Param id path string true "city id"
-// @Success 200 {object} nationality.Message
+// @Success 200 {object} models.Message
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /city/delete/{id} [delete]
@@ -355,8 +357,8 @@ func (h *CountriesHandlers) DeleteCity(c *gin.Context) {
 // @Security BearerAuth
 // @Tags City
 // @Produce json
-// @Param filter query string true "Filter Countries"
-// @Success 200 {object} nationality.CreateCityResponse
+// @Param filter query models.FilterCountry false "Filter Countries"
+// @Success 200 {object} models.CreateCityResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /city/get-all/ [get]
@@ -365,6 +367,7 @@ func (h *CountriesHandlers) ListCity(c *gin.Context) {
 
 	limit := c.Query("limit")
 	offset := c.Query("offset")
+	name := c.Query("name")
 
 	limits, err := strconv.Atoi(limit)
 	if err != nil {
@@ -378,6 +381,7 @@ func (h *CountriesHandlers) ListCity(c *gin.Context) {
 
 	req.Limit = int64(limits)
 	req.Offset = int64(offsets)
+	req.Name = name
 
 	resp, err := h.countryService.ListCity(context.Background(), &req)
 	if err != nil {
@@ -396,14 +400,14 @@ func (h *CountriesHandlers) ListCity(c *gin.Context) {
 // @Tags City
 // @Produce json
 // @Param country_id path string true "get cities"
-// @Success 200 {object} nationality.CreateCityResponse
+// @Success 200 {object} models.CreateCityResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /city/get/{country_id} [get]
+// @Router /city/get-city/{country_id} [get]
 func (h *CountriesHandlers) GetCityByCount(c *gin.Context) {
 	id := c.Param("country_id")
 
-	resp, err := h.countryService.GetCity(context.Background(), &pb.GetCityRequest{Id: id})
+	resp, err := h.countryService.GetBYCount(context.Background(), &pb.CountryId{Id: id})
 	if err != nil {
 		h.logger.Error("Error occurred while getting city", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

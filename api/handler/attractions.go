@@ -60,7 +60,7 @@ func NewAttractionsHandler(attrService service.Service, logger *slog.Logger) Att
 // @Param name formData string true "Name of the attraction"
 // @Param description formData string true "Description of the attraction"
 // @Param location formData string true "Location of the attraction"
-// @Param country formData string true "Country of the attraction"
+// @Param city formData string true "city of the attraction"
 // @Param category formData string true "Category of the attraction"
 // @Success 201 {object} nationality.AttractionResponse "Attraction successfully created"
 // @Failure 400 {object} models.Error "Bad request, validation error or invalid file"
@@ -94,7 +94,11 @@ func (h *attractionsHandler) CreateAttraction(c *gin.Context) {
 	att.ImageURL = url
 
 	res := pb.Attraction{
+<<<<<<< HEAD
 		City:        att.Country,
+=======
+		City:        att.City,
+>>>>>>> 35c4d3b8ab68e0bcd38a5b5efe85c6154a181661
 		Name:        att.Name,
 		Description: att.Description,
 		Category:    att.Category,
@@ -144,13 +148,14 @@ func (h *attractionsHandler) GetAttractionByID(c *gin.Context) {
 // @Tags Attraction
 // @Accept json
 // @Produce json
-// @Param Update body models.UpdateAttraction true "Update Attraction"
+// @Param Update body nationality.UpdateAttraction true "Update Attraction"
 // @Success 200 {object} nationality.AttractionResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /attraction/update [put]
 func (h *attractionsHandler) UpdateAttraction(c *gin.Context) {
 	var att pb.UpdateAttraction
+
 	if err := c.ShouldBindJSON(&att); err != nil {
 		h.logger.Error("Error occurred while binding json", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -205,7 +210,7 @@ func (h *attractionsHandler) ListAttractions(c *gin.Context) {
 
 	limit := c.Query("limit")
 	offset := c.Query("offset")
-	country := c.Query("country")
+	city := c.Query("city")
 	category := c.Query("category")
 	name := c.Query("name")
 	description := c.Query("description")
@@ -224,7 +229,11 @@ func (h *attractionsHandler) ListAttractions(c *gin.Context) {
 	post.Offset = int64(offsets)
 	post.Name = name
 	post.Description = description
+<<<<<<< HEAD
 	post.City = country
+=======
+	post.City = city
+>>>>>>> 35c4d3b8ab68e0bcd38a5b5efe85c6154a181661
 	post.Category = category
 
 	req, err := h.attractionsService.ListAttraction(context.Background(), &post)
@@ -347,8 +356,8 @@ func (h *attractionsHandler) RemoveHistoricalImage(c *gin.Context) {
 // @Tags AttractionType
 // @Accept json
 // @Produce json
-// @Param CreateAttractionTypeRequest body nationality.CreateAttractionTypeRequest true "Attraction Type Info"
-// @Success 201 {object} nationality.CreateAttractionTypeResponse "Attraction Type successfully created"
+// @Param CreateAttractionTypeRequest body models.CreateAttractionTypeRequest true "Attraction Type Info"
+// @Success 201 {object} models.CreateAttractionTypeResponse "Attraction Type successfully created"
 // @Failure 400 {object} models.Error "Bad request, validation error"
 // @Failure 500 {object} models.Error "Internal server error"
 // @Router /attraction-type/create [post]
@@ -377,7 +386,7 @@ func (h *attractionsHandler) CreateAttractionType(c *gin.Context) {
 // @Tags AttractionType
 // @Produce json
 // @Param id path string true "Attraction Type ID"
-// @Success 200 {object} nationality.GetAttractionTypeResponse
+// @Success 200 {object} models.GetAttractionTypeResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /attraction-type/get/{id} [get]
@@ -400,8 +409,8 @@ func (h *attractionsHandler) GetAttractionByIDType(c *gin.Context) {
 // @Tags AttractionType
 // @Accept json
 // @Produce json
-// @Param UpdateAttractionTypeRequest body nationality.UpdateAttractionTypeRequest true "Update Attraction Type"
-// @Success 200 {object} nationality.UpdateAttractionTypeResponse
+// @Param UpdateAttractionTypeRequest body models.UpdateAttractionTypeRequest true "Update Attraction Type"
+// @Success 200 {object} models.UpdateAttractionTypeResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /attraction-type/update [put]
@@ -452,8 +461,8 @@ func (h *attractionsHandler) DeleteAttractionType(c *gin.Context) {
 // @Security BearerAuth
 // @Tags AttractionType
 // @Produce json
-// @Param filter query nationality.ListAttractionTypesRequest false "Filter Attraction Types"
-// @Success 200 {object} nationality.ListAttractionTypesResponse
+// @Param filter query models.ListAttractionTypesRequest false "Filter Attraction Types"
+// @Success 200 {object} models.ListAttractionTypesResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /attraction-type/list [get]
