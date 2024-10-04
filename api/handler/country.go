@@ -19,6 +19,13 @@ type CountriesHandler interface {
 	UpdateCountry(c *gin.Context)
 	DeleteCountry(c *gin.Context)
 	ListCountries(c *gin.Context)
+
+	CreateCity(c *gin.Context)
+	GetCityByID(c *gin.Context)
+	UpdateCity(c *gin.Context)
+	DeleteCity(c *gin.Context)
+	ListCity(c *gin.Context)
+	GetCityByCount(c *gin.Context)
 }
 
 type CountriesHandlers struct {
