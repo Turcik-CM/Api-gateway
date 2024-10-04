@@ -443,28 +443,23 @@ type HistoricalResponse struct {
 }
 
 type NationalFood struct {
-	Country     string `form:"country" default:"Uzbekistan"`
-	Name        string `form:"name" default:"dodi"`
+	FoodName    string `form:"country" default:"Uzbekistan"`
+	FoodType    string `form:"name" default:"dodi"`
 	Description string `form:"description" default:"dodi"`
-	Nationality string `form:"nationality" default:"dodi"`
+	CountryId   string `form:"nationality" default:"dodi"`
 	ImageURL    string `form:"image_url" default:"dodi"`
-	Rating      int32  `form:"rating" default:"1200000"`
-	FoodType    string `form:"food_type" default:"dodi"`
 	Ingredients string `form:"ingredients" default:"dodi"`
 }
 
 type NationalFoodResponse struct {
 	ID          string `json:"id"`
-	Country     string `json:"country"`
-	Name        string `json:"name"`
+	FoodName    string `json:"country"`
+	FoodType    string `json:"name"`
 	Description string `json:"description"`
 	ImageURL    string `json:"image_url"`
-	Rating      int32  `json:"rating"`
+	CountryId   int32  `json:"rating"`
 	Ingredients string `json:"ingredients"`
-	FoodType    string `json:"food_type"`
-	Nationality string `json:"nationality"`
 	CreatedAt   string `json:"created_at"`
-	UpdatedAt   string `json:"updated_at"`
 }
 
 type NationalFoodId struct {
@@ -472,9 +467,9 @@ type NationalFoodId struct {
 }
 
 type NationalFoodList struct {
-	Limit   int64  `json:"limit" default:"10"`
-	Offset  int64  `json:"offset" default:"0"`
-	Country string `json:"country" default:"Uzbekistan"`
+	Limit     int64  `json:"limit" default:"10"`
+	Offset    int64  `json:"offset" default:"0"`
+	CountryId string `json:"country_id" default:"Uzbekistan"`
 }
 
 type NationalFoodListResponse struct {
@@ -537,18 +532,17 @@ type AttractionId struct {
 }
 
 type UpdateNationalFood struct {
-	ID          string `json:"id" default:"0"`
-	Country     string `json:"country" default:"dodi"`
-	Name        string `json:"name" default:"dodi"`
-	Description string `json:"description" default:"dodi"`
-	ImageURL    string `json:"image_url" default:"0"`
-	Rating      int32  `json:"rating" default:"120000"`
-	Nationality string `json:"nationality" default:"dodi"`
-	FoodType    string `json:"food_type" default:"dodi"`
-	Ingredients string `json:"ingredients" default:"dodi"`
+	ID          string `json:"id"`
+	FoodName    string `json:"country"`
+	FoodType    string `json:"name"`
+	Description string `json:"description"`
+	ImageURL    string `json:"image_url"`
+	CountryId   int32  `json:"rating"`
+	Ingredients string `json:"ingredients"`
+	CreatedAt   string `json:"created_at"`
 }
 
-type UpdateAttraction struct {
+type UpdateAttrNationalFoodListaction struct {
 	ID          string `json:"id" default:"0"`
 	Country     string `json:"country" default:"Uzbekistan"`
 	Name        string `json:"name" default:"0"`
