@@ -144,7 +144,7 @@ func (h *attractionsHandler) GetAttractionByID(c *gin.Context) {
 // @Tags Attraction
 // @Accept json
 // @Produce json
-// @Param Update body nationality.UpdateAttraction true "Update Attraction"
+// @Param Update body models.UpdateAttraction true "Update Attraction"
 // @Success 200 {object} nationality.AttractionResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
@@ -195,7 +195,7 @@ func (h *attractionsHandler) DeleteAttraction(c *gin.Context) {
 // @Security BearerAuth
 // @Tags Attraction
 // @Produce json
-// @Param filter query nationality.AttractionList false "Filter Attraction"
+// @Param filter query models.AttractionList false "Filter Attraction"
 // @Success 200 {object} nationality.AttractionListResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
@@ -242,7 +242,7 @@ func (h *attractionsHandler) ListAttractions(c *gin.Context) {
 // @Security BearerAuth
 // @Tags Attraction
 // @Produce json
-// @Param filter query nationality.AttractionSearch false "Filter Attraction"
+// @Param filter query models.AttractionSearch false "Filter Attraction"
 // @Success 200 {object} nationality.AttractionListResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error

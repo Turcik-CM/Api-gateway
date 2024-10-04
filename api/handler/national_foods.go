@@ -48,7 +48,7 @@ func NewNationalFoodHandler(service service.Service, logger *slog.Logger) Nation
 // @Param country_id formData string true "country_id of the food"
 // @Param description formData string true "description"
 // @Param ingredients formData string true "ingredients of the food"
-// @Success 201 {object} nationality.NationalFoodResponse "National food successfully created"
+// @Success 201 {object} models.NationalFoodResponse "National food successfully created"
 // @Failure 400 {object} models.Error "Bad request, validation error or invalid file"
 // @Failure 500 {object} models.Error "Internal server error"
 // @Router /national/create [post]
@@ -107,7 +107,7 @@ func (h *nationalFoodHandler) CreateNationalFood(c *gin.Context) {
 // @Tags NationalFood
 // @Accept json
 // @Produce json
-// @Param Update body nationality.UpdateNationalFood true "Update NationalFood"
+// @Param Update body models.UpdateNationalFood true "Update NationalFood"
 // @Success 200 {object} nationality.NationalFoodResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
@@ -184,13 +184,13 @@ func (h *nationalFoodHandler) DeleteNationalFood(c *gin.Context) {
 // @Security BearerAuth
 // @Tags NationalFood
 // @Produce json
-// @Param filter query nationality.NationalFoodList false "Filter NationalFood"
+// @Param filter query models.NationalFoodList false "Filter NationalFood"
 // @Success 200 {object} nationality.NationalFoodListResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /national/list [get]
 func (h *nationalFoodHandler) ListNationalFoods(c *gin.Context) {
-	var post pb.NationalFoodList
+	var post models.NationalFoodList
 
 	limit := c.Query("limit")
 	offset := c.Query("offset")
