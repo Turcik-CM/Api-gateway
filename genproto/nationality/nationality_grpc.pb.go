@@ -109,12 +109,11 @@ type NationalityServiceClient interface {
 	UpdateCountry(ctx context.Context, in *UpdateCountryRequest, opts ...grpc.CallOption) (*UpdateCountryResponse, error)
 	DeleteCountry(ctx context.Context, in *DeleteCountryRequest, opts ...grpc.CallOption) (*Message, error)
 	ListCountries(ctx context.Context, in *ListCountriesRequest, opts ...grpc.CallOption) (*ListCountriesResponse, error)
-
 	CreateCity(ctx context.Context, in *CreateCityRequest, opts ...grpc.CallOption) (*CreateCityResponse, error)
 	GetCity(ctx context.Context, in *GetCityRequest, opts ...grpc.CallOption) (*CreateCityResponse, error)
 	UpdateCity(ctx context.Context, in *CreateCityResponse, opts ...grpc.CallOption) (*CreateCityResponse, error)
 	DeleteCity(ctx context.Context, in *GetCityRequest, opts ...grpc.CallOption) (*Message, error)
-	ListCity(ctx context.Context, in *ListCityRequest, opts ...grpc.CallOption) (*CreateCityResponse, error)
+	ListCity(ctx context.Context, in *ListCityRequest, opts ...grpc.CallOption) (*ListCityResponse, error)
 	GetBYCount(ctx context.Context, in *CountryId, opts ...grpc.CallOption) (*GetCountryId, error)
 }
 
@@ -536,9 +535,9 @@ func (c *nationalityServiceClient) DeleteCity(ctx context.Context, in *GetCityRe
 	return out, nil
 }
 
-func (c *nationalityServiceClient) ListCity(ctx context.Context, in *ListCityRequest, opts ...grpc.CallOption) (*CreateCityResponse, error) {
+func (c *nationalityServiceClient) ListCity(ctx context.Context, in *ListCityRequest, opts ...grpc.CallOption) (*ListCityResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CreateCityResponse)
+	out := new(ListCityResponse)
 	err := c.cc.Invoke(ctx, NationalityService_ListCity_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -605,7 +604,7 @@ type NationalityServiceServer interface {
 	GetCity(context.Context, *GetCityRequest) (*CreateCityResponse, error)
 	UpdateCity(context.Context, *CreateCityResponse) (*CreateCityResponse, error)
 	DeleteCity(context.Context, *GetCityRequest) (*Message, error)
-	ListCity(context.Context, *ListCityRequest) (*CreateCityResponse, error)
+	ListCity(context.Context, *ListCityRequest) (*ListCityResponse, error)
 	GetBYCount(context.Context, *CountryId) (*GetCountryId, error)
 	mustEmbedUnimplementedNationalityServiceServer()
 }
@@ -737,7 +736,7 @@ func (UnimplementedNationalityServiceServer) UpdateCity(context.Context, *Create
 func (UnimplementedNationalityServiceServer) DeleteCity(context.Context, *GetCityRequest) (*Message, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteCity not implemented")
 }
-func (UnimplementedNationalityServiceServer) ListCity(context.Context, *ListCityRequest) (*CreateCityResponse, error) {
+func (UnimplementedNationalityServiceServer) ListCity(context.Context, *ListCityRequest) (*ListCityResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListCity not implemented")
 }
 func (UnimplementedNationalityServiceServer) GetBYCount(context.Context, *CountryId) (*GetCountryId, error) {

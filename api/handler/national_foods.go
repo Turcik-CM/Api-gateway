@@ -43,14 +43,12 @@ func NewNationalFoodHandler(service service.Service, logger *slog.Logger) Nation
 // @Accept multipart/form-data
 // @Produce json
 // @Param file formData file false "Upload image file (optional)"
-// @Param country formData string true "Country of the food"
-// @Param description formData string true "Description of the food"
-// @Param food_type formData string true "Type of the food"
-// @Param ingredients formData string true "Ingredients"
-// @Param name formData string true "Name of the food"
-// @Param nationality formData string true "Nationality of the food"
-// @Param rating formData number true "Rating of the food"
-// @Success 201 {object} models.NationalFoodResponse "National food successfully created"
+// @Param food_name formData string true "food_name of the food"
+// @Param food_type formData string true "food_type of the food"
+// @Param country_id formData string true "country_id of the food"
+// @Param description formData string true "description"
+// @Param ingredients formData string true "ingredients of the food"
+// @Success 201 {object} nationality.NationalFoodResponse "National food successfully created"
 // @Failure 400 {object} models.Error "Bad request, validation error or invalid file"
 // @Failure 500 {object} models.Error "Internal server error"
 // @Router /national/create [post]
@@ -81,8 +79,8 @@ func (h *nationalFoodHandler) CreateNationalFood(c *gin.Context) {
 		log.Println("No file uploaded, continuing without an image")
 	}
 	res := pb.NationalFood{
-		Country:     a.Country,
-		Name:        a.Name,
+		FoodName:     a.,
+		FoodType:        a.Name,
 		Description: a.Description,
 		Nationality: a.Nationality,
 		ImageUrl:    a.ImageURL,
@@ -109,8 +107,8 @@ func (h *nationalFoodHandler) CreateNationalFood(c *gin.Context) {
 // @Tags NationalFood
 // @Accept json
 // @Produce json
-// @Param Update body models.UpdateNationalFood true "Update NationalFood"
-// @Success 200 {object} models.NationalFoodResponse
+// @Param Update body nationality.UpdateNationalFood true "Update NationalFood"
+// @Success 200 {object} nationality.NationalFoodResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /national/update [put]
@@ -137,7 +135,7 @@ func (h *nationalFoodHandler) UpdateNationalFood(c *gin.Context) {
 // @Tags NationalFood
 // @Produce json
 // @Param id path string true "NationalFood ID"
-// @Success 200 {object} models.NationalFoodResponse
+// @Success 200 {object} nationality.NationalFoodResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /national/getBy/{id} [get]
@@ -186,8 +184,8 @@ func (h *nationalFoodHandler) DeleteNationalFood(c *gin.Context) {
 // @Security BearerAuth
 // @Tags NationalFood
 // @Produce json
-// @Param filter query models.NationalFoodList false "Filter NationalFood"
-// @Success 200 {object} models.NationalFoodListResponse
+// @Param filter query nationality.NationalFoodList false "Filter NationalFood"
+// @Success 200 {object} nationality.NationalFoodListResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /national/list [get]

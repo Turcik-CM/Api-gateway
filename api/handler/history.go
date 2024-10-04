@@ -53,7 +53,7 @@ func NewHistoryHandler(historyService service.Service, logger *slog.Logger) Hist
 // @Param description formData string true "Description of the historical site"
 // @Param city formData string true "City of the historical site"
 // @Param country formData string true "Country of the historical site"
-// @Success 201 {object} models.HistoricalResponse "Historical record successfully created"
+// @Success 201 {object} nationality.HistoricalResponse "Historical record successfully created"
 // @Failure 400 {object} models.Error "Bad request, validation error or invalid file"
 // @Failure 500 {object} models.Error "Internal server error"
 // @Router /historical/create [post]
@@ -109,8 +109,8 @@ func (h *historyHandler) AddHistorical(c *gin.Context) {
 // @Tags Historical
 // @Accept json
 // @Produce json
-// @Param Update body models.UpdateHistorical true "Update Historical"
-// @Success 200 {object} models.HistoricalResponse
+// @Param Update body nationality.UpdateHistorical true "Update Historical"
+// @Success 200 {object} nationality.HistoricalResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /historical/update [put]
@@ -137,7 +137,7 @@ func (h *historyHandler) UpdateHistoricals(c *gin.Context) {
 // @Tags Historical
 // @Produce json
 // @Param id path string true "Historical ID"
-// @Success 200 {object} models.HistoricalResponse
+// @Success 200 {object} nationality.HistoricalResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /historical/getBy/{id} [get]
@@ -188,8 +188,8 @@ func (h *historyHandler) DeleteHistorical(c *gin.Context) {
 // @Security BearerAuth
 // @Tags Historical
 // @Produce json
-// @Param filter query models.HistoricalList false "Filter Historical"
-// @Success 200 {object} models.HistoricalListResponse
+// @Param filter query nationality.HistoricalList false "Filter Historical"
+// @Success 200 {object} nationality.HistoricalListResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /historical/list [get]
@@ -231,8 +231,8 @@ func (h *historyHandler) ListHistorical(c *gin.Context) {
 // @Security BearerAuth
 // @Tags Historical
 // @Produce json
-// @Param filter query models.HistoricalSearch false "Filter Historical"
-// @Success 200 {object} models.HistoricalListResponse
+// @Param filter query nationality.HistoricalSearch false "Filter Historical"
+// @Success 200 {object} nationality.HistoricalListResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /historical/list_search [get]

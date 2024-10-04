@@ -45,7 +45,7 @@ func NewCountriesHandlers(CountryService service.Service, logger *slog.Logger) *
 // @Produce json
 // @Param file formData file false "Upload image file"
 // @Param country_name formData string true "Country name"
-// @Success 201 {object} models.AttractionResponse "Attraction successfully created"
+// @Success 201 {object} nationality.AttractionResponse "Attraction successfully created"
 // @Failure 400 {object} models.Error "Bad request, validation error or invalid file"
 // @Failure 500 {object} models.Error "Internal server error"
 // @Router /country/create [post]
