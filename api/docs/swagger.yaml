@@ -136,8 +136,6 @@ definitions:
     type: object
   models.CreateCityResponse:
     properties:
-      country_id:
-        type: string
       id:
         type: string
       name:
@@ -513,15 +511,6 @@ definitions:
     properties:
       attraction_type:
         $ref: '#/definitions/models.AttractionType'
-    type: object
-  models.UpdateCountryRequest:
-    properties:
-      id:
-        type: string
-      image_url:
-        type: string
-      name:
-        type: string
     type: object
   models.UpdateCountryResponse:
     properties:
@@ -1893,11 +1882,15 @@ paths:
     get:
       description: Get list of city with filter
       parameters:
-      - description: Filter Countries
-        in: query
-        name: filter
-        required: true
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: name
         type: string
+      - in: query
+        name: offset
+        type: integer
       produces:
       - application/json
       responses:
@@ -1918,7 +1911,7 @@ paths:
       summary: Get List City
       tags:
       - City
-  /city/get/{country_id}:
+  /city/get-city/{country_id}:
     get:
       description: Get cities by country
       parameters:
@@ -1992,7 +1985,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.UpdateCountryRequest'
+            $ref: '#/definitions/models.CreateCityResponse'
         "400":
           description: Bad Request
           schema:

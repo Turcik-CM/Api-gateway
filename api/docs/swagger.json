@@ -1823,11 +1823,19 @@
                 "summary": "Get List City",
                 "parameters": [
                     {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
                         "type": "string",
-                        "description": "Filter Countries",
-                        "name": "filter",
-                        "in": "query",
-                        "required": true
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "offset",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -1852,7 +1860,7 @@
                 }
             }
         },
-        "/city/get/{country_id}": {
+        "/city/get-city/{country_id}": {
             "get": {
                 "security": [
                     {
@@ -1974,7 +1982,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.UpdateCountryRequest"
+                            "$ref": "#/definitions/models.CreateCityResponse"
                         }
                     },
                     "400": {
@@ -4900,9 +4908,6 @@
         "models.CreateCityResponse": {
             "type": "object",
             "properties": {
-                "country_id": {
-                    "type": "string"
-                },
                 "id": {
                     "type": "string"
                 },
@@ -5463,20 +5468,6 @@
             "properties": {
                 "attraction_type": {
                     "$ref": "#/definitions/models.AttractionType"
-                }
-            }
-        },
-        "models.UpdateCountryRequest": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string"
-                },
-                "image_url": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
                 }
             }
         },

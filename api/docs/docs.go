@@ -1831,11 +1831,19 @@ const docTemplate = `{
                 "summary": "Get List City",
                 "parameters": [
                     {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
                         "type": "string",
-                        "description": "Filter Countries",
-                        "name": "filter",
-                        "in": "query",
-                        "required": true
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "offset",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -1860,7 +1868,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/city/get/{country_id}": {
+        "/city/get-city/{country_id}": {
             "get": {
                 "security": [
                     {
@@ -1982,7 +1990,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.UpdateCountryRequest"
+                            "$ref": "#/definitions/models.CreateCityResponse"
                         }
                     },
                     "400": {
@@ -4908,9 +4916,6 @@ const docTemplate = `{
         "models.CreateCityResponse": {
             "type": "object",
             "properties": {
-                "country_id": {
-                    "type": "string"
-                },
                 "id": {
                     "type": "string"
                 },
@@ -5471,20 +5476,6 @@ const docTemplate = `{
             "properties": {
                 "attraction_type": {
                     "$ref": "#/definitions/models.AttractionType"
-                }
-            }
-        },
-        "models.UpdateCountryRequest": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string"
-                },
-                "image_url": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
                 }
             }
         },

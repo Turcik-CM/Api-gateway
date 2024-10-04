@@ -178,7 +178,7 @@ type Message struct {
 
 // PostCountry represents a country related to a post
 type PostCountry struct {
-	Country string `form:"country" json:"country" default:"Uzbekistan"`
+	Country string `form:"country_name" json:"country" default:"Uzbekistan"`
 }
 
 // LikeList represents pagination for liked posts
@@ -747,9 +747,8 @@ type CreateCityRequest struct {
 
 // CreateCityResponse defines the response structure after creating a new city
 type CreateCityResponse struct {
-	ID        string `json:"id"`
-	CountryID string `json:"country_id"`
-	Name      string `json:"name"`
+	ID   string `json:"id"`
+	Name string `json:"name"`
 }
 
 // CreateAttractionTypeRequest defines the request structure for creating an attraction type
@@ -807,4 +806,10 @@ type AttractionType struct {
 	ID       string `json:"id"`
 	Name     string `json:"name"`
 	Activity int32  `json:"activity"`
+}
+
+type FilterCountry struct {
+	Limit  int64  `protobuf:"varint,1,opt,name=limit,proto3" json:"limit,omitempty"`
+	Offset int64  `protobuf:"varint,2,opt,name=offset,proto3" json:"offset,omitempty"`
+	Name   string `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
 }

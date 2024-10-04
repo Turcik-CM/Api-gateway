@@ -134,12 +134,12 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer, re
 
 	cityGroup := router1.Group("/city")
 	{
-		cityGroup.POST("/create", country.CreateCity)                        // Create city by country id
-		cityGroup.GET("/get/:id", country.GetCityByID)                       // Get city by id
-		cityGroup.PUT("/update", country.UpdateCity)                         // Update city
-		cityGroup.DELETE("/delete/:id", country.DeleteCity)                  // Delete city by id
-		cityGroup.GET("/get-all", country.ListCity)                          // Get list of cities
-		cityGroup.GET("/get-by-country/:country_id", country.GetCityByCount) // Get cities by country id
+		cityGroup.POST("/create", country.CreateCity)                  // Create city by country id
+		cityGroup.GET("/get/:id", country.GetCityByID)                 // Get city by id
+		cityGroup.PUT("/update", country.UpdateCity)                   // Update city
+		cityGroup.DELETE("/delete/:id", country.DeleteCity)            // Delete city by id
+		cityGroup.GET("/get-all", country.ListCity)                    // Get list of cities
+		cityGroup.GET("/get-city/:country_id", country.GetCityByCount) // Get cities by country id
 	}
 
 	postGroup := router1.Group("/post")
