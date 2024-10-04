@@ -114,7 +114,7 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer, re
 	{
 		admin.GET("/fetch_users", user.FetchUsers)
 		admin.POST("/create-user", user.Create)
-		admin.DELETE("/delete-user/:id", user.DeleteUser)
+		admin.DELETE("/delete-user/:user_id", user.DeleteUser)
 		admin.GET("/user-by-id/:id", user.GetProfileById)
 	}
 
@@ -124,10 +124,10 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer, re
 		userGroup.PUT("/update-profile", user.UpdateProfile)
 		userGroup.PUT("/change-password", user.ChangePassword)
 		userGroup.PUT("/change-profile-image", user.ChangeProfileImage)
-		userGroup.GET("/list-of-following", user.ListOfFollowing)
-		userGroup.GET("/list-of-followers", user.ListOfFollowers)
+		userGroup.GET("/list_of_following", user.ListOfFollowing)
+		userGroup.GET("/list_of_followers", user.ListOfFollowers)
 		userGroup.DELETE("/delete", user.DeleteProfile)
-		userGroup.POST("/follow", user.Follow)
+		userGroup.POST("/follow/:user_id", user.Follow)
 		userGroup.DELETE("/unfollow/:user_id", user.Unfollow)
 		userGroup.GET("/most-popular-user", user.MostPopularUser)
 	}

@@ -80,6 +80,7 @@ func (h *userHandler) Create(c *gin.Context) {
 		Username:    user.Username,
 		Nationality: user.Nationality,
 		Bio:         user.Bio,
+		Role:        user.Role,
 	}
 
 	res, err := h.userService.Create(context.Background(), &req)
@@ -123,7 +124,7 @@ func (h *userHandler) GetProfile(c *gin.Context) {
 // @Tags Admin
 // @Accept json
 // @Produce json
-// @Param user_id path string true "User ID"
+// @Param id path string true "User ID"
 // @Success 200 {object} models.GetProfileResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
@@ -162,14 +163,13 @@ func (h *userHandler) UpdateProfile(c *gin.Context) {
 		return
 	}
 	res := pb.UpdateProfileRequest{
-		UserId:       c.MustGet("user_id").(string),
-		FirstName:    user.FirstName,
-		LastName:     user.LastName,
-		PhoneNumber:  user.PhoneNumber,
-		Username:     user.Username,
-		Nationality:  user.Nationality,
-		Bio:          user.Bio,
-		ProfileImage: user.ProfileImage,
+		UserId:      c.MustGet("user_id").(string),
+		FirstName:   user.FirstName,
+		LastName:    user.LastName,
+		PhoneNumber: user.PhoneNumber,
+		Username:    user.Username,
+		Nationality: user.Nationality,
+		Bio:         user.Bio,
 	}
 
 	req, err := h.userService.UpdateProfile(context.Background(), &res)
@@ -382,7 +382,7 @@ func (h *userHandler) ListOfFollowers(c *gin.Context) {
 // @Success 200 {object} models.Message
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /admin/delete-user/{id} [delete]
+// @Router /admin/delete-user/{user_id} [delete]
 func (h *userHandler) DeleteUser(c *gin.Context) {
 	res := pb.Id{
 		UserId: c.Param("user_id"),
@@ -430,21 +430,15 @@ func (h *userHandler) DeleteProfile(c *gin.Context) {
 // @Tags User
 // @Accept json
 // @Produce json
-// @Param Follow body models.FollowReq true "post user"
+// @Param user_id path string true "Follow code"
 // @Success 200 {object} models.FollowRes
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /user/follow [post]
+// @Router /user/follow/{user_id} [post]
 func (h *userHandler) Follow(c *gin.Context) {
-	var user pb.FollowReq
-	if err := c.ShouldBindJSON(&user); err != nil {
-		h.logger.Error("Error occurred while binding json", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
 
 	res := pb.FollowReq{
-		FollowingId: user.FollowingId,
+		FollowingId: c.Param("user_id"),
 		FollowerId:  c.MustGet("user_id").(string),
 	}
 
@@ -464,14 +458,14 @@ func (h *userHandler) Follow(c *gin.Context) {
 // @Tags User
 // @Accept json
 // @Produce json
-// @Param id path string true "Unfollow code"
+// @Param user_id path string true "Unfollow code"
 // @Success 200 {object} models.DFollowRes
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
-// @Router /user/unfollow [delete]
+// @Router /user/unfollow/{user_id} [delete]
 func (h *userHandler) Unfollow(c *gin.Context) {
 	res := pb.FollowReq{
-		FollowingId: c.Param("id"),
+		FollowingId: c.Param("user_id"),
 		FollowerId:  c.MustGet("user_id").(string),
 	}
 

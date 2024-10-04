@@ -66,7 +66,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin/delete-user/{id}": {
+        "/admin/delete-user/{user_id}": {
             "delete": {
                 "security": [
                     {
@@ -197,7 +197,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "User ID",
-                        "name": "user_id",
+                        "name": "id",
                         "in": "path",
                         "required": true
                     }
@@ -4115,7 +4115,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/follow": {
+        "/user/follow/{user_id}": {
             "post": {
                 "security": [
                     {
@@ -4135,13 +4135,11 @@ const docTemplate = `{
                 "summary": "Follow User",
                 "parameters": [
                     {
-                        "description": "post user",
-                        "name": "Follow",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.FollowReq"
-                        }
+                        "type": "string",
+                        "description": "Follow code",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -4326,7 +4324,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/unfollow": {
+        "/user/unfollow/{user_id}": {
             "delete": {
                 "security": [
                     {
@@ -4348,7 +4346,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Unfollow code",
-                        "name": "id",
+                        "name": "user_id",
                         "in": "path",
                         "required": true
                     }
@@ -4655,14 +4653,6 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "error": {
-                    "type": "string"
-                }
-            }
-        },
-        "models.FollowReq": {
-            "type": "object",
-            "properties": {
-                "following_id": {
                     "type": "string"
                 }
             }
