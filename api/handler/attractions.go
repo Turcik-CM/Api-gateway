@@ -144,13 +144,14 @@ func (h *attractionsHandler) GetAttractionByID(c *gin.Context) {
 // @Tags Attraction
 // @Accept json
 // @Produce json
-// @Param Update body models.UpdateAttraction true "Update Attraction"
+// @Param Update body nationality.UpdateAttraction true "Update Attraction"
 // @Success 200 {object} nationality.AttractionResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /attraction/update [put]
 func (h *attractionsHandler) UpdateAttraction(c *gin.Context) {
 	var att pb.UpdateAttraction
+
 	if err := c.ShouldBindJSON(&att); err != nil {
 		h.logger.Error("Error occurred while binding json", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

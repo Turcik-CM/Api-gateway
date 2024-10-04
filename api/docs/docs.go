@@ -520,8 +520,8 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Country of the attraction",
-                        "name": "country",
+                        "description": "city of the attraction",
+                        "name": "city",
                         "in": "formData",
                         "required": true
                     },
@@ -537,7 +537,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Attraction successfully created",
                         "schema": {
-                            "$ref": "#/definitions/models.AttractionResponse"
+                            "$ref": "#/definitions/nationality.AttractionResponse"
                         }
                     },
                     "400": {
@@ -629,7 +629,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.AttractionResponse"
+                            "$ref": "#/definitions/nationality.AttractionResponse"
                         }
                     },
                     "400": {
@@ -727,8 +727,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "default": "Uzbekistan",
-                        "name": "country",
+                        "name": "city",
                         "in": "query"
                     },
                     {
@@ -760,7 +759,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.AttractionListResponse"
+                            "$ref": "#/definitions/nationality.AttractionListResponse"
                         }
                     },
                     "400": {
@@ -817,7 +816,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.AttractionListResponse"
+                            "$ref": "#/definitions/nationality.AttractionListResponse"
                         }
                     },
                     "400": {
@@ -909,7 +908,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.UpdateAttraction"
+                            "$ref": "#/definitions/nationality.UpdateAttraction"
                         }
                     }
                 ],
@@ -917,7 +916,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.AttractionResponse"
+                            "$ref": "#/definitions/nationality.AttractionResponse"
                         }
                     },
                     "400": {
@@ -2453,7 +2452,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Attraction successfully created",
                         "schema": {
-                            "$ref": "#/definitions/models.AttractionResponse"
+                            "$ref": "#/definitions/nationality.AttractionResponse"
                         }
                     },
                     "400": {
@@ -2738,7 +2737,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Historical record successfully created",
                         "schema": {
-                            "$ref": "#/definitions/models.HistoricalResponse"
+                            "$ref": "#/definitions/nationality.HistoricalResponse"
                         }
                     },
                     "400": {
@@ -2830,7 +2829,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.HistoricalResponse"
+                            "$ref": "#/definitions/nationality.HistoricalResponse"
                         }
                     },
                     "400": {
@@ -2922,19 +2921,21 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "default": "Uzbekistan",
+                        "name": "city",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
                         "name": "country",
                         "in": "query"
                     },
                     {
                         "type": "integer",
-                        "default": 10,
                         "name": "limit",
                         "in": "query"
                     },
                     {
                         "type": "integer",
-                        "default": 0,
                         "name": "offset",
                         "in": "query"
                     }
@@ -2943,7 +2944,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.HistoricalListResponse"
+                            "$ref": "#/definitions/nationality.HistoricalListResponse"
                         }
                     },
                     "400": {
@@ -2979,7 +2980,6 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "default": "dodi",
                         "name": "search",
                         "in": "query"
                     }
@@ -2988,7 +2988,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.HistoricalListResponse"
+                            "$ref": "#/definitions/nationality.HistoricalListResponse"
                         }
                     },
                     "400": {
@@ -3031,7 +3031,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.UpdateHistorical"
+                            "$ref": "#/definitions/nationality.UpdateHistorical"
                         }
                     }
                 ],
@@ -3039,7 +3039,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.HistoricalResponse"
+                            "$ref": "#/definitions/nationality.HistoricalResponse"
                         }
                     },
                     "400": {
@@ -3489,50 +3489,36 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Country of the food",
-                        "name": "country",
+                        "description": "food_name of the food",
+                        "name": "food_name",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Description of the food",
-                        "name": "description",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Type of the food",
+                        "description": "food_type of the food",
                         "name": "food_type",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Ingredients",
+                        "description": "country_id of the food",
+                        "name": "country_id",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "description",
+                        "name": "description",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "ingredients of the food",
                         "name": "ingredients",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Name of the food",
-                        "name": "name",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Nationality of the food",
-                        "name": "nationality",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "number",
-                        "description": "Rating of the food",
-                        "name": "rating",
                         "in": "formData",
                         "required": true
                     }
@@ -3726,7 +3712,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "default": "Uzbekistan",
-                        "name": "country",
+                        "name": "country_id",
                         "in": "query"
                     },
                     {
@@ -4726,49 +4712,6 @@ const docTemplate = `{
                 }
             }
         },
-        "models.AttractionListResponse": {
-            "type": "object",
-            "properties": {
-                "attractions": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/models.AttractionResponse"
-                    }
-                }
-            }
-        },
-        "models.AttractionResponse": {
-            "type": "object",
-            "properties": {
-                "category": {
-                    "type": "string"
-                },
-                "country": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "image_url": {
-                    "type": "string"
-                },
-                "location": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                }
-            }
-        },
         "models.ChangePasswordRequest": {
             "type": "object",
             "properties": {
@@ -5007,46 +4950,6 @@ const docTemplate = `{
                 }
             }
         },
-        "models.HistoricalListResponse": {
-            "type": "object",
-            "properties": {
-                "historical": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/models.HistoricalResponse"
-                    }
-                }
-            }
-        },
-        "models.HistoricalResponse": {
-            "type": "object",
-            "properties": {
-                "city": {
-                    "type": "string"
-                },
-                "country": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "image_url": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                }
-            }
-        },
         "models.LikeComResponse": {
             "type": "object",
             "properties": {
@@ -5211,9 +5114,6 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
-                "food_type": {
-                    "type": "string"
-                },
                 "id": {
                     "type": "string"
                 },
@@ -5226,14 +5126,8 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
-                "nationality": {
-                    "type": "string"
-                },
                 "rating": {
                     "type": "integer"
-                },
-                "updated_at": {
-                    "type": "string"
                 }
             }
         },
@@ -5410,68 +5304,6 @@ const docTemplate = `{
                 }
             }
         },
-        "models.UpdateAttraction": {
-            "type": "object",
-            "properties": {
-                "category": {
-                    "type": "string",
-                    "default": "culture"
-                },
-                "country": {
-                    "type": "string",
-                    "default": "Uzbekistan"
-                },
-                "description": {
-                    "type": "string",
-                    "default": "0"
-                },
-                "id": {
-                    "type": "string",
-                    "default": "0"
-                },
-                "image_url": {
-                    "type": "string",
-                    "default": "0"
-                },
-                "location": {
-                    "type": "string",
-                    "default": "dodi"
-                },
-                "name": {
-                    "type": "string",
-                    "default": "0"
-                }
-            }
-        },
-        "models.UpdateHistorical": {
-            "type": "object",
-            "properties": {
-                "city": {
-                    "type": "string",
-                    "default": "Uzbekistan"
-                },
-                "country": {
-                    "type": "string",
-                    "default": "Uzbekistan"
-                },
-                "description": {
-                    "type": "string",
-                    "default": "dodi"
-                },
-                "id": {
-                    "type": "string",
-                    "default": "0"
-                },
-                "image_url": {
-                    "type": "string",
-                    "default": "0"
-                },
-                "name": {
-                    "type": "string",
-                    "default": "dodi"
-                }
-            }
-        },
         "models.UpdateMs": {
             "type": "object",
             "properties": {
@@ -5489,40 +5321,28 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "country": {
-                    "type": "string",
-                    "default": "dodi"
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
                 },
                 "description": {
-                    "type": "string",
-                    "default": "dodi"
-                },
-                "food_type": {
-                    "type": "string",
-                    "default": "dodi"
+                    "type": "string"
                 },
                 "id": {
-                    "type": "string",
-                    "default": "0"
+                    "type": "string"
                 },
                 "image_url": {
-                    "type": "string",
-                    "default": "0"
+                    "type": "string"
                 },
                 "ingredients": {
-                    "type": "string",
-                    "default": "dodi"
+                    "type": "string"
                 },
                 "name": {
-                    "type": "string",
-                    "default": "dodi"
-                },
-                "nationality": {
-                    "type": "string",
-                    "default": "dodi"
+                    "type": "string"
                 },
                 "rating": {
-                    "type": "integer",
-                    "default": 120000
+                    "type": "integer"
                 }
             }
         },
@@ -5545,9 +5365,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "phone_number": {
-                    "type": "string"
-                },
-                "profile_image": {
                     "type": "string"
                 },
                 "username": {
@@ -5598,6 +5415,49 @@ const docTemplate = `{
         "models.Void": {
             "type": "object"
         },
+        "nationality.AttractionListResponse": {
+            "type": "object",
+            "properties": {
+                "attractions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/nationality.AttractionResponse"
+                    }
+                }
+            }
+        },
+        "nationality.AttractionResponse": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
         "nationality.AttractionType1": {
             "type": "object",
             "properties": {
@@ -5615,19 +5475,13 @@ const docTemplate = `{
         "nationality.Country": {
             "type": "object",
             "properties": {
-                "city": {
-                    "type": "string"
-                },
-                "country": {
-                    "type": "string"
-                },
                 "id": {
                     "type": "string"
                 },
                 "image_url": {
                     "type": "string"
                 },
-                "nationality": {
+                "name": {
                     "type": "string"
                 }
             }
@@ -5698,6 +5552,46 @@ const docTemplate = `{
                 }
             }
         },
+        "nationality.HistoricalListResponse": {
+            "type": "object",
+            "properties": {
+                "historical": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/nationality.HistoricalResponse"
+                    }
+                }
+            }
+        },
+        "nationality.HistoricalResponse": {
+            "type": "object",
+            "properties": {
+                "city": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
         "nationality.ListAttractionTypesResponse": {
             "type": "object",
             "properties": {
@@ -5725,6 +5619,38 @@ const docTemplate = `{
             "properties": {
                 "message": {
                     "description": "Corrected typo",
+                    "type": "string"
+                }
+            }
+        },
+        "nationality.UpdateAttraction": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updated_at": {
                     "type": "string"
                 }
             }
@@ -5775,6 +5701,35 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "nationality.UpdateHistorical": {
+            "type": "object",
+            "properties": {
+                "city": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updated_at": {
                     "type": "string"
                 }
             }
