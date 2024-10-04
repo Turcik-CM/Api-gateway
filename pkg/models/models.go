@@ -178,7 +178,7 @@ type Message struct {
 
 // PostCountry represents a country related to a post
 type PostCountry struct {
-	Country string `json:"country" default:"Uzbekistan"`
+	Country string `form:"country" json:"country" default:"Uzbekistan"`
 }
 
 // LikeList represents pagination for liked posts
@@ -645,4 +645,9 @@ type ResetPassReq struct {
 type UpdatePasswordReq struct {
 	Id       string `json:"id"`
 	Password string `json:"password"`
+}
+
+type UpdateCountry struct {
+	Id   string `json:"id" default:"0" form:"id"`
+	Name string `json:"name" default:"0" form:"name"`
 }

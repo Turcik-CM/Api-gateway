@@ -23,6 +23,7 @@ type AttractionsHandler interface {
 	SearchAttractions(c *gin.Context)
 	UpdateImage(c *gin.Context)
 	RemoveHistoricalImage(c *gin.Context)
+
 	CreateAttractionType(c *gin.Context)
 	GetAttractionByIDType(c *gin.Context)
 	UpdateAttractionType(c *gin.Context)

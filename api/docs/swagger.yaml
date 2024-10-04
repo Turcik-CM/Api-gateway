@@ -635,28 +635,20 @@ definitions:
       attraction_type:
         $ref: '#/definitions/nationality.AttractionType1'
     type: object
-  nationality.CreateCountryRequest:
+  nationality.CreateCityRequest:
     properties:
-      city:
+      country_id:
         type: string
-      country:
-        type: string
-      image_url:
-        type: string
-      nationality:
+      name:
         type: string
     type: object
-  nationality.CreateCountryResponse:
+  nationality.CreateCityResponse:
     properties:
-      city:
-        type: string
-      country:
+      country_id:
         type: string
       id:
         type: string
-      image_url:
-        type: string
-      nationality:
+      name:
         type: string
     type: object
   nationality.GetAttractionTypeResponse:
@@ -666,15 +658,11 @@ definitions:
     type: object
   nationality.GetCountryResponse:
     properties:
-      city:
-        type: string
-      country:
-        type: string
       id:
         type: string
       image_url:
         type: string
-      nationality:
+      name:
         type: string
     type: object
   nationality.ListAttractionTypesResponse:
@@ -690,6 +678,12 @@ definitions:
         items:
           $ref: '#/definitions/nationality.Country'
         type: array
+    type: object
+  nationality.Message:
+    properties:
+      message:
+        description: Corrected typo
+        type: string
     type: object
   nationality.UpdateAttractionTypeRequest:
     properties:
@@ -707,28 +701,20 @@ definitions:
     type: object
   nationality.UpdateCountryRequest:
     properties:
-      city:
-        type: string
-      country:
-        type: string
       id:
         type: string
       image_url:
         type: string
-      nationality:
+      name:
         type: string
     type: object
   nationality.UpdateCountryResponse:
     properties:
-      city:
-        type: string
-      country:
-        type: string
       id:
         type: string
       image_url:
         type: string
-      nationality:
+      name:
         type: string
     type: object
   user.FollowUser:
@@ -1864,6 +1850,181 @@ paths:
       summary: Update Chat
       tags:
       - Chat
+  /city/create:
+    post:
+      description: Create City by country id
+      parameters:
+      - description: Filter Countries
+        in: body
+        name: city
+        schema:
+          $ref: '#/definitions/nationality.CreateCityRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/nationality.CreateCityResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Create City
+      tags:
+      - City
+  /city/delete/{id}:
+    delete:
+      description: Delete city
+      parameters:
+      - description: city id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/nationality.Message'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete City
+      tags:
+      - City
+  /city/get-all/:
+    get:
+      description: Get list of city with filter
+      parameters:
+      - description: Filter Countries
+        in: query
+        name: filter
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/nationality.CreateCityResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get List City
+      tags:
+      - City
+  /city/get/{country_id}:
+    get:
+      description: Get cities by country
+      parameters:
+      - description: get cities
+        in: path
+        name: country_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/nationality.CreateCityResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get City
+      tags:
+      - City
+  /city/get/{id}:
+    get:
+      description: Get city by id
+      parameters:
+      - description: Filter Countries
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/nationality.CreateCityResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get City
+      tags:
+      - City
+  /city/update/:
+    put:
+      description: Update city
+      parameters:
+      - description: Filter Countries
+        in: body
+        name: city
+        required: true
+        schema:
+          $ref: '#/definitions/nationality.CreateCityResponse'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/nationality.UpdateCountryRequest'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Update City
+      tags:
+      - City
   /comment/country:
     get:
       description: Get a list of Comment filtered by country
@@ -2129,24 +2290,26 @@ paths:
   /country/create:
     post:
       consumes:
-      - application/json
-      description: Create a new country
+      - multipart/form-data
       parameters:
-      - description: Country Info
-        in: body
-        name: CreateCountryRequest
+      - description: Upload image file
+        in: formData
+        name: file
+        type: file
+      - description: Country name
+        in: formData
+        name: country_name
         required: true
-        schema:
-          $ref: '#/definitions/nationality.CreateCountryRequest'
+        type: string
       produces:
       - application/json
       responses:
         "201":
-          description: Country successfully created
+          description: Attraction successfully created
           schema:
-            $ref: '#/definitions/nationality.CreateCountryResponse'
+            $ref: '#/definitions/models.AttractionResponse'
         "400":
-          description: Bad request, validation error
+          description: Bad request, validation error or invalid file
           schema:
             $ref: '#/definitions/models.Error'
         "500":
@@ -2155,9 +2318,8 @@ paths:
             $ref: '#/definitions/models.Error'
       security:
       - BearerAuth: []
-      summary: Create a new Country
       tags:
-      - Country
+      - Attraction
   /country/delete/{id}:
     delete:
       description: Delete a country by its ID
@@ -2221,14 +2383,11 @@ paths:
       description: Get a list of countries
       parameters:
       - in: query
-        name: city
-        type: string
-      - in: query
-        name: country
-        type: string
-      - in: query
         name: limit
         type: integer
+      - in: query
+        name: name
+        type: string
       - in: query
         name: offset
         type: integer
@@ -2255,15 +2414,23 @@ paths:
   /country/update:
     put:
       consumes:
-      - application/json
+      - multipart/form-data
       description: Update a country's information
       parameters:
-      - description: Update Country Info
-        in: body
-        name: UpdateCountryRequest
+      - description: Upload image file
+        in: formData
+        name: file
+        type: file
+      - description: Country id
+        in: formData
+        name: id
         required: true
-        schema:
-          $ref: '#/definitions/nationality.UpdateCountryRequest'
+        type: string
+      - description: Country name
+        in: formData
+        name: name
+        required: true
+        type: string
       produces:
       - application/json
       responses:
