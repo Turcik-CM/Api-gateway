@@ -79,8 +79,8 @@ func (h *nationalFoodHandler) CreateNationalFood(c *gin.Context) {
 		log.Println("No file uploaded, continuing without an image")
 	}
 	res := pb.NationalFood{
-		FoodName:     a.,
-		FoodType:        a.Name,
+		FoodName:    a.Name,
+		FoodType:    a.Name,
 		Description: a.Description,
 		Nationality: a.Nationality,
 		ImageUrl:    a.ImageURL,
