@@ -249,7 +249,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/nationality.CreateAttractionTypeRequest"
+                            "$ref": "#/definitions/models.CreateAttractionTypeRequest"
                         }
                     }
                 ],
@@ -257,7 +257,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Attraction Type successfully created",
                         "schema": {
-                            "$ref": "#/definitions/nationality.CreateAttractionTypeResponse"
+                            "$ref": "#/definitions/models.CreateAttractionTypeResponse"
                         }
                     },
                     "400": {
@@ -349,7 +349,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/nationality.GetAttractionTypeResponse"
+                            "$ref": "#/definitions/models.GetAttractionTypeResponse"
                         }
                     },
                     "400": {
@@ -403,7 +403,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/nationality.ListAttractionTypesResponse"
+                            "$ref": "#/definitions/models.ListAttractionTypesResponse"
                         }
                     },
                     "400": {
@@ -446,7 +446,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/nationality.UpdateAttractionTypeRequest"
+                            "$ref": "#/definitions/models.UpdateAttractionTypeRequest"
                         }
                     }
                 ],
@@ -454,7 +454,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/nationality.UpdateAttractionTypeResponse"
+                            "$ref": "#/definitions/models.UpdateAttractionTypeResponse"
                         }
                     },
                     "400": {
@@ -4744,6 +4744,20 @@ const docTemplate = `{
                 }
             }
         },
+        "models.AttractionType": {
+            "type": "object",
+            "properties": {
+                "activity": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "models.ChangePasswordRequest": {
             "type": "object",
             "properties": {
@@ -4849,6 +4863,25 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
+                }
+            }
+        },
+        "models.CreateAttractionTypeRequest": {
+            "type": "object",
+            "properties": {
+                "activity": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.CreateAttractionTypeResponse": {
+            "type": "object",
+            "properties": {
+                "attraction_type": {
+                    "$ref": "#/definitions/models.AttractionType"
                 }
             }
         },
@@ -4977,6 +5010,14 @@ const docTemplate = `{
                 }
             }
         },
+        "models.GetAttractionTypeResponse": {
+            "type": "object",
+            "properties": {
+                "attraction_type": {
+                    "$ref": "#/definitions/models.AttractionType"
+                }
+            }
+        },
         "models.GetCountryResponse": {
             "type": "object",
             "properties": {
@@ -5082,6 +5123,17 @@ const docTemplate = `{
                 },
                 "post_id": {
                     "type": "string"
+                }
+            }
+        },
+        "models.ListAttractionTypesResponse": {
+            "type": "object",
+            "properties": {
+                "attraction_types": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.AttractionType"
+                    }
                 }
             }
         },
@@ -5400,6 +5452,28 @@ const docTemplate = `{
                 }
             }
         },
+        "models.UpdateAttractionTypeRequest": {
+            "type": "object",
+            "properties": {
+                "activity": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.UpdateAttractionTypeResponse": {
+            "type": "object",
+            "properties": {
+                "attraction_type": {
+                    "$ref": "#/definitions/models.AttractionType"
+                }
+            }
+        },
         "models.UpdateCountryRequest": {
             "type": "object",
             "properties": {
@@ -5582,47 +5656,6 @@ const docTemplate = `{
                 }
             }
         },
-        "nationality.AttractionType1": {
-            "type": "object",
-            "properties": {
-                "activity": {
-                    "type": "integer"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "nationality.CreateAttractionTypeRequest": {
-            "type": "object",
-            "properties": {
-                "activity": {
-                    "type": "integer"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "nationality.CreateAttractionTypeResponse": {
-            "type": "object",
-            "properties": {
-                "attraction_type": {
-                    "$ref": "#/definitions/nationality.AttractionType1"
-                }
-            }
-        },
-        "nationality.GetAttractionTypeResponse": {
-            "type": "object",
-            "properties": {
-                "attraction_type": {
-                    "$ref": "#/definitions/nationality.AttractionType1"
-                }
-            }
-        },
         "nationality.HistoricalListResponse": {
             "type": "object",
             "properties": {
@@ -5663,17 +5696,6 @@ const docTemplate = `{
                 }
             }
         },
-        "nationality.ListAttractionTypesResponse": {
-            "type": "object",
-            "properties": {
-                "attraction_types": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/nationality.AttractionType1"
-                    }
-                }
-            }
-        },
         "nationality.UpdateAttraction": {
             "type": "object",
             "properties": {
@@ -5703,28 +5725,6 @@ const docTemplate = `{
                 },
                 "updated_at": {
                     "type": "string"
-                }
-            }
-        },
-        "nationality.UpdateAttractionTypeRequest": {
-            "type": "object",
-            "properties": {
-                "activity": {
-                    "type": "integer"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "nationality.UpdateAttractionTypeResponse": {
-            "type": "object",
-            "properties": {
-                "attraction_type": {
-                    "$ref": "#/definitions/nationality.AttractionType1"
                 }
             }
         },
