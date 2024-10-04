@@ -57,6 +57,11 @@ type NationalityServiceClient interface {
 	UpdateAttractionType(ctx context.Context, in *UpdateAttractionTypeRequest, opts ...grpc.CallOption) (*UpdateAttractionTypeResponse, error)
 	DeleteAttractionType(ctx context.Context, in *DeleteAttractionTypeRequest, opts ...grpc.CallOption) (*Message, error)
 	ListAttractionTypes(ctx context.Context, in *ListAttractionTypesRequest, opts ...grpc.CallOption) (*ListAttractionTypesResponse, error)
+	CreateCountry(ctx context.Context, in *CreateCountryRequest, opts ...grpc.CallOption) (*CreateCountryResponse, error)
+	GetCountry(ctx context.Context, in *GetCountryRequest, opts ...grpc.CallOption) (*GetCountryResponse, error)
+	UpdateCountry(ctx context.Context, in *UpdateCountryRequest, opts ...grpc.CallOption) (*UpdateCountryResponse, error)
+	DeleteCountry(ctx context.Context, in *DeleteCountryRequest, opts ...grpc.CallOption) (*Message, error)
+	ListCountries(ctx context.Context, in *ListCountriesRequest, opts ...grpc.CallOption) (*ListCountriesResponse, error)
 }
 
 type nationalityServiceClient struct {
@@ -355,6 +360,51 @@ func (c *nationalityServiceClient) ListAttractionTypes(ctx context.Context, in *
 	return out, nil
 }
 
+func (c *nationalityServiceClient) CreateCountry(ctx context.Context, in *CreateCountryRequest, opts ...grpc.CallOption) (*CreateCountryResponse, error) {
+	out := new(CreateCountryResponse)
+	err := c.cc.Invoke(ctx, "/nationality.NationalityService/CreateCountry", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nationalityServiceClient) GetCountry(ctx context.Context, in *GetCountryRequest, opts ...grpc.CallOption) (*GetCountryResponse, error) {
+	out := new(GetCountryResponse)
+	err := c.cc.Invoke(ctx, "/nationality.NationalityService/GetCountry", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nationalityServiceClient) UpdateCountry(ctx context.Context, in *UpdateCountryRequest, opts ...grpc.CallOption) (*UpdateCountryResponse, error) {
+	out := new(UpdateCountryResponse)
+	err := c.cc.Invoke(ctx, "/nationality.NationalityService/UpdateCountry", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nationalityServiceClient) DeleteCountry(ctx context.Context, in *DeleteCountryRequest, opts ...grpc.CallOption) (*Message, error) {
+	out := new(Message)
+	err := c.cc.Invoke(ctx, "/nationality.NationalityService/DeleteCountry", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nationalityServiceClient) ListCountries(ctx context.Context, in *ListCountriesRequest, opts ...grpc.CallOption) (*ListCountriesResponse, error) {
+	out := new(ListCountriesResponse)
+	err := c.cc.Invoke(ctx, "/nationality.NationalityService/ListCountries", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // NationalityServiceServer is the server API for NationalityService service.
 // All implementations must embed UnimplementedNationalityServiceServer
 // for forward compatibility
@@ -394,6 +444,11 @@ type NationalityServiceServer interface {
 	UpdateAttractionType(context.Context, *UpdateAttractionTypeRequest) (*UpdateAttractionTypeResponse, error)
 	DeleteAttractionType(context.Context, *DeleteAttractionTypeRequest) (*Message, error)
 	ListAttractionTypes(context.Context, *ListAttractionTypesRequest) (*ListAttractionTypesResponse, error)
+	CreateCountry(context.Context, *CreateCountryRequest) (*CreateCountryResponse, error)
+	GetCountry(context.Context, *GetCountryRequest) (*GetCountryResponse, error)
+	UpdateCountry(context.Context, *UpdateCountryRequest) (*UpdateCountryResponse, error)
+	DeleteCountry(context.Context, *DeleteCountryRequest) (*Message, error)
+	ListCountries(context.Context, *ListCountriesRequest) (*ListCountriesResponse, error)
 	mustEmbedUnimplementedNationalityServiceServer()
 }
 
@@ -496,6 +551,21 @@ func (UnimplementedNationalityServiceServer) DeleteAttractionType(context.Contex
 }
 func (UnimplementedNationalityServiceServer) ListAttractionTypes(context.Context, *ListAttractionTypesRequest) (*ListAttractionTypesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListAttractionTypes not implemented")
+}
+func (UnimplementedNationalityServiceServer) CreateCountry(context.Context, *CreateCountryRequest) (*CreateCountryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateCountry not implemented")
+}
+func (UnimplementedNationalityServiceServer) GetCountry(context.Context, *GetCountryRequest) (*GetCountryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCountry not implemented")
+}
+func (UnimplementedNationalityServiceServer) UpdateCountry(context.Context, *UpdateCountryRequest) (*UpdateCountryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateCountry not implemented")
+}
+func (UnimplementedNationalityServiceServer) DeleteCountry(context.Context, *DeleteCountryRequest) (*Message, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteCountry not implemented")
+}
+func (UnimplementedNationalityServiceServer) ListCountries(context.Context, *ListCountriesRequest) (*ListCountriesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListCountries not implemented")
 }
 func (UnimplementedNationalityServiceServer) mustEmbedUnimplementedNationalityServiceServer() {}
 
@@ -1086,6 +1156,96 @@ func _NationalityService_ListAttractionTypes_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _NationalityService_CreateCountry_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateCountryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NationalityServiceServer).CreateCountry(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/nationality.NationalityService/CreateCountry",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NationalityServiceServer).CreateCountry(ctx, req.(*CreateCountryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NationalityService_GetCountry_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCountryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NationalityServiceServer).GetCountry(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/nationality.NationalityService/GetCountry",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NationalityServiceServer).GetCountry(ctx, req.(*GetCountryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NationalityService_UpdateCountry_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateCountryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NationalityServiceServer).UpdateCountry(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/nationality.NationalityService/UpdateCountry",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NationalityServiceServer).UpdateCountry(ctx, req.(*UpdateCountryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NationalityService_DeleteCountry_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteCountryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NationalityServiceServer).DeleteCountry(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/nationality.NationalityService/DeleteCountry",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NationalityServiceServer).DeleteCountry(ctx, req.(*DeleteCountryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NationalityService_ListCountries_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListCountriesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NationalityServiceServer).ListCountries(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/nationality.NationalityService/ListCountries",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NationalityServiceServer).ListCountries(ctx, req.(*ListCountriesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // NationalityService_ServiceDesc is the grpc.ServiceDesc for NationalityService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1220,6 +1380,26 @@ var NationalityService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListAttractionTypes",
 			Handler:    _NationalityService_ListAttractionTypes_Handler,
+		},
+		{
+			MethodName: "CreateCountry",
+			Handler:    _NationalityService_CreateCountry_Handler,
+		},
+		{
+			MethodName: "GetCountry",
+			Handler:    _NationalityService_GetCountry_Handler,
+		},
+		{
+			MethodName: "UpdateCountry",
+			Handler:    _NationalityService_UpdateCountry_Handler,
+		},
+		{
+			MethodName: "DeleteCountry",
+			Handler:    _NationalityService_DeleteCountry_Handler,
+		},
+		{
+			MethodName: "ListCountries",
+			Handler:    _NationalityService_ListCountries_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

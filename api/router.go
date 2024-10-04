@@ -43,6 +43,7 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer, re
 	nat := handler.NewNationalFoodHandler(a, log)
 	his := handler.NewHistoryHandler(a, log)
 	auth := handler.NewAuthHandler(log, a, redis)
+	country := handler.NewCountriesHandlers(a, log)
 
 	authGroup := router.Group("/auth")
 	{
@@ -69,14 +70,24 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer, re
 		attraction.PUT("/image/:id", att.UpdateImage)
 		attraction.DELETE("/remove-image/:id", att.RemoveHistoricalImage)
 
-		attractionType := router1.Group("attraction-type")
-		{
-			attractionType.POST("/create", att.CreateAttractionType)
-			attractionType.PUT("/update", att.UpdateAttractionType)
-			attractionType.GET("/get/:id", att.GetAttractionByIDType)
-			attractionType.DELETE("/delete/:id", att.DeleteAttractionType)
-			attractionType.GET("/list", att.ListAttractionsType)
-		}
+	}
+
+	attractionType := router1.Group("attraction-type")
+	{
+		attractionType.POST("/create", att.CreateAttractionType)
+		attractionType.PUT("/update", att.UpdateAttractionType)
+		attractionType.GET("/get/:id", att.GetAttractionByIDType)
+		attractionType.DELETE("/delete/:id", att.DeleteAttractionType)
+		attractionType.GET("/list", att.ListAttractionsType)
+	}
+
+	nationalCountry := router1.Group("/country")
+	{
+		nationalCountry.POST("/create", country.CreateCountry)
+		nationalCountry.PUT("/update", country.UpdateCountry)
+		nationalCountry.GET("/get/:id", country.GetCountryByID)
+		nationalCountry.DELETE("/delete/:id", country.DeleteCountry)
+		nationalCountry.GET("/list", country.ListCountries)
 	}
 
 	nationalFood := router1.Group("/national")
@@ -118,7 +129,7 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer, re
 		userGroup.GET("/list-of-followers", user.ListOfFollowers)
 		userGroup.DELETE("/delete", user.DeleteProfile)
 		userGroup.POST("/follow", user.Follow)
-		userGroup.DELETE("/unfollow/:user_id", user.Unfollow)
+		userGroup.DELETE("/unfollow/:id", user.Unfollow)
 		userGroup.GET("/most-popular-user", user.MostPopularUser)
 	}
 

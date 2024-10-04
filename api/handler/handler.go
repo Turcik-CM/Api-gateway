@@ -14,6 +14,7 @@ type Handler struct {
 	Attraction AttractionsHandler
 	National   NationalFoodHandler
 	History    HistoryHandler
+	Country    CountriesHandler
 }
 
 func (h *Handler) ChatHandler() ChatHandler {
@@ -48,6 +49,10 @@ func (h *Handler) PostHandler() PostHandler {
 	return h.Post
 }
 
+func (h *Handler) CountryHandler() CountriesHandler {
+	return h.Country
+}
+
 type SHandler interface {
 	PostHandler() PostHandler
 	CommentHandler() CommentHandler
@@ -57,6 +62,7 @@ type SHandler interface {
 	AttractionsHandler() AttractionsHandler
 	NationalFoodHandler() NationalFoodHandler
 	HistoryHandler() HistoryHandler
+	CountryHandler() CountriesHandler
 }
 
 func NewMainHandler(Service service.Service, logger *slog.Logger) SHandler {
@@ -69,5 +75,6 @@ func NewMainHandler(Service service.Service, logger *slog.Logger) SHandler {
 		Attraction: NewAttractionsHandler(Service, logger),
 		National:   NewNationalFoodHandler(Service, logger),
 		History:    NewHistoryHandler(Service, logger),
+		Country:    NewCountriesHandlers(Service, logger),
 	}
 }
