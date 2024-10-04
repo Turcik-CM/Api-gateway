@@ -152,11 +152,6 @@ definitions:
       error:
         type: string
     type: object
-  models.FollowReq:
-    properties:
-      following_id:
-        type: string
-    type: object
   models.FollowRes:
     properties:
       followed_at:
@@ -797,7 +792,7 @@ paths:
       summary: Create User
       tags:
       - Admin
-  /admin/delete-user/{id}:
+  /admin/delete-user/{user_id}:
     delete:
       consumes:
       - application/json
@@ -874,7 +869,7 @@ paths:
       parameters:
       - description: User ID
         in: path
-        name: user_id
+        name: id
         required: true
         type: string
       produces:
@@ -3549,18 +3544,17 @@ paths:
       summary: Delete User Profile
       tags:
       - User
-  /user/follow:
+  /user/follow/{user_id}:
     post:
       consumes:
       - application/json
       description: Follow another user
       parameters:
-      - description: post user
-        in: body
-        name: Follow
+      - description: Follow code
+        in: path
+        name: user_id
         required: true
-        schema:
-          $ref: '#/definitions/models.FollowReq'
+        type: string
       produces:
       - application/json
       responses:
@@ -3606,7 +3600,7 @@ paths:
       summary: Get User Profile
       tags:
       - User
-  /user/list-of-followers:
+  /user/list_of_followers:
     get:
       consumes:
       - application/json
@@ -3631,7 +3625,7 @@ paths:
       summary: List of Followers
       tags:
       - User
-  /user/list-of-following:
+  /user/list_of_following:
     get:
       consumes:
       - application/json
@@ -3681,7 +3675,7 @@ paths:
       summary: Most Popular User
       tags:
       - User
-  /user/unfollow/{id}:
+  /user/unfollow/{user_id}:
     delete:
       consumes:
       - application/json
@@ -3689,7 +3683,7 @@ paths:
       parameters:
       - description: Unfollow code
         in: path
-        name: id
+        name: user_id
         required: true
         type: string
       produces:

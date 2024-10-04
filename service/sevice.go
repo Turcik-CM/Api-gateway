@@ -35,7 +35,7 @@ func (s *service) PostService() pb.PostServiceClient {
 }
 
 func NewService(cfg *config.Config) (Service, error) {
-	userConn, err := grpc.NewClient(cfg.USER_HOST+cfg.USER_SERVICE, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	userConn, err := grpc.NewClient("localhost:50050", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		return nil, err
 	}
@@ -44,8 +44,8 @@ func NewService(cfg *config.Config) (Service, error) {
 		return nil, err
 	}
 
-	NationalityConn, err := grpc.NewClient(cfg.NATIONAL_HOST+cfg.NATIONAL_SERVICE, grpc.WithTransportCredentials(insecure.NewCredentials()))
-	//NationalityConn, err := grpc.NewClient("127.0.0.1:7080", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	//NationalityConn, err := grpc.NewClient(cfg.NATIONAL_HOST+cfg.NATIONAL_SERVICE, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	NationalityConn, err := grpc.NewClient("localhost:7080", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		return nil, err
 	}

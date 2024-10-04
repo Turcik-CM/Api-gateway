@@ -327,14 +327,13 @@ type GetProfileResponse struct {
 
 // UpdateProfileRequest represents the request to update a user's profile.
 type UpdateProfileRequest struct {
-	FirstName    string `json:"first_name" db:"first_name"`
-	LastName     string `json:"last_name" db:"last_name"`
-	PhoneNumber  string `json:"phone_number" db:"phone_number"`
-	Username     string `json:"username" db:"username"`
-	Nationality  string `json:"nationality" db:"nationality"`
-	Bio          string `json:"bio" db:"bio"`
-	ProfileImage string `json:"profile_image" db:"profile_image"`
-	Phone        string `json:"phone" db:"phone"`
+	FirstName   string `json:"first_name" db:"first_name"`
+	LastName    string `json:"last_name" db:"last_name"`
+	PhoneNumber string `json:"phone_number" db:"phone_number"`
+	Username    string `json:"username" db:"username"`
+	Nationality string `json:"nationality" db:"nationality"`
+	Bio         string `json:"bio" db:"bio"`
+	Phone       string `json:"phone" db:"phone"`
 }
 
 // Filter represents filtering options with pagination for admin-specific requests.

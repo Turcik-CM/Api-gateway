@@ -70,22 +70,21 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer, re
 		attraction.PUT("/image/:id", att.UpdateImage)
 		attraction.DELETE("/remove-image/:id", att.RemoveHistoricalImage)
 
-	}
-
-	attractionType := router1.Group("attraction-type")
-	{
-		attractionType.POST("/create", att.CreateAttractionType)
-		attractionType.PUT("/update", att.UpdateAttractionType)
-		attractionType.GET("/get/:id", att.GetAttractionByIDType)
-		attractionType.DELETE("/delete/:id", att.DeleteAttractionType)
-		attractionType.GET("/list", att.ListAttractionsType)
+		attractionType := router1.Group("attraction-type")
+		{
+			attractionType.POST("/create", att.CreateAttractionType)
+			attractionType.PUT("/update", att.UpdateAttractionType)
+			attractionType.GET("/get/:id", att.GetAttractionByIDType)
+			attractionType.DELETE("/delete/:id", att.DeleteAttractionType)
+			attractionType.GET("/list", att.ListAttractionsType)
+		}
 	}
 
 	nationalCountry := router1.Group("/country")
 	{
 		nationalCountry.POST("/create", country.CreateCountry)
 		nationalCountry.PUT("/update", country.UpdateCountry)
-		nationalCountry.GET("/get/:id", country.GetCountryByID)
+		nationalCountry.GET("/getBy/:id", country.GetCountryByID)
 		nationalCountry.DELETE("/delete/:id", country.DeleteCountry)
 		nationalCountry.GET("/list", country.ListCountries)
 	}
@@ -115,7 +114,7 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer, re
 	{
 		admin.GET("/fetch_users", user.FetchUsers)
 		admin.POST("/create-user", user.Create)
-		admin.DELETE("/delete-user/:id", user.DeleteUser)
+		admin.DELETE("/delete-user/:user_id", user.DeleteUser)
 		admin.GET("/user-by-id/:id", user.GetProfileById)
 	}
 
@@ -125,11 +124,11 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer, re
 		userGroup.PUT("/update-profile", user.UpdateProfile)
 		userGroup.PUT("/change-password", user.ChangePassword)
 		userGroup.PUT("/change-profile-image", user.ChangeProfileImage)
-		userGroup.GET("/list-of-following", user.ListOfFollowing)
-		userGroup.GET("/list-of-followers", user.ListOfFollowers)
+		userGroup.GET("/list_of_following", user.ListOfFollowing)
+		userGroup.GET("/list_of_followers", user.ListOfFollowers)
 		userGroup.DELETE("/delete", user.DeleteProfile)
-		userGroup.POST("/follow", user.Follow)
-		userGroup.DELETE("/unfollow/:id", user.Unfollow)
+		userGroup.POST("/follow/:user_id", user.Follow)
+		userGroup.DELETE("/unfollow/:user_id", user.Unfollow)
 		userGroup.GET("/most-popular-user", user.MostPopularUser)
 	}
 
