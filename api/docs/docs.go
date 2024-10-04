@@ -66,7 +66,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin/delete-user/{id}": {
+        "/admin/delete-user/{user_id}": {
             "delete": {
                 "security": [
                     {
@@ -197,7 +197,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "User ID",
-                        "name": "user_id",
+                        "name": "id",
                         "in": "path",
                         "required": true
                     }
@@ -1722,6 +1722,285 @@ const docTemplate = `{
                 }
             }
         },
+        "/city/create": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create City by country id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "City"
+                ],
+                "summary": "Create City",
+                "parameters": [
+                    {
+                        "description": "Filter Countries",
+                        "name": "city",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/nationality.CreateCityRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/nationality.CreateCityResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/city/delete/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete city",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "City"
+                ],
+                "summary": "Delete City",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "city id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/nationality.Message"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/city/get-all/": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get list of city with filter",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "City"
+                ],
+                "summary": "Get List City",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Filter Countries",
+                        "name": "filter",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/nationality.CreateCityResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/city/get/{country_id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get cities by country",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "City"
+                ],
+                "summary": "Get City",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "get cities",
+                        "name": "country_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/nationality.CreateCityResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/city/get/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get city by id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "City"
+                ],
+                "summary": "Get City",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Filter Countries",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/nationality.CreateCityResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/city/update/": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update city",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "City"
+                ],
+                "summary": "Update City",
+                "parameters": [
+                    {
+                        "description": "Filter Countries",
+                        "name": "city",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/nationality.CreateCityResponse"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/nationality.UpdateCountryRequest"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/comment/country": {
             "get": {
                 "security": [
@@ -2146,37 +2425,39 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Create a new country",
                 "consumes": [
-                    "application/json"
+                    "multipart/form-data"
                 ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Country"
+                    "Attraction"
                 ],
-                "summary": "Create a new Country",
                 "parameters": [
                     {
-                        "description": "Country Info",
-                        "name": "CreateCountryRequest",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/nationality.CreateCountryRequest"
-                        }
+                        "type": "file",
+                        "description": "Upload image file",
+                        "name": "file",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Country name",
+                        "name": "country_name",
+                        "in": "formData",
+                        "required": true
                     }
                 ],
                 "responses": {
                     "201": {
-                        "description": "Country successfully created",
+                        "description": "Attraction successfully created",
                         "schema": {
-                            "$ref": "#/definitions/nationality.CreateCountryResponse"
+                            "$ref": "#/definitions/models.AttractionResponse"
                         }
                     },
                     "400": {
-                        "description": "Bad request, validation error",
+                        "description": "Bad request, validation error or invalid file",
                         "schema": {
                             "$ref": "#/definitions/models.Error"
                         }
@@ -2299,18 +2580,13 @@ const docTemplate = `{
                 "summary": "List Countries",
                 "parameters": [
                     {
-                        "type": "string",
-                        "name": "city",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "country",
-                        "in": "query"
-                    },
-                    {
                         "type": "integer",
                         "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "name",
                         "in": "query"
                     },
                     {
@@ -2350,7 +2626,7 @@ const docTemplate = `{
                 ],
                 "description": "Update a country's information",
                 "consumes": [
-                    "application/json"
+                    "multipart/form-data"
                 ],
                 "produces": [
                     "application/json"
@@ -2361,13 +2637,24 @@ const docTemplate = `{
                 "summary": "Update Country",
                 "parameters": [
                     {
-                        "description": "Update Country Info",
-                        "name": "UpdateCountryRequest",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/nationality.UpdateCountryRequest"
-                        }
+                        "type": "file",
+                        "description": "Upload image file",
+                        "name": "file",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Country id",
+                        "name": "id",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Country name",
+                        "name": "name",
+                        "in": "formData",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -4115,7 +4402,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/follow": {
+        "/user/follow/{user_id}": {
             "post": {
                 "security": [
                     {
@@ -4135,13 +4422,11 @@ const docTemplate = `{
                 "summary": "Follow User",
                 "parameters": [
                     {
-                        "description": "post user",
-                        "name": "Follow",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.FollowReq"
-                        }
+                        "type": "string",
+                        "description": "Follow code",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -4206,7 +4491,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/list-of-followers": {
+        "/user/list_of_followers": {
             "get": {
                 "security": [
                     {
@@ -4246,7 +4531,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/list-of-following": {
+        "/user/list_of_following": {
             "get": {
                 "security": [
                     {
@@ -4326,7 +4611,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/unfollow/{id}": {
+        "/user/unfollow/{user_id}": {
             "delete": {
                 "security": [
                     {
@@ -4348,7 +4633,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Unfollow code",
-                        "name": "id",
+                        "name": "user_id",
                         "in": "path",
                         "required": true
                     }
@@ -4655,14 +4940,6 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "error": {
-                    "type": "string"
-                }
-            }
-        },
-        "models.FollowReq": {
-            "type": "object",
-            "properties": {
-                "following_id": {
                     "type": "string"
                 }
             }
@@ -5374,39 +5651,27 @@ const docTemplate = `{
                 }
             }
         },
-        "nationality.CreateCountryRequest": {
+        "nationality.CreateCityRequest": {
             "type": "object",
             "properties": {
-                "city": {
+                "country_id": {
                     "type": "string"
                 },
-                "country": {
-                    "type": "string"
-                },
-                "image_url": {
-                    "type": "string"
-                },
-                "nationality": {
+                "name": {
                     "type": "string"
                 }
             }
         },
-        "nationality.CreateCountryResponse": {
+        "nationality.CreateCityResponse": {
             "type": "object",
             "properties": {
-                "city": {
-                    "type": "string"
-                },
-                "country": {
+                "country_id": {
                     "type": "string"
                 },
                 "id": {
                     "type": "string"
                 },
-                "image_url": {
-                    "type": "string"
-                },
-                "nationality": {
+                "name": {
                     "type": "string"
                 }
             }
@@ -5422,19 +5687,13 @@ const docTemplate = `{
         "nationality.GetCountryResponse": {
             "type": "object",
             "properties": {
-                "city": {
-                    "type": "string"
-                },
-                "country": {
-                    "type": "string"
-                },
                 "id": {
                     "type": "string"
                 },
                 "image_url": {
                     "type": "string"
                 },
-                "nationality": {
+                "name": {
                     "type": "string"
                 }
             }
@@ -5458,6 +5717,15 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/nationality.Country"
                     }
+                }
+            }
+        },
+        "nationality.Message": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "description": "Corrected typo",
+                    "type": "string"
                 }
             }
         },
@@ -5486,19 +5754,13 @@ const docTemplate = `{
         "nationality.UpdateCountryRequest": {
             "type": "object",
             "properties": {
-                "city": {
-                    "type": "string"
-                },
-                "country": {
-                    "type": "string"
-                },
                 "id": {
                     "type": "string"
                 },
                 "image_url": {
                     "type": "string"
                 },
-                "nationality": {
+                "name": {
                     "type": "string"
                 }
             }
@@ -5506,19 +5768,13 @@ const docTemplate = `{
         "nationality.UpdateCountryResponse": {
             "type": "object",
             "properties": {
-                "city": {
-                    "type": "string"
-                },
-                "country": {
-                    "type": "string"
-                },
                 "id": {
                     "type": "string"
                 },
                 "image_url": {
                     "type": "string"
                 },
-                "nationality": {
+                "name": {
                     "type": "string"
                 }
             }

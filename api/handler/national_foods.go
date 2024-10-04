@@ -261,5 +261,7 @@ func (h *nationalFoodHandler) UpdateImage(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+
+	resp.Message = url
 	c.JSON(http.StatusCreated, gin.H{"response": resp})
 }

@@ -23,6 +23,7 @@ type AttractionsHandler interface {
 	SearchAttractions(c *gin.Context)
 	UpdateImage(c *gin.Context)
 	RemoveHistoricalImage(c *gin.Context)
+
 	CreateAttractionType(c *gin.Context)
 	GetAttractionByIDType(c *gin.Context)
 	UpdateAttractionType(c *gin.Context)
@@ -155,6 +156,7 @@ func (h *attractionsHandler) UpdateAttraction(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
 	req, err := h.attractionsService.UpdateAttractions(context.Background(), &att)
 	if err != nil {
 		h.logger.Error("Error occurred while updating attraction", err)
