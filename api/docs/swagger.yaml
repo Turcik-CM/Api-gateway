@@ -2300,7 +2300,7 @@ paths:
       security:
       - BearerAuth: []
       tags:
-      - Attraction
+      - Country
   /country/delete/{id}:
     delete:
       description: Delete a country by its ID
