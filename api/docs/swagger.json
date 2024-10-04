@@ -4198,7 +4198,7 @@
                 }
             }
         },
-        "/user/list_of_followers": {
+        "/user/list-of-followers": {
             "get": {
                 "security": [
                     {
@@ -4238,7 +4238,7 @@
                 }
             }
         },
-        "/user/list_of_following": {
+        "/user/list-of-following": {
             "get": {
                 "security": [
                     {
@@ -4318,7 +4318,7 @@
                 }
             }
         },
-        "/user/unfollow": {
+        "/user/unfollow/{id}": {
             "delete": {
                 "security": [
                     {

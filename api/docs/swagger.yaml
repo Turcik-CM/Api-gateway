@@ -3439,7 +3439,7 @@ paths:
       summary: Get User Profile
       tags:
       - User
-  /user/list_of_followers:
+  /user/list-of-followers:
     get:
       consumes:
       - application/json
@@ -3464,7 +3464,7 @@ paths:
       summary: List of Followers
       tags:
       - User
-  /user/list_of_following:
+  /user/list-of-following:
     get:
       consumes:
       - application/json
@@ -3514,7 +3514,7 @@ paths:
       summary: Most Popular User
       tags:
       - User
-  /user/unfollow:
+  /user/unfollow/{id}:
     delete:
       consumes:
       - application/json

@@ -4206,7 +4206,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/list_of_followers": {
+        "/user/list-of-followers": {
             "get": {
                 "security": [
                     {
@@ -4246,7 +4246,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/list_of_following": {
+        "/user/list-of-following": {
             "get": {
                 "security": [
                     {
@@ -4326,7 +4326,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/unfollow": {
+        "/user/unfollow/{id}": {
             "delete": {
                 "security": [
                     {
