@@ -61,7 +61,7 @@ func NewAttractionsHandler(attrService service.Service, logger *slog.Logger) Att
 // @Param location formData string true "Location of the attraction"
 // @Param country formData string true "Country of the attraction"
 // @Param category formData string true "Category of the attraction"
-// @Success 201 {object} models.AttractionResponse "Attraction successfully created"
+// @Success 201 {object} nationality.AttractionResponse "Attraction successfully created"
 // @Failure 400 {object} models.Error "Bad request, validation error or invalid file"
 // @Failure 500 {object} models.Error "Internal server error"
 // @Router /attraction/create [post]
@@ -120,7 +120,7 @@ func (h *attractionsHandler) CreateAttraction(c *gin.Context) {
 // @Tags Attraction
 // @Produce json
 // @Param id path string true "Attraction ID"
-// @Success 200 {object} models.AttractionResponse
+// @Success 200 {object} nationality.AttractionResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /attraction/getBy/{id} [get]
@@ -143,8 +143,8 @@ func (h *attractionsHandler) GetAttractionByID(c *gin.Context) {
 // @Tags Attraction
 // @Accept json
 // @Produce json
-// @Param Update body models.UpdateAttraction true "Update Attraction"
-// @Success 200 {object} models.AttractionResponse
+// @Param Update body nationality.UpdateAttraction true "Update Attraction"
+// @Success 200 {object} nationality.AttractionResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /attraction/update [put]
@@ -193,8 +193,8 @@ func (h *attractionsHandler) DeleteAttraction(c *gin.Context) {
 // @Security BearerAuth
 // @Tags Attraction
 // @Produce json
-// @Param filter query models.AttractionList false "Filter Attraction"
-// @Success 200 {object} models.AttractionListResponse
+// @Param filter query nationality.AttractionList false "Filter Attraction"
+// @Success 200 {object} nationality.AttractionListResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /attraction/list [get]
@@ -240,8 +240,8 @@ func (h *attractionsHandler) ListAttractions(c *gin.Context) {
 // @Security BearerAuth
 // @Tags Attraction
 // @Produce json
-// @Param filter query models.AttractionSearch false "Filter Attraction"
-// @Success 200 {object} models.AttractionListResponse
+// @Param filter query nationality.AttractionSearch false "Filter Attraction"
+// @Success 200 {object} nationality.AttractionListResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /attraction/list_search [get]
