@@ -348,8 +348,8 @@ func (h *attractionsHandler) RemoveHistoricalImage(c *gin.Context) {
 // @Tags AttractionType
 // @Accept json
 // @Produce json
-// @Param CreateAttractionTypeRequest body nationality.CreateAttractionTypeRequest true "Attraction Type Info"
-// @Success 201 {object} nationality.CreateAttractionTypeResponse "Attraction Type successfully created"
+// @Param CreateAttractionTypeRequest body models.CreateAttractionTypeRequest true "Attraction Type Info"
+// @Success 201 {object} models.CreateAttractionTypeResponse "Attraction Type successfully created"
 // @Failure 400 {object} models.Error "Bad request, validation error"
 // @Failure 500 {object} models.Error "Internal server error"
 // @Router /attraction-type/create [post]
@@ -378,7 +378,7 @@ func (h *attractionsHandler) CreateAttractionType(c *gin.Context) {
 // @Tags AttractionType
 // @Produce json
 // @Param id path string true "Attraction Type ID"
-// @Success 200 {object} nationality.GetAttractionTypeResponse
+// @Success 200 {object} models.GetAttractionTypeResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /attraction-type/get/{id} [get]
@@ -401,8 +401,8 @@ func (h *attractionsHandler) GetAttractionByIDType(c *gin.Context) {
 // @Tags AttractionType
 // @Accept json
 // @Produce json
-// @Param UpdateAttractionTypeRequest body nationality.UpdateAttractionTypeRequest true "Update Attraction Type"
-// @Success 200 {object} nationality.UpdateAttractionTypeResponse
+// @Param UpdateAttractionTypeRequest body models.UpdateAttractionTypeRequest true "Update Attraction Type"
+// @Success 200 {object} models.UpdateAttractionTypeResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /attraction-type/update [put]
@@ -453,8 +453,8 @@ func (h *attractionsHandler) DeleteAttractionType(c *gin.Context) {
 // @Security BearerAuth
 // @Tags AttractionType
 // @Produce json
-// @Param filter query nationality.ListAttractionTypesRequest false "Filter Attraction Types"
-// @Success 200 {object} nationality.ListAttractionTypesResponse
+// @Param filter query models.ListAttractionTypesRequest false "Filter Attraction Types"
+// @Success 200 {object} models.ListAttractionTypesResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /attraction-type/list [get]

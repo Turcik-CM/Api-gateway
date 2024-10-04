@@ -644,3 +644,167 @@ type UpdateCountry struct {
 	Id   string `json:"id" default:"0" form:"id"`
 	Name string `json:"name" default:"0" form:"name"`
 }
+
+// ===============================================
+// CreateCountryRequest defines the request structure for creating a country
+type CreateCountryRequest struct {
+	Name     string `json:"name"`
+	ImageURL string `json:"image_url"`
+}
+
+// CreateCountryResponse defines the response structure after creating a country
+type CreateCountryResponse struct {
+	ID       string `json:"id"`
+	Name     string `json:"name"`
+	ImageURL string `json:"image_url"`
+}
+
+// GetCountryRequest defines the request structure for getting a country by ID
+type GetCountryRequest struct {
+	ID string `json:"id"`
+}
+
+// GetCountryResponse defines the response structure for getting a country by ID
+type GetCountryResponse struct {
+	ID       string `json:"id"`
+	Name     string `json:"name"`
+	ImageURL string `json:"image_url"`
+}
+
+// UpdateCountryRequest defines the request structure for updating a country's details
+type UpdateCountryRequest struct {
+	ID       string `json:"id"`
+	Name     string `json:"name"`
+	ImageURL string `json:"image_url"`
+}
+
+// UpdateCountryResponse defines the response structure after updating a country's details
+type UpdateCountryResponse struct {
+	ID       string `json:"id"`
+	Name     string `json:"name"`
+	ImageURL string `json:"image_url"`
+}
+
+// DeleteCountryRequest defines the request structure for deleting a country by ID
+type DeleteCountryRequest struct {
+	ID string `json:"id"`
+}
+
+// ListCountriesRequest defines the request structure for listing countries with pagination and filtering
+type ListCountriesRequest struct {
+	Limit  int64  `json:"limit"`
+	Offset int64  `json:"offset"`
+	Name   string `json:"name"`
+}
+
+// ListCountriesResponse defines the response structure for listing countries
+type ListCountriesResponse struct {
+	Countries []Country `json:"countries"`
+}
+
+// Country defines the structure of a country in the system
+type Country struct {
+	ID       string `json:"id"`
+	Name     string `json:"name"`
+	ImageURL string `json:"image_url"`
+}
+
+// GetCountryId defines the response structure for getting multiple cities with total count
+type GetCountryId struct {
+	Countries []CreateCityResponse `json:"countries"`
+	Total     int32                `json:"total"`
+}
+
+// CountryId defines the structure for a country ID
+type CountryId struct {
+	ID string `json:"id"`
+}
+
+// ListCityRequest defines the request structure for listing cities with pagination and filtering
+type ListCityRequest struct {
+	Limit     int64  `json:"limit"`
+	Offset    int64  `json:"offset"`
+	Name      string `json:"name"`
+	CountryID string `json:"country_id"`
+}
+
+// ListCityResponse defines the response structure for listing cities
+type ListCityResponse struct {
+	Countries []CreateCityResponse `json:"countries"`
+	Total     int32                `json:"total"`
+}
+
+// GetCityRequest defines the request structure for getting a city by ID
+type GetCityRequest struct {
+	ID string `json:"id"`
+}
+
+// CreateCityRequest defines the request structure for creating a new city
+type CreateCityRequest struct {
+	CountryID string `json:"country_id"`
+	Name      string `json:"name"`
+}
+
+// CreateCityResponse defines the response structure after creating a new city
+type CreateCityResponse struct {
+	ID        string `json:"id"`
+	CountryID string `json:"country_id"`
+	Name      string `json:"name"`
+}
+
+// CreateAttractionTypeRequest defines the request structure for creating an attraction type
+type CreateAttractionTypeRequest struct {
+	Name     string `json:"name"`
+	Activity int32  `json:"activity"`
+}
+
+// CreateAttractionTypeResponse defines the response structure after creating an attraction type
+type CreateAttractionTypeResponse struct {
+	AttractionType AttractionType `json:"attraction_type"`
+}
+
+// GetAttractionTypeRequest defines the request structure for getting an attraction type by ID
+type GetAttractionTypeRequest struct {
+	ID string `json:"id"`
+}
+
+// GetAttractionTypeResponse defines the response structure for getting an attraction type by ID
+type GetAttractionTypeResponse struct {
+	AttractionType AttractionType `json:"attraction_type"`
+}
+
+// UpdateAttractionTypeRequest defines the request structure for updating an attraction type
+type UpdateAttractionTypeRequest struct {
+	ID       string `json:"id"`
+	Name     string `json:"name"`
+	Activity int32  `json:"activity"`
+}
+
+// UpdateAttractionTypeResponse defines the response structure after updating an attraction type
+type UpdateAttractionTypeResponse struct {
+	AttractionType AttractionType `json:"attraction_type"`
+}
+
+// DeleteAttractionTypeRequest defines the request structure for deleting an attraction type by ID
+type DeleteAttractionTypeRequest struct {
+	ID string `json:"id"`
+}
+
+// ListAttractionTypesRequest defines the request structure for listing attraction types with pagination and filtering
+type ListAttractionTypesRequest struct {
+	Limit  int64  `json:"limit"`
+	Offset int64  `json:"offset"`
+	Name   string `json:"name"`
+}
+
+// ListAttractionTypesResponse defines the response structure for listing attraction types
+type ListAttractionTypesResponse struct {
+	AttractionTypes []AttractionType `json:"attraction_types"`
+}
+
+// AttractionType defines the structure of an attraction type in the system
+type AttractionType struct {
+	ID       string `json:"id"`
+	Name     string `json:"name"`
+	Activity int32  `json:"activity"`
+}

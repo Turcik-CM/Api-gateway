@@ -1742,7 +1742,7 @@ const docTemplate = `{
                         "name": "city",
                         "in": "body",
                         "schema": {
-                            "$ref": "#/definitions/nationality.CreateCityRequest"
+                            "$ref": "#/definitions/models.CreateCityRequest"
                         }
                     }
                 ],
@@ -1750,7 +1750,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/nationality.CreateCityResponse"
+                            "$ref": "#/definitions/models.CreateCityResponse"
                         }
                     },
                     "400": {
@@ -1796,7 +1796,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/nationality.Message"
+                            "$ref": "#/definitions/models.Message"
                         }
                     },
                     "400": {
@@ -1842,7 +1842,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/nationality.CreateCityResponse"
+                            "$ref": "#/definitions/models.CreateCityResponse"
                         }
                     },
                     "400": {
@@ -1888,7 +1888,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/nationality.CreateCityResponse"
+                            "$ref": "#/definitions/models.CreateCityResponse"
                         }
                     },
                     "400": {
@@ -1934,7 +1934,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/nationality.CreateCityResponse"
+                            "$ref": "#/definitions/models.CreateCityResponse"
                         }
                     },
                     "400": {
@@ -1974,7 +1974,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/nationality.CreateCityResponse"
+                            "$ref": "#/definitions/models.CreateCityResponse"
                         }
                     }
                 ],
@@ -1982,7 +1982,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/nationality.UpdateCountryRequest"
+                            "$ref": "#/definitions/models.UpdateCountryRequest"
                         }
                     },
                     "400": {
@@ -2452,7 +2452,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Attraction successfully created",
                         "schema": {
-                            "$ref": "#/definitions/nationality.AttractionResponse"
+                            "$ref": "#/definitions/models.AttractionResponse"
                         }
                     },
                     "400": {
@@ -2544,7 +2544,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/nationality.GetCountryResponse"
+                            "$ref": "#/definitions/models.GetCountryResponse"
                         }
                     },
                     "400": {
@@ -2598,7 +2598,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/nationality.ListCountriesResponse"
+                            "$ref": "#/definitions/models.ListCountriesResponse"
                         }
                     },
                     "400": {
@@ -2660,7 +2660,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/nationality.UpdateCountryResponse"
+                            "$ref": "#/definitions/models.UpdateCountryResponse"
                         }
                     },
                     "400": {
@@ -4712,6 +4712,38 @@ const docTemplate = `{
                 }
             }
         },
+        "models.AttractionResponse": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
         "models.ChangePasswordRequest": {
             "type": "object",
             "properties": {
@@ -4806,12 +4838,51 @@ const docTemplate = `{
                 }
             }
         },
+        "models.Country": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "models.CreateChat": {
             "type": "object",
             "properties": {
                 "user2_id": {
                     "type": "string",
                     "default": "0"
+                }
+            }
+        },
+        "models.CreateCityRequest": {
+            "type": "object",
+            "properties": {
+                "country_id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.CreateCityResponse": {
+            "type": "object",
+            "properties": {
+                "country_id": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
                 }
             }
         },
@@ -4902,6 +4973,20 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "email": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.GetCountryResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "name": {
                     "type": "string"
                 }
             }
@@ -4997,6 +5082,17 @@ const docTemplate = `{
                 },
                 "post_id": {
                     "type": "string"
+                }
+            }
+        },
+        "models.ListCountriesResponse": {
+            "type": "object",
+            "properties": {
+                "countries": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Country"
+                    }
                 }
             }
         },
@@ -5304,6 +5400,34 @@ const docTemplate = `{
                 }
             }
         },
+        "models.UpdateCountryRequest": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.UpdateCountryResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "models.UpdateMs": {
             "type": "object",
             "properties": {
@@ -5472,20 +5596,6 @@ const docTemplate = `{
                 }
             }
         },
-        "nationality.Country": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string"
-                },
-                "image_url": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
         "nationality.CreateAttractionTypeRequest": {
             "type": "object",
             "properties": {
@@ -5505,50 +5615,11 @@ const docTemplate = `{
                 }
             }
         },
-        "nationality.CreateCityRequest": {
-            "type": "object",
-            "properties": {
-                "country_id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "nationality.CreateCityResponse": {
-            "type": "object",
-            "properties": {
-                "country_id": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
         "nationality.GetAttractionTypeResponse": {
             "type": "object",
             "properties": {
                 "attraction_type": {
                     "$ref": "#/definitions/nationality.AttractionType1"
-                }
-            }
-        },
-        "nationality.GetCountryResponse": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string"
-                },
-                "image_url": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
                 }
             }
         },
@@ -5603,26 +5674,6 @@ const docTemplate = `{
                 }
             }
         },
-        "nationality.ListCountriesResponse": {
-            "type": "object",
-            "properties": {
-                "countries": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/nationality.Country"
-                    }
-                }
-            }
-        },
-        "nationality.Message": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "description": "Corrected typo",
-                    "type": "string"
-                }
-            }
-        },
         "nationality.UpdateAttraction": {
             "type": "object",
             "properties": {
@@ -5674,34 +5725,6 @@ const docTemplate = `{
             "properties": {
                 "attraction_type": {
                     "$ref": "#/definitions/nationality.AttractionType1"
-                }
-            }
-        },
-        "nationality.UpdateCountryRequest": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string"
-                },
-                "image_url": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "nationality.UpdateCountryResponse": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string"
-                },
-                "image_url": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
                 }
             }
         },
