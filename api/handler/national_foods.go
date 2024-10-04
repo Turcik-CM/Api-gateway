@@ -79,13 +79,11 @@ func (h *nationalFoodHandler) CreateNationalFood(c *gin.Context) {
 		log.Println("No file uploaded, continuing without an image")
 	}
 	res := pb.NationalFood{
-		FoodName:    a.Name,
-		FoodType:    a.Name,
-		Description: a.Description,
-		Nationality: a.Nationality,
-		ImageUrl:    a.ImageURL,
-		Rating:      a.Rating,
+		FoodName:    a.FoodName,
 		FoodType:    a.FoodType,
+		Description: a.Description,
+		CountryId:   a.CountryId,
+		ImageUrl:    a.ImageURL,
 		Ingredients: a.Ingredients,
 	}
 
@@ -108,7 +106,7 @@ func (h *nationalFoodHandler) CreateNationalFood(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param Update body models.UpdateNationalFood true "Update NationalFood"
-// @Success 200 {object} nationality.NationalFoodResponse
+// @Success 200 {object} models.NationalFoodResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /national/update [put]
@@ -135,7 +133,7 @@ func (h *nationalFoodHandler) UpdateNationalFood(c *gin.Context) {
 // @Tags NationalFood
 // @Produce json
 // @Param id path string true "NationalFood ID"
-// @Success 200 {object} nationality.NationalFoodResponse
+// @Success 200 {object} models.NationalFoodResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /national/getBy/{id} [get]
@@ -185,12 +183,12 @@ func (h *nationalFoodHandler) DeleteNationalFood(c *gin.Context) {
 // @Tags NationalFood
 // @Produce json
 // @Param filter query models.NationalFoodList false "Filter NationalFood"
-// @Success 200 {object} nationality.NationalFoodListResponse
+// @Success 200 {object} models.NationalFoodListResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /national/list [get]
 func (h *nationalFoodHandler) ListNationalFoods(c *gin.Context) {
-	var post models.NationalFoodList
+	var post pb.NationalFoodList
 
 	limit := c.Query("limit")
 	offset := c.Query("offset")
@@ -208,7 +206,7 @@ func (h *nationalFoodHandler) ListNationalFoods(c *gin.Context) {
 	post.Limit = int64(limits)
 	post.Offset = int64(offsets)
 
-	post.Country = c.Query("country")
+	post.CountryId = c.Query("country_id")
 	resp, err := h.nationalFoodService.ListNationalFood(context.Background(), &post)
 	if err != nil {
 		h.logger.Error("Error occurred while listing national foods", err)
@@ -218,7 +216,7 @@ func (h *nationalFoodHandler) ListNationalFoods(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"response": resp})
 }
 
-// AddImageUrll godoc
+// UpdateImage godoc
 // @Summary Add Image to NationalFood
 // @Description Add an image to a NationalFood by NationalFood ID
 // @Security BearerAuth
