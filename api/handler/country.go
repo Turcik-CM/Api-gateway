@@ -47,7 +47,7 @@ func NewCountriesHandlers(CountryService service.Service, logger *slog.Logger) *
 
 // CreateCountry godoc
 // @Security BearerAuth
-// @Tags Attraction
+// @Tags Country
 // @Accept multipart/form-data
 // @Produce json
 // @Param file formData file false "Upload image file"

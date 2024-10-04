@@ -2431,7 +2431,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Attraction"
+                    "Country"
                 ],
                 "parameters": [
                     {
