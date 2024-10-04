@@ -499,7 +499,7 @@ type RatingResponse struct {
 }
 
 type Attraction struct {
-	Country     string `form:"country" default:"Uzbekistan"`
+	City        string `form:"city" default:"Uzbekistan"`
 	Name        string `form:"name" default:"0"`
 	Description string `form:"description" default:"0"`
 	Category    string `form:"category" default:"culture"`
@@ -508,7 +508,7 @@ type Attraction struct {
 }
 
 type AttractionList struct {
-	Country     string `json:"country" default:"Uzbekistan"`
+	City        string `json:"city"`
 	Category    string `json:"category" default:"culture"`
 	Name        string `json:"name" default:"dodi"`
 	Description string `json:"description" default:"dodi"`
@@ -550,7 +550,7 @@ type UpdateNationalFood struct {
 
 type UpdateAttraction struct {
 	ID          string `json:"id" default:"0"`
-	Country     string `json:"country" default:"Uzbekistan"`
+	City        string `json:"city"`
 	Name        string `json:"name" default:"0"`
 	Description string `json:"description" default:"0"`
 	Category    string `json:"category" default:"culture"`

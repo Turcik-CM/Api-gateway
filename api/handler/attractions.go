@@ -60,7 +60,7 @@ func NewAttractionsHandler(attrService service.Service, logger *slog.Logger) Att
 // @Param name formData string true "Name of the attraction"
 // @Param description formData string true "Description of the attraction"
 // @Param location formData string true "Location of the attraction"
-// @Param country formData string true "Country of the attraction"
+// @Param city formData string true "city of the attraction"
 // @Param category formData string true "Category of the attraction"
 // @Success 201 {object} nationality.AttractionResponse "Attraction successfully created"
 // @Failure 400 {object} models.Error "Bad request, validation error or invalid file"
@@ -94,7 +94,7 @@ func (h *attractionsHandler) CreateAttraction(c *gin.Context) {
 	att.ImageURL = url
 
 	res := pb.Attraction{
-		Country:     att.Country,
+		City:        att.City,
 		Name:        att.Name,
 		Description: att.Description,
 		Category:    att.Category,
@@ -205,7 +205,7 @@ func (h *attractionsHandler) ListAttractions(c *gin.Context) {
 
 	limit := c.Query("limit")
 	offset := c.Query("offset")
-	country := c.Query("country")
+	city := c.Query("city")
 	category := c.Query("category")
 	name := c.Query("name")
 	description := c.Query("description")
@@ -224,7 +224,7 @@ func (h *attractionsHandler) ListAttractions(c *gin.Context) {
 	post.Offset = int64(offsets)
 	post.Name = name
 	post.Description = description
-	post.Country = country
+	post.City = city
 	post.Category = category
 
 	req, err := h.attractionsService.ListAttraction(context.Background(), &post)
