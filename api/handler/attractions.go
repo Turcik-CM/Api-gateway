@@ -94,11 +94,7 @@ func (h *attractionsHandler) CreateAttraction(c *gin.Context) {
 	att.ImageURL = url
 
 	res := pb.Attraction{
-<<<<<<< HEAD
-		City:        att.Country,
-=======
 		City:        att.City,
->>>>>>> 35c4d3b8ab68e0bcd38a5b5efe85c6154a181661
 		Name:        att.Name,
 		Description: att.Description,
 		Category:    att.Category,
@@ -229,11 +225,7 @@ func (h *attractionsHandler) ListAttractions(c *gin.Context) {
 	post.Offset = int64(offsets)
 	post.Name = name
 	post.Description = description
-<<<<<<< HEAD
-	post.City = country
-=======
 	post.City = city
->>>>>>> 35c4d3b8ab68e0bcd38a5b5efe85c6154a181661
 	post.Category = category
 
 	req, err := h.attractionsService.ListAttraction(context.Background(), &post)

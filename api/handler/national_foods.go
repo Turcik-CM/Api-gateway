@@ -79,17 +79,10 @@ func (h *nationalFoodHandler) CreateNationalFood(c *gin.Context) {
 		log.Println("No file uploaded, continuing without an image")
 	}
 	res := pb.NationalFood{
-<<<<<<< HEAD
-		FoodName:    a.Name,
-		FoodType:    a.FoodType,
-		Description: a.Description,
-		CountryId:   a.Country,
-=======
 		FoodName:    a.FoodName,
 		FoodType:    a.FoodType,
 		Description: a.Description,
 		CountryId:   a.CountryId,
->>>>>>> 35c4d3b8ab68e0bcd38a5b5efe85c6154a181661
 		ImageUrl:    a.ImageURL,
 		Ingredients: a.Ingredients,
 	}
@@ -213,13 +206,12 @@ func (h *nationalFoodHandler) ListNationalFoods(c *gin.Context) {
 	post.Limit = int64(limits)
 	post.Offset = int64(offsets)
 
-<<<<<<< HEAD
-	post.Country = c.Query("country")
-	resp, err := h.nationalFoodService.ListNationalFood(context.Background(), &pb.NationalFoodList{CountryId: post.Country, Limit: post.Limit, Offset: post.Offset})
-=======
+	post.CountryId = c.Query("country")
+
 	post.CountryId = c.Query("country_id")
+
 	resp, err := h.nationalFoodService.ListNationalFood(context.Background(), &post)
->>>>>>> 35c4d3b8ab68e0bcd38a5b5efe85c6154a181661
+
 	if err != nil {
 		h.logger.Error("Error occurred while listing national foods", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

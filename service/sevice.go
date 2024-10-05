@@ -35,7 +35,7 @@ func (s *service) PostService() pb.PostServiceClient {
 }
 
 func NewService(cfg *config.Config) (Service, error) {
-	userConn, err := grpc.NewClient("localhost:50050", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	userConn, err := grpc.NewClient(cfg.USER_HOST+cfg.USER_SERVICE, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		return nil, err
 	}

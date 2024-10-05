@@ -8,8 +8,6 @@ definitions:
         default: code cogan email ni kiriting
         type: string
     type: object
-<<<<<<< HEAD
-=======
   models.AttractionResponse:
     properties:
       category:
@@ -40,7 +38,6 @@ definitions:
       name:
         type: string
     type: object
->>>>>>> 35c4d3b8ab68e0bcd38a5b5efe85c6154a181661
   models.ChangePasswordRequest:
     properties:
       current_password:
@@ -356,6 +353,13 @@ definitions:
       massage:
         type: string
     type: object
+  models.NationalFoodListResponse:
+    properties:
+      national_food:
+        items:
+          $ref: '#/definitions/models.NationalFoodResponse'
+        type: array
+    type: object
   models.NationalFoodResponse:
     properties:
       country:
@@ -503,8 +507,6 @@ definitions:
       name:
         type: string
     type: object
-<<<<<<< HEAD
-=======
   models.UpdateAttractionTypeResponse:
     properties:
       attraction_type:
@@ -519,7 +521,6 @@ definitions:
       name:
         type: string
     type: object
->>>>>>> 35c4d3b8ab68e0bcd38a5b5efe85c6154a181661
   models.UpdateMs:
     properties:
       message_id:
@@ -594,37 +595,6 @@ definitions:
   models.Void:
     type: object
   nationality.AttractionListResponse:
-<<<<<<< HEAD
-    properties:
-      attractions:
-        items:
-          $ref: '#/definitions/nationality.AttractionResponse'
-        type: array
-    type: object
-  nationality.AttractionResponse:
-    properties:
-      category:
-        type: string
-      city:
-        type: string
-      created_at:
-        type: string
-      description:
-        type: string
-      id:
-        type: string
-      image_url:
-        type: string
-      location:
-        type: string
-      name:
-        type: string
-      updated_at:
-        type: string
-    type: object
-  nationality.AttractionType1:
-=======
->>>>>>> 35c4d3b8ab68e0bcd38a5b5efe85c6154a181661
     properties:
       attractions:
         items:
@@ -661,76 +631,6 @@ definitions:
     type: object
   nationality.HistoricalResponse:
     properties:
-<<<<<<< HEAD
-      id:
-=======
-      city:
-        type: string
-      country:
-        type: string
-      created_at:
->>>>>>> 35c4d3b8ab68e0bcd38a5b5efe85c6154a181661
-        type: string
-      description:
-        type: string
-<<<<<<< HEAD
-      name:
-        type: string
-    type: object
-  nationality.CreateAttractionTypeRequest:
-    properties:
-      activity:
-        type: integer
-      name:
-        type: string
-    type: object
-  nationality.CreateAttractionTypeResponse:
-    properties:
-      attraction_type:
-        $ref: '#/definitions/nationality.AttractionType1'
-    type: object
-  nationality.CreateCityRequest:
-    properties:
-      country_id:
-        type: string
-      name:
-        type: string
-    type: object
-  nationality.CreateCityResponse:
-    properties:
-      country_id:
-        type: string
-      id:
-        type: string
-      name:
-        type: string
-    type: object
-  nationality.GetAttractionTypeResponse:
-    properties:
-      attraction_type:
-        $ref: '#/definitions/nationality.AttractionType1'
-    type: object
-  nationality.GetCountryResponse:
-    properties:
-=======
->>>>>>> 35c4d3b8ab68e0bcd38a5b5efe85c6154a181661
-      id:
-        type: string
-      image_url:
-        type: string
-      name:
-        type: string
-<<<<<<< HEAD
-    type: object
-  nationality.HistoricalListResponse:
-    properties:
-      historical:
-        items:
-          $ref: '#/definitions/nationality.HistoricalResponse'
-        type: array
-    type: object
-  nationality.HistoricalResponse:
-    properties:
       city:
         type: string
       country:
@@ -745,62 +645,10 @@ definitions:
         type: string
       name:
         type: string
-      updated_at:
-        type: string
-    type: object
-  nationality.ListAttractionTypesResponse:
-    properties:
-      attraction_types:
-        items:
-          $ref: '#/definitions/nationality.AttractionType1'
-        type: array
-    type: object
-  nationality.ListCountriesResponse:
-    properties:
-      countries:
-        items:
-          $ref: '#/definitions/nationality.Country'
-        type: array
-    type: object
-  nationality.Message:
-    properties:
-      message:
-        description: Corrected typo
-        type: string
-    type: object
-  nationality.NationalFoodListResponse:
-    properties:
-      national_food:
-        items:
-          $ref: '#/definitions/nationality.NationalFoodResponse'
-        type: array
-    type: object
-  nationality.NationalFoodResponse:
-    properties:
-      country_id:
-        type: string
-      created_at:
-        type: string
-      description:
-        type: string
-      food_name:
-        type: string
-      food_type:
-        type: string
-      id:
-        type: string
-      image_url:
-        type: string
-      ingredients:
-        type: string
-    type: object
-  nationality.UpdateAttractionTypeRequest:
-=======
       updated_at:
         type: string
     type: object
   nationality.UpdateAttraction:
->>>>>>> 35c4d3b8ab68e0bcd38a5b5efe85c6154a181661
     properties:
       category:
         type: string
@@ -815,25 +663,6 @@ definitions:
       image_url:
         type: string
       location:
-        type: string
-      name:
-        type: string
-      updated_at:
-        type: string
-    type: object
-  nationality.UpdateHistorical:
-    properties:
-      city:
-        type: string
-      country:
-        type: string
-      created_at:
-        type: string
-      description:
-        type: string
-      id:
-        type: string
-      image_url:
         type: string
       name:
         type: string
@@ -961,7 +790,7 @@ paths:
       - BearerAuth: []
       summary: Add Nationality
       tags:
-      - Admin
+      - Nationality
   /admin/create-user:
     post:
       consumes:
@@ -1024,7 +853,7 @@ paths:
       - BearerAuth: []
       summary: Delete Nationality
       tags:
-      - Admin
+      - Nationality
   /admin/delete-user/{user_id}:
     delete:
       consumes:
@@ -1127,7 +956,7 @@ paths:
       - BearerAuth: []
       summary: List Nationalities
       tags:
-      - Admin
+      - Nationality
   /admin/nationality/{id}:
     get:
       consumes:
@@ -1158,7 +987,7 @@ paths:
       - BearerAuth: []
       summary: Get Nationality by ID
       tags:
-      - Admin
+      - Nationality
   /admin/update-nationality:
     put:
       consumes:
@@ -1190,7 +1019,7 @@ paths:
       - BearerAuth: []
       summary: Update Nationality
       tags:
-      - Admin
+      - Nationality
   /admin/user-by-id/{id}:
     get:
       consumes:
@@ -2635,7 +2464,7 @@ paths:
         "201":
           description: Attraction successfully created
           schema:
-            $ref: '#/definitions/nationality.AttractionResponse'
+            $ref: '#/definitions/models.AttractionResponse'
         "400":
           description: Bad request, validation error or invalid file
           schema:
@@ -3374,7 +3203,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/nationality.NationalFoodResponse'
+            $ref: '#/definitions/models.NationalFoodResponse'
         "400":
           description: Bad Request
           schema:
@@ -3446,7 +3275,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/nationality.NationalFoodListResponse'
+            $ref: '#/definitions/models.NationalFoodListResponse'
         "400":
           description: Bad Request
           schema:
@@ -3478,7 +3307,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/nationality.NationalFoodResponse'
+            $ref: '#/definitions/models.NationalFoodResponse'
         "400":
           description: Bad Request
           schema:

@@ -30,7 +30,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Nationality"
                 ],
                 "summary": "Add Nationality",
                 "parameters": [
@@ -132,7 +132,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Nationality"
                 ],
                 "summary": "Delete Nationality",
                 "parameters": [
@@ -290,7 +290,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Nationality"
                 ],
                 "summary": "List Nationalities",
                 "parameters": [
@@ -344,7 +344,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Nationality"
                 ],
                 "summary": "Get Nationality by ID",
                 "parameters": [
@@ -393,7 +393,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Nationality"
                 ],
                 "summary": "Update Nationality",
                 "parameters": [
@@ -2714,7 +2714,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Attraction successfully created",
                         "schema": {
-                            "$ref": "#/definitions/nationality.AttractionResponse"
+                            "$ref": "#/definitions/models.AttractionResponse"
                         }
                     },
                     "400": {
@@ -3881,7 +3881,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/nationality.NationalFoodResponse"
+                            "$ref": "#/definitions/models.NationalFoodResponse"
                         }
                     },
                     "400": {
@@ -3994,7 +3994,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/nationality.NationalFoodListResponse"
+                            "$ref": "#/definitions/models.NationalFoodListResponse"
                         }
                     },
                     "400": {
@@ -4045,7 +4045,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/nationality.NationalFoodResponse"
+                            "$ref": "#/definitions/models.NationalFoodResponse"
                         }
                     },
                     "400": {
@@ -4974,8 +4974,6 @@ const docTemplate = `{
                 }
             }
         },
-<<<<<<< HEAD
-=======
         "models.AttractionResponse": {
             "type": "object",
             "properties": {
@@ -5022,7 +5020,6 @@ const docTemplate = `{
                 }
             }
         },
->>>>>>> 35c4d3b8ab68e0bcd38a5b5efe85c6154a181661
         "models.ChangePasswordRequest": {
             "type": "object",
             "properties": {
@@ -5501,6 +5498,17 @@ const docTemplate = `{
                 }
             }
         },
+        "models.NationalFoodListResponse": {
+            "type": "object",
+            "properties": {
+                "national_food": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.NationalFoodResponse"
+                    }
+                }
+            }
+        },
         "models.NationalFoodResponse": {
             "type": "object",
             "properties": {
@@ -5717,8 +5725,6 @@ const docTemplate = `{
                 }
             }
         },
-<<<<<<< HEAD
-=======
         "models.UpdateAttractionTypeResponse": {
             "type": "object",
             "properties": {
@@ -5741,7 +5747,6 @@ const docTemplate = `{
                 }
             }
         },
->>>>>>> 35c4d3b8ab68e0bcd38a5b5efe85c6154a181661
         "models.UpdateMs": {
             "type": "object",
             "properties": {
@@ -5854,52 +5859,6 @@ const docTemplate = `{
             "type": "object"
         },
         "nationality.AttractionListResponse": {
-<<<<<<< HEAD
-            "type": "object",
-            "properties": {
-                "attractions": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/nationality.AttractionResponse"
-                    }
-                }
-            }
-        },
-        "nationality.AttractionResponse": {
-            "type": "object",
-            "properties": {
-                "category": {
-                    "type": "string"
-                },
-                "city": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "image_url": {
-                    "type": "string"
-                },
-                "location": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                }
-            }
-        },
-        "nationality.AttractionType1": {
-=======
->>>>>>> 35c4d3b8ab68e0bcd38a5b5efe85c6154a181661
             "type": "object",
             "properties": {
                 "attractions": {
@@ -5956,111 +5915,6 @@ const docTemplate = `{
         "nationality.HistoricalResponse": {
             "type": "object",
             "properties": {
-<<<<<<< HEAD
-                "id": {
-=======
-                "city": {
-                    "type": "string"
-                },
-                "country": {
-                    "type": "string"
-                },
-                "created_at": {
->>>>>>> 35c4d3b8ab68e0bcd38a5b5efe85c6154a181661
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-<<<<<<< HEAD
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "nationality.CreateAttractionTypeRequest": {
-            "type": "object",
-            "properties": {
-                "activity": {
-                    "type": "integer"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "nationality.CreateAttractionTypeResponse": {
-            "type": "object",
-            "properties": {
-                "attraction_type": {
-                    "$ref": "#/definitions/nationality.AttractionType1"
-                }
-            }
-        },
-        "nationality.CreateCityRequest": {
-            "type": "object",
-            "properties": {
-                "country_id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "nationality.CreateCityResponse": {
-            "type": "object",
-            "properties": {
-                "country_id": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "nationality.GetAttractionTypeResponse": {
-            "type": "object",
-            "properties": {
-                "attraction_type": {
-                    "$ref": "#/definitions/nationality.AttractionType1"
-                }
-            }
-        },
-        "nationality.GetCountryResponse": {
-            "type": "object",
-            "properties": {
-=======
->>>>>>> 35c4d3b8ab68e0bcd38a5b5efe85c6154a181661
-                "id": {
-                    "type": "string"
-                },
-                "image_url": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-<<<<<<< HEAD
-                }
-            }
-        },
-        "nationality.HistoricalListResponse": {
-            "type": "object",
-            "properties": {
-                "historical": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/nationality.HistoricalResponse"
-                    }
-                }
-            }
-        },
-        "nationality.HistoricalResponse": {
-            "type": "object",
-            "properties": {
                 "city": {
                     "type": "string"
                 },
@@ -6087,86 +5941,7 @@ const docTemplate = `{
                 }
             }
         },
-        "nationality.ListAttractionTypesResponse": {
-            "type": "object",
-            "properties": {
-                "attraction_types": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/nationality.AttractionType1"
-                    }
-                }
-            }
-        },
-        "nationality.ListCountriesResponse": {
-            "type": "object",
-            "properties": {
-                "countries": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/nationality.Country"
-                    }
-                }
-            }
-        },
-        "nationality.Message": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "description": "Corrected typo",
-=======
-                },
-                "updated_at": {
->>>>>>> 35c4d3b8ab68e0bcd38a5b5efe85c6154a181661
-                    "type": "string"
-                }
-            }
-        },
-<<<<<<< HEAD
-        "nationality.NationalFoodListResponse": {
-            "type": "object",
-            "properties": {
-                "national_food": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/nationality.NationalFoodResponse"
-                    }
-                }
-            }
-        },
-        "nationality.NationalFoodResponse": {
-            "type": "object",
-            "properties": {
-                "country_id": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "food_name": {
-                    "type": "string"
-                },
-                "food_type": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "image_url": {
-                    "type": "string"
-                },
-                "ingredients": {
-                    "type": "string"
-                }
-            }
-        },
-        "nationality.UpdateAttractionTypeRequest": {
-=======
         "nationality.UpdateAttraction": {
->>>>>>> 35c4d3b8ab68e0bcd38a5b5efe85c6154a181661
             "type": "object",
             "properties": {
                 "category": {
@@ -6188,35 +5963,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "location": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                }
-            }
-        },
-        "nationality.UpdateHistorical": {
-            "type": "object",
-            "properties": {
-                "city": {
-                    "type": "string"
-                },
-                "country": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "image_url": {
                     "type": "string"
                 },
                 "name": {

@@ -510,7 +510,7 @@ func (h *userHandler) MostPopularUser(c *gin.Context) {
 // @Summary Add Nationality
 // @Description Add a new nationality
 // @Security BearerAuth
-// @Tags Admin
+// @Tags Nationality
 // @Accept json
 // @Produce json
 // @Param Nationality body user.Nat true "Nationality data"
@@ -541,7 +541,7 @@ func (h *userHandler) AddNationality(c *gin.Context) {
 // @Summary Get Nationality by ID
 // @Description Retrieve nationality information by ID
 // @Security BearerAuth
-// @Tags Admin
+// @Tags Nationality
 // @Accept json
 // @Produce json
 // @Param id path string true "Nationality ID"
@@ -568,7 +568,7 @@ func (h *userHandler) GetNationalityById(c *gin.Context) {
 // @Summary List Nationalities
 // @Description Retrieve a paginated list of nationalities
 // @Security BearerAuth
-// @Tags Admin
+// @Tags Nationality
 // @Accept json
 // @Produce json
 // @Param page query int false "Page number"
@@ -610,7 +610,7 @@ func (h *userHandler) ListNationalities(c *gin.Context) {
 // @Summary Update Nationality
 // @Description Update nationality details
 // @Security BearerAuth
-// @Tags Admin
+// @Tags Nationality
 // @Accept json
 // @Produce json
 // @Param Nationality body user.Nationality true "Nationality data"
@@ -641,7 +641,7 @@ func (h *userHandler) UpdateNationality(c *gin.Context) {
 // @Summary Delete Nationality
 // @Description Delete a nationality by ID
 // @Security BearerAuth
-// @Tags Admin
+// @Tags Nationality
 // @Accept json
 // @Produce json
 // @Param id path string true "Nationality ID"
