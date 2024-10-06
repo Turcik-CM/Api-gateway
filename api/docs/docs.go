@@ -1526,7 +1526,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/models.ChatResponse"
+                            "$ref": "#/definitions/post.ChatResponse"
                         }
                     },
                     "400": {
@@ -1569,7 +1569,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.CreateMassage"
+                            "$ref": "#/definitions/post.CreateMassage"
                         }
                     }
                 ],
@@ -1577,7 +1577,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/models.MassageResponse"
+                            "$ref": "#/definitions/post.MassageResponse"
                         }
                     },
                     "400": {
@@ -1715,7 +1715,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.MassageResponseList"
+                            "$ref": "#/definitions/post.MassageResponseList"
                         }
                     },
                     "400": {
@@ -1761,7 +1761,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.MassageResponseList"
+                            "$ref": "#/definitions/post.MassageResponseList"
                         }
                     },
                     "400": {
@@ -1798,7 +1798,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.ChatResponseList"
+                            "$ref": "#/definitions/post.ChatResponseList"
                         }
                     },
                     "400": {
@@ -1855,7 +1855,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.MassageResponseList"
+                            "$ref": "#/definitions/post.MassageResponseList"
                         }
                     },
                     "400": {
@@ -1898,7 +1898,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.MassageTrue"
+                            "$ref": "#/definitions/post.MassageTrue"
                         }
                     }
                 ],
@@ -1949,7 +1949,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.UpdateMs"
+                            "$ref": "#/definitions/post.UpdateMs"
                         }
                     }
                 ],
@@ -1957,7 +1957,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.MassageResponse"
+                            "$ref": "#/definitions/post.MassageResponse"
                         }
                     },
                     "400": {
@@ -2096,7 +2096,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "name": "offset",
+                        "name": "page",
                         "in": "query"
                     }
                 ],
@@ -2332,7 +2332,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/models.CommentResponse"
+                            "$ref": "#/definitions/post.CommentResponse"
                         }
                     },
                     "400": {
@@ -2852,7 +2852,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "name": "offset",
+                        "name": "page",
                         "in": "query"
                     }
                 ],
@@ -5039,34 +5039,6 @@ const docTemplate = `{
                 }
             }
         },
-        "models.ChatResponse": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string",
-                    "default": "2023-01-01T00:00:00Z"
-                },
-                "id": {
-                    "type": "string",
-                    "default": "0"
-                },
-                "user2_id": {
-                    "type": "string",
-                    "default": "0"
-                }
-            }
-        },
-        "models.ChatResponseList": {
-            "type": "object",
-            "properties": {
-                "chat": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/models.ChatResponse"
-                    }
-                }
-            }
-        },
         "models.CommentPost": {
             "type": "object",
             "properties": {
@@ -5175,27 +5147,6 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
-                }
-            }
-        },
-        "models.CreateMassage": {
-            "type": "object",
-            "properties": {
-                "chat_id": {
-                    "type": "string",
-                    "default": "0"
-                },
-                "content": {
-                    "type": "string",
-                    "default": "Hello"
-                },
-                "content_type": {
-                    "type": "string",
-                    "default": "text"
-                },
-                "sender_id": {
-                    "type": "string",
-                    "default": "0"
                 }
             }
         },
@@ -5430,63 +5381,6 @@ const docTemplate = `{
                 "username": {
                     "type": "string",
                     "default": "tom0011"
-                }
-            }
-        },
-        "models.MassageResponse": {
-            "type": "object",
-            "properties": {
-                "chat_id": {
-                    "type": "string",
-                    "default": "0"
-                },
-                "content": {
-                    "type": "string",
-                    "default": "Hello"
-                },
-                "content_type": {
-                    "type": "string",
-                    "default": "text"
-                },
-                "created_at": {
-                    "type": "string",
-                    "default": "2023-01-01T00:00:00Z"
-                },
-                "id": {
-                    "type": "string",
-                    "default": "0"
-                },
-                "is_read": {
-                    "type": "boolean",
-                    "default": false
-                },
-                "sender_id": {
-                    "type": "string",
-                    "default": "0"
-                },
-                "updated_at": {
-                    "type": "string",
-                    "default": "2023-01-01T00:00:00Z"
-                }
-            }
-        },
-        "models.MassageResponseList": {
-            "type": "object",
-            "properties": {
-                "massage": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/models.MassageResponse"
-                    }
-                }
-            }
-        },
-        "models.MassageTrue": {
-            "type": "object",
-            "properties": {
-                "chat_id": {
-                    "type": "string",
-                    "default": "0"
                 }
             }
         },
@@ -5747,19 +5641,6 @@ const docTemplate = `{
                 }
             }
         },
-        "models.UpdateMs": {
-            "type": "object",
-            "properties": {
-                "message_id": {
-                    "type": "string",
-                    "default": "123456"
-                },
-                "text": {
-                    "type": "string",
-                    "default": "Hello"
-                }
-            }
-        },
         "models.UpdateNationalFood": {
             "type": "object",
             "properties": {
@@ -5998,6 +5879,133 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "post.ChatResponse": {
+            "type": "object",
+            "properties": {
+                "crated_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "user1_id": {
+                    "type": "string"
+                },
+                "user2_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "post.ChatResponseList": {
+            "type": "object",
+            "properties": {
+                "chat": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/post.ChatResponse"
+                    }
+                }
+            }
+        },
+        "post.CommentResponse": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "post_id": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "post.CreateMassage": {
+            "type": "object",
+            "properties": {
+                "chat_id": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "content_type": {
+                    "type": "string"
+                },
+                "sender_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "post.MassageResponse": {
+            "type": "object",
+            "properties": {
+                "chat_id": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "content_type": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_read": {
+                    "type": "boolean"
+                },
+                "sender_id": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "post.MassageResponseList": {
+            "type": "object",
+            "properties": {
+                "massage": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/post.MassageResponse"
+                    }
+                }
+            }
+        },
+        "post.MassageTrue": {
+            "type": "object",
+            "properties": {
+                "chat_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "post.UpdateMs": {
+            "type": "object",
+            "properties": {
+                "message_id": {
+                    "type": "string"
+                },
+                "text": {
                     "type": "string"
                 }
             }

@@ -51,7 +51,7 @@ func NewChatHandler(chatService service.Service, logger *slog.Logger) ChatHandle
 // @Accept json
 // @Produce json
 // @Param Create body models.CreateChat true "Create Chat"
-// @Success 201 {object} models.ChatResponse
+// @Success 201 {object} post.ChatResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /chat/create [post]
@@ -87,8 +87,8 @@ func (h *chatHandler) StartMessaging(c *gin.Context) {
 // @Tags Chat
 // @Accept json
 // @Produce json
-// @Param Create body models.CreateMassage true "Create Chat"
-// @Success 201 {object} models.MassageResponse
+// @Param Create body post.CreateMassage true "Create Chat"
+// @Success 201 {object} post.MassageResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /chat/create_message [post]
@@ -115,7 +115,7 @@ func (h *chatHandler) SendMessage(c *gin.Context) {
 // @Tags Chat
 // @Accept json
 // @Produce json
-// @Param Create body models.MassageTrue true "Create Chat"
+// @Param Create body post.MassageTrue true "Create Chat"
 // @Success 201 {object} models.Message
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
@@ -143,7 +143,7 @@ func (h *chatHandler) MessageMarcTrue(c *gin.Context) {
 // @Security BearerAuth
 // @Tags Chat
 // @Produce json
-// @Success 200 {object} models.ChatResponseList
+// @Success 200 {object} post.ChatResponseList
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /chat/get_user [get]
@@ -177,7 +177,7 @@ func (h *chatHandler) GetUserChats(c *gin.Context) {
 // @Tags Chat
 // @Produce json
 // @Param id path string true "Chat ID"
-// @Success 200 {object} models.MassageResponseList
+// @Success 200 {object} post.MassageResponseList
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /chat/get_massage/{id} [get]
@@ -200,8 +200,8 @@ func (h *chatHandler) GetUnreadMessages(c *gin.Context) {
 // @Tags Chat
 // @Accept json
 // @Produce json
-// @Param Update body models.UpdateMs true "Update chat"
-// @Success 200 {object} models.MassageResponse
+// @Param Update body post.UpdateMs true "Update chat"
+// @Success 200 {object} post.MassageResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /chat/update [put]
@@ -228,7 +228,7 @@ func (h *chatHandler) UpdateMessage(c *gin.Context) {
 // @Tags Chat
 // @Produce json
 // @Param id path string true "Chat ID"
-// @Success 200 {object} models.MassageResponseList
+// @Success 200 {object} post.MassageResponseList
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /chat/get_today/{id} [get]
@@ -299,7 +299,7 @@ func (h *chatHandler) DeleteChat(c *gin.Context) {
 // @Tags Chat
 // @Produce json
 // @Param filter query models.List false "Filter chat"
-// @Success 200 {object} models.MassageResponseList
+// @Success 200 {object} post.MassageResponseList
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /chat/list [get]
