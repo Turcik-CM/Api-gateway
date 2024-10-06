@@ -6,6 +6,7 @@ import (
 	"api-gateway/pkg/models"
 	"api-gateway/service"
 	"context"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
 	"log/slog"
@@ -197,7 +198,7 @@ func (h *attractionsHandler) DeleteAttraction(c *gin.Context) {
 // @Tags Attraction
 // @Produce json
 // @Param filter query models.AttractionList false "Filter Attraction"
-// @Success 200 {object} nationality.AttractionListResponse
+// @Success 200 {object} models.AttractionListResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /attraction/list [get]
@@ -227,6 +228,7 @@ func (h *attractionsHandler) ListAttractions(c *gin.Context) {
 	post.Description = description
 	post.City = city
 	post.Category = category
+	fmt.Println(post)
 
 	req, err := h.attractionsService.ListAttraction(context.Background(), &post)
 	if err != nil {
@@ -234,6 +236,7 @@ func (h *attractionsHandler) ListAttractions(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+	fmt.Println(req)
 	c.JSON(http.StatusOK, req)
 }
 

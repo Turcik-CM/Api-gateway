@@ -69,6 +69,7 @@ type CommentResponse struct {
 // CommentsR represents a list of comments
 type CommentsR struct {
 	Comments []CommentResponse `json:"comments"`
+	Total    string            `json:"total"`
 }
 
 // Username represents a username structure
@@ -146,7 +147,8 @@ type CommentId struct {
 
 // PostListResponse represents a list of posts
 type PostListResponse struct {
-	Post []PostResponse `json:"post"`
+	Post  []PostResponse `json:"post"`
+	Total string         `json:"total"`
 }
 
 // Message represents a simple message response
@@ -367,6 +369,7 @@ type NationalFoodList struct {
 
 type NationalFoodListResponse struct {
 	NationalFood []NationalFoodResponse `json:"national_food"`
+	Total        string                 `json:"total"`
 }
 
 type Attraction struct {
@@ -401,6 +404,7 @@ type AttractionResponse struct {
 
 type AttractionListResponse struct {
 	Attractions []AttractionResponse `json:"attractions"`
+	Total       string               `json:"total"`
 }
 
 type UpdateNationalFood struct {
@@ -513,6 +517,7 @@ type ListCountriesRequest struct {
 
 type ListCountriesResponse struct {
 	Countries []Country `json:"countries"`
+	Total     string    `json:"total"`
 }
 
 type Country struct {
@@ -562,6 +567,7 @@ type ListAttractionTypesRequest struct {
 
 type ListAttractionTypesResponse struct {
 	AttractionTypes []AttractionType `json:"attraction_types"`
+	Total           string           `json:"total"`
 }
 
 type AttractionType struct {

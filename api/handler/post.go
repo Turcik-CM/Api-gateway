@@ -207,6 +207,7 @@ func (h *postHandler) ListPosts(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	fmt.Println(req)
 	c.JSON(http.StatusOK, gin.H{"posts": req})
 }
 
