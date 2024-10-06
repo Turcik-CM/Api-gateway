@@ -50,25 +50,6 @@ definitions:
       message:
         type: string
     type: object
-  models.ChatResponse:
-    properties:
-      created_at:
-        default: "2023-01-01T00:00:00Z"
-        type: string
-      id:
-        default: "0"
-        type: string
-      user2_id:
-        default: "0"
-        type: string
-    type: object
-  models.ChatResponseList:
-    properties:
-      chat:
-        items:
-          $ref: '#/definitions/models.ChatResponse'
-        type: array
-    type: object
   models.CommentPost:
     properties:
       content:
@@ -136,26 +117,9 @@ definitions:
     type: object
   models.CreateCityResponse:
     properties:
-      country_id:
-        type: string
       id:
         type: string
       name:
-        type: string
-    type: object
-  models.CreateMassage:
-    properties:
-      chat_id:
-        default: "0"
-        type: string
-      content:
-        default: Hello
-        type: string
-      content_type:
-        default: text
-        type: string
-      sender_id:
-        default: "0"
         type: string
     type: object
   models.CreateRequest:
@@ -308,46 +272,6 @@ definitions:
         type: string
       username:
         default: tom0011
-        type: string
-    type: object
-  models.MassageResponse:
-    properties:
-      chat_id:
-        default: "0"
-        type: string
-      content:
-        default: Hello
-        type: string
-      content_type:
-        default: text
-        type: string
-      created_at:
-        default: "2023-01-01T00:00:00Z"
-        type: string
-      id:
-        default: "0"
-        type: string
-      is_read:
-        default: false
-        type: boolean
-      sender_id:
-        default: "0"
-        type: string
-      updated_at:
-        default: "2023-01-01T00:00:00Z"
-        type: string
-    type: object
-  models.MassageResponseList:
-    properties:
-      massage:
-        items:
-          $ref: '#/definitions/models.MassageResponse'
-        type: array
-    type: object
-  models.MassageTrue:
-    properties:
-      chat_id:
-        default: "0"
         type: string
     type: object
   models.Message:
@@ -514,15 +438,6 @@ definitions:
       attraction_type:
         $ref: '#/definitions/models.AttractionType'
     type: object
-  models.UpdateCountryRequest:
-    properties:
-      id:
-        type: string
-      image_url:
-        type: string
-      name:
-        type: string
-    type: object
   models.UpdateCountryResponse:
     properties:
       id:
@@ -530,15 +445,6 @@ definitions:
       image_url:
         type: string
       name:
-        type: string
-    type: object
-  models.UpdateMs:
-    properties:
-      message_id:
-        default: "123456"
-        type: string
-      text:
-        default: Hello
         type: string
     type: object
   models.UpdateNationalFood:
@@ -697,6 +603,88 @@ definitions:
       updated_at:
         type: string
     type: object
+  post.ChatResponse:
+    properties:
+      crated_at:
+        type: string
+      id:
+        type: string
+      user1_id:
+        type: string
+      user2_id:
+        type: string
+    type: object
+  post.ChatResponseList:
+    properties:
+      chat:
+        items:
+          $ref: '#/definitions/post.ChatResponse'
+        type: array
+    type: object
+  post.CommentResponse:
+    properties:
+      content:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: string
+      post_id:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: string
+    type: object
+  post.CreateMassage:
+    properties:
+      chat_id:
+        type: string
+      content:
+        type: string
+      content_type:
+        type: string
+      sender_id:
+        type: string
+    type: object
+  post.MassageResponse:
+    properties:
+      chat_id:
+        type: string
+      content:
+        type: string
+      content_type:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: string
+      is_read:
+        type: boolean
+      sender_id:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  post.MassageResponseList:
+    properties:
+      massage:
+        items:
+          $ref: '#/definitions/post.MassageResponse'
+        type: array
+    type: object
+  post.MassageTrue:
+    properties:
+      chat_id:
+        type: string
+    type: object
+  post.UpdateMs:
+    properties:
+      message_id:
+        type: string
+      text:
+        type: string
+    type: object
   user.FollowUser:
     properties:
       id:
@@ -710,6 +698,29 @@ definitions:
         items:
           $ref: '#/definitions/user.FollowUser'
         type: array
+    type: object
+  user.Nat:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    type: object
+  user.Nationalities:
+    properties:
+      nationalities:
+        items:
+          $ref: '#/definitions/user.Nationality'
+        type: array
+    type: object
+  user.Nationality:
+    properties:
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
     type: object
   user.UserResponse:
     properties:
@@ -745,6 +756,38 @@ info:
   title: API Gateway Service for Turk-SM
   version: "1.0"
 paths:
+  /admin/add-nationality:
+    post:
+      consumes:
+      - application/json
+      description: Add a new nationality
+      parameters:
+      - description: Nationality data
+        in: body
+        name: Nationality
+        required: true
+        schema:
+          $ref: '#/definitions/user.Nat'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.Nationality'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Add Nationality
+      tags:
+      - Nationality
   /admin/create-user:
     post:
       consumes:
@@ -777,6 +820,37 @@ paths:
       summary: Create User
       tags:
       - Admin
+  /admin/delete-nationality/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a nationality by ID
+      parameters:
+      - description: Nationality ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Void'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete Nationality
+      tags:
+      - Nationality
   /admin/delete-user/{user_id}:
     delete:
       consumes:
@@ -846,6 +920,103 @@ paths:
       summary: Fetch Users
       tags:
       - Admin
+  /admin/nationalities:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a paginated list of nationalities
+      parameters:
+      - description: Page number
+        in: query
+        name: page
+        type: integer
+      - description: Limit of nationalities per page
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.Nationalities'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: List Nationalities
+      tags:
+      - Nationality
+  /admin/nationality/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve nationality information by ID
+      parameters:
+      - description: Nationality ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.Nationality'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Nationality by ID
+      tags:
+      - Nationality
+  /admin/update-nationality:
+    put:
+      consumes:
+      - application/json
+      description: Update nationality details
+      parameters:
+      - description: Nationality data
+        in: body
+        name: Nationality
+        required: true
+        schema:
+          $ref: '#/definitions/user.Nationality'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Void'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Update Nationality
+      tags:
+      - Nationality
   /admin/user-by-id/{id}:
     get:
       consumes:
@@ -1544,7 +1715,7 @@ paths:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/models.ChatResponse'
+            $ref: '#/definitions/post.ChatResponse'
         "400":
           description: Bad Request
           schema:
@@ -1569,14 +1740,14 @@ paths:
         name: Create
         required: true
         schema:
-          $ref: '#/definitions/models.CreateMassage'
+          $ref: '#/definitions/post.CreateMassage'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/models.MassageResponse'
+            $ref: '#/definitions/post.MassageResponse'
         "400":
           description: Bad Request
           schema:
@@ -1663,7 +1834,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.MassageResponseList'
+            $ref: '#/definitions/post.MassageResponseList'
         "400":
           description: Bad Request
           schema:
@@ -1692,7 +1863,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.MassageResponseList'
+            $ref: '#/definitions/post.MassageResponseList'
         "400":
           description: Bad Request
           schema:
@@ -1715,7 +1886,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.ChatResponseList'
+            $ref: '#/definitions/post.ChatResponseList'
         "400":
           description: Bad Request
           schema:
@@ -1751,7 +1922,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.MassageResponseList'
+            $ref: '#/definitions/post.MassageResponseList'
         "400":
           description: Bad Request
           schema:
@@ -1776,7 +1947,7 @@ paths:
         name: Create
         required: true
         schema:
-          $ref: '#/definitions/models.MassageTrue'
+          $ref: '#/definitions/post.MassageTrue'
       produces:
       - application/json
       responses:
@@ -1808,14 +1979,14 @@ paths:
         name: Update
         required: true
         schema:
-          $ref: '#/definitions/models.UpdateMs'
+          $ref: '#/definitions/post.UpdateMs'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.MassageResponse'
+            $ref: '#/definitions/post.MassageResponse'
         "400":
           description: Bad Request
           schema:
@@ -1891,11 +2062,15 @@ paths:
     get:
       description: Get list of city with filter
       parameters:
-      - description: Filter Countries
-        in: query
-        name: filter
-        required: true
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: name
         type: string
+      - in: query
+        name: page
+        type: integer
       produces:
       - application/json
       responses:
@@ -1916,7 +2091,7 @@ paths:
       summary: Get List City
       tags:
       - City
-  /city/get/{country_id}:
+  /city/get-city/{country_id}:
     get:
       description: Get cities by country
       parameters:
@@ -1990,7 +2165,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.UpdateCountryRequest'
+            $ref: '#/definitions/models.CreateCityResponse'
         "400":
           description: Bad Request
           schema:
@@ -2045,7 +2220,7 @@ paths:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/models.CommentResponse'
+            $ref: '#/definitions/post.CommentResponse'
         "400":
           description: Bad Request
           schema:
@@ -2368,7 +2543,7 @@ paths:
         name: name
         type: string
       - in: query
-        name: offset
+        name: page
         type: integer
       produces:
       - application/json

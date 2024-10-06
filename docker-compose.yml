@@ -20,4 +20,3 @@ networks:
   TurkNet:
     name: TurkNet
     driver: bridge
-    external: true

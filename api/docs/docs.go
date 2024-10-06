@@ -15,6 +15,57 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/admin/add-nationality": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Add a new nationality",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Nationality"
+                ],
+                "summary": "Add Nationality",
+                "parameters": [
+                    {
+                        "description": "Nationality data",
+                        "name": "Nationality",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.Nat"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/user.Nationality"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/admin/create-user": {
             "post": {
                 "security": [
@@ -49,6 +100,55 @@ const docTemplate = `{
                         "description": "Created",
                         "schema": {
                             "$ref": "#/definitions/models.UserResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/delete-nationality/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete a nationality by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Nationality"
+                ],
+                "summary": "Delete Nationality",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Nationality ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Void"
                         }
                     },
                     "400": {
@@ -158,6 +258,160 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/user.UserResponses"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/nationalities": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a paginated list of nationalities",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Nationality"
+                ],
+                "summary": "List Nationalities",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Limit of nationalities per page",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/user.Nationalities"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/nationality/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve nationality information by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Nationality"
+                ],
+                "summary": "Get Nationality by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Nationality ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/user.Nationality"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/update-nationality": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update nationality details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Nationality"
+                ],
+                "summary": "Update Nationality",
+                "parameters": [
+                    {
+                        "description": "Nationality data",
+                        "name": "Nationality",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.Nationality"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Void"
                         }
                     },
                     "400": {
@@ -1272,7 +1526,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/models.ChatResponse"
+                            "$ref": "#/definitions/post.ChatResponse"
                         }
                     },
                     "400": {
@@ -1315,7 +1569,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.CreateMassage"
+                            "$ref": "#/definitions/post.CreateMassage"
                         }
                     }
                 ],
@@ -1323,7 +1577,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/models.MassageResponse"
+                            "$ref": "#/definitions/post.MassageResponse"
                         }
                     },
                     "400": {
@@ -1461,7 +1715,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.MassageResponseList"
+                            "$ref": "#/definitions/post.MassageResponseList"
                         }
                     },
                     "400": {
@@ -1507,7 +1761,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.MassageResponseList"
+                            "$ref": "#/definitions/post.MassageResponseList"
                         }
                     },
                     "400": {
@@ -1544,7 +1798,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.ChatResponseList"
+                            "$ref": "#/definitions/post.ChatResponseList"
                         }
                     },
                     "400": {
@@ -1601,7 +1855,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.MassageResponseList"
+                            "$ref": "#/definitions/post.MassageResponseList"
                         }
                     },
                     "400": {
@@ -1644,7 +1898,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.MassageTrue"
+                            "$ref": "#/definitions/post.MassageTrue"
                         }
                     }
                 ],
@@ -1695,7 +1949,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.UpdateMs"
+                            "$ref": "#/definitions/post.UpdateMs"
                         }
                     }
                 ],
@@ -1703,7 +1957,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.MassageResponse"
+                            "$ref": "#/definitions/post.MassageResponse"
                         }
                     },
                     "400": {
@@ -1831,11 +2085,19 @@ const docTemplate = `{
                 "summary": "Get List City",
                 "parameters": [
                     {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
                         "type": "string",
-                        "description": "Filter Countries",
-                        "name": "filter",
-                        "in": "query",
-                        "required": true
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -1860,7 +2122,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/city/get/{country_id}": {
+        "/city/get-city/{country_id}": {
             "get": {
                 "security": [
                     {
@@ -1982,7 +2244,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.UpdateCountryRequest"
+                            "$ref": "#/definitions/models.CreateCityResponse"
                         }
                     },
                     "400": {
@@ -2070,7 +2332,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/models.CommentResponse"
+                            "$ref": "#/definitions/post.CommentResponse"
                         }
                     },
                     "400": {
@@ -2590,7 +2852,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "name": "offset",
+                        "name": "page",
                         "in": "query"
                     }
                 ],
@@ -4777,34 +5039,6 @@ const docTemplate = `{
                 }
             }
         },
-        "models.ChatResponse": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string",
-                    "default": "2023-01-01T00:00:00Z"
-                },
-                "id": {
-                    "type": "string",
-                    "default": "0"
-                },
-                "user2_id": {
-                    "type": "string",
-                    "default": "0"
-                }
-            }
-        },
-        "models.ChatResponseList": {
-            "type": "object",
-            "properties": {
-                "chat": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/models.ChatResponse"
-                    }
-                }
-            }
-        },
         "models.CommentPost": {
             "type": "object",
             "properties": {
@@ -4908,35 +5142,11 @@ const docTemplate = `{
         "models.CreateCityResponse": {
             "type": "object",
             "properties": {
-                "country_id": {
-                    "type": "string"
-                },
                 "id": {
                     "type": "string"
                 },
                 "name": {
                     "type": "string"
-                }
-            }
-        },
-        "models.CreateMassage": {
-            "type": "object",
-            "properties": {
-                "chat_id": {
-                    "type": "string",
-                    "default": "0"
-                },
-                "content": {
-                    "type": "string",
-                    "default": "Hello"
-                },
-                "content_type": {
-                    "type": "string",
-                    "default": "text"
-                },
-                "sender_id": {
-                    "type": "string",
-                    "default": "0"
                 }
             }
         },
@@ -5171,63 +5381,6 @@ const docTemplate = `{
                 "username": {
                     "type": "string",
                     "default": "tom0011"
-                }
-            }
-        },
-        "models.MassageResponse": {
-            "type": "object",
-            "properties": {
-                "chat_id": {
-                    "type": "string",
-                    "default": "0"
-                },
-                "content": {
-                    "type": "string",
-                    "default": "Hello"
-                },
-                "content_type": {
-                    "type": "string",
-                    "default": "text"
-                },
-                "created_at": {
-                    "type": "string",
-                    "default": "2023-01-01T00:00:00Z"
-                },
-                "id": {
-                    "type": "string",
-                    "default": "0"
-                },
-                "is_read": {
-                    "type": "boolean",
-                    "default": false
-                },
-                "sender_id": {
-                    "type": "string",
-                    "default": "0"
-                },
-                "updated_at": {
-                    "type": "string",
-                    "default": "2023-01-01T00:00:00Z"
-                }
-            }
-        },
-        "models.MassageResponseList": {
-            "type": "object",
-            "properties": {
-                "massage": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/models.MassageResponse"
-                    }
-                }
-            }
-        },
-        "models.MassageTrue": {
-            "type": "object",
-            "properties": {
-                "chat_id": {
-                    "type": "string",
-                    "default": "0"
                 }
             }
         },
@@ -5474,20 +5627,6 @@ const docTemplate = `{
                 }
             }
         },
-        "models.UpdateCountryRequest": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string"
-                },
-                "image_url": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
         "models.UpdateCountryResponse": {
             "type": "object",
             "properties": {
@@ -5499,19 +5638,6 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
-                }
-            }
-        },
-        "models.UpdateMs": {
-            "type": "object",
-            "properties": {
-                "message_id": {
-                    "type": "string",
-                    "default": "123456"
-                },
-                "text": {
-                    "type": "string",
-                    "default": "Hello"
                 }
             }
         },
@@ -5754,6 +5880,133 @@ const docTemplate = `{
                 }
             }
         },
+        "post.ChatResponse": {
+            "type": "object",
+            "properties": {
+                "crated_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "user1_id": {
+                    "type": "string"
+                },
+                "user2_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "post.ChatResponseList": {
+            "type": "object",
+            "properties": {
+                "chat": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/post.ChatResponse"
+                    }
+                }
+            }
+        },
+        "post.CommentResponse": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "post_id": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "post.CreateMassage": {
+            "type": "object",
+            "properties": {
+                "chat_id": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "content_type": {
+                    "type": "string"
+                },
+                "sender_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "post.MassageResponse": {
+            "type": "object",
+            "properties": {
+                "chat_id": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "content_type": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_read": {
+                    "type": "boolean"
+                },
+                "sender_id": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "post.MassageResponseList": {
+            "type": "object",
+            "properties": {
+                "massage": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/post.MassageResponse"
+                    }
+                }
+            }
+        },
+        "post.MassageTrue": {
+            "type": "object",
+            "properties": {
+                "chat_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "post.UpdateMs": {
+            "type": "object",
+            "properties": {
+                "message_id": {
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                }
+            }
+        },
         "user.FollowUser": {
             "type": "object",
             "properties": {
@@ -5773,6 +6026,42 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/user.FollowUser"
                     }
+                }
+            }
+        },
+        "user.Nat": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "user.Nationalities": {
+            "type": "object",
+            "properties": {
+                "nationalities": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/user.Nationality"
+                    }
+                }
+            }
+        },
+        "user.Nationality": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
                 }
             }
         },

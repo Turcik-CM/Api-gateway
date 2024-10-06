@@ -38,8 +38,8 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer, re
 	chat := handler.NewChatHandler(a, log)
 	like := handler.NewLikeHandler(a, log)
 	comment := handler.NewCommentHandler(a, log)
-	user := handler.NewUserHandler(a, log)
 	att := handler.NewAttractionsHandler(a, log)
+	user := handler.NewUserHandler(a, log)
 	nat := handler.NewNationalFoodHandler(a, log)
 	his := handler.NewHistoryHandler(a, log)
 	auth := handler.NewAuthHandler(log, a, redis)
@@ -116,6 +116,11 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer, re
 		admin.POST("/create-user", user.Create)
 		admin.DELETE("/delete-user/:user_id", user.DeleteUser)
 		admin.GET("/user-by-id/:id", user.GetProfileById)
+		admin.POST("/add-nationality", user.AddNationality)
+		admin.GET("/nationality/:id", user.GetNationalityById)
+		admin.GET("/nationalities", user.ListNationalities)
+		admin.PUT("/update-nationality", user.UpdateNationality)
+		admin.DELETE("/delete-nationality/:id", user.DeleteNationality)
 	}
 
 	userGroup := router1.Group("/user")
@@ -134,12 +139,12 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer, re
 
 	cityGroup := router1.Group("/city")
 	{
-		cityGroup.POST("/create", country.CreateCity)                        // Create city by country id
-		cityGroup.GET("/get/:id", country.GetCityByID)                       // Get city by id
-		cityGroup.PUT("/update", country.UpdateCity)                         // Update city
-		cityGroup.DELETE("/delete/:id", country.DeleteCity)                  // Delete city by id
-		cityGroup.GET("/get-all", country.ListCity)                          // Get list of cities
-		cityGroup.GET("/get-by-country/:country_id", country.GetCityByCount) // Get cities by country id
+		cityGroup.POST("/create", country.CreateCity)                  // Create city by country id
+		cityGroup.GET("/get/:id", country.GetCityByID)                 // Get city by id
+		cityGroup.PUT("/update", country.UpdateCity)                   // Update city
+		cityGroup.DELETE("/delete/:id", country.DeleteCity)            // Delete city by id
+		cityGroup.GET("/get-all", country.ListCity)                    // Get list of cities
+		cityGroup.GET("/get-city/:country_id", country.GetCityByCount) // Get cities by country id
 	}
 
 	postGroup := router1.Group("/post")

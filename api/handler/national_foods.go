@@ -209,8 +209,12 @@ func (h *nationalFoodHandler) ListNationalFoods(c *gin.Context) {
 	post.Limit = int64(limits)
 	post.Offset = int64(offsets)
 
+	post.CountryId = c.Query("country")
+
 	post.CountryId = c.Query("country_id")
+
 	resp, err := h.nationalFoodService.ListNationalFood(context.Background(), &post)
+
 	if err != nil {
 		h.logger.Error("Error occurred while listing national foods", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

@@ -49,7 +49,7 @@ func NewCommentHandler(commentService service.Service, logger *slog.Logger) Comm
 // @Accept json
 // @Produce json
 // @Param Create body models.CommentPost true "Create comment"
-// @Success 201 {object} models.CommentResponse
+// @Success 201 {object} post.CommentResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /comment/create [post]
