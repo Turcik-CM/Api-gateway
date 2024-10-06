@@ -443,12 +443,12 @@ type HistoricalResponse struct {
 }
 
 type NationalFood struct {
-	FoodName    string `form:"country" default:"Uzbekistan"`
-	FoodType    string `form:"name" default:"dodi"`
-	Description string `form:"description" default:"dodi"`
-	CountryId   string `form:"nationality" default:"dodi"`
-	ImageURL    string `form:"image_url" default:"dodi"`
-	Ingredients string `form:"ingredients" default:"dodi"`
+	FoodName    string `form:"food_name"`
+	FoodType    string `form:"food_type"`
+	Description string `form:"description"`
+	CountryId   string `form:"country_id"`
+	ImageURL    string `form:"image_url"`
+	Ingredients string `form:"ingredients"`
 }
 
 type NationalFoodResponse struct {
@@ -533,13 +533,12 @@ type AttractionId struct {
 
 type UpdateNationalFood struct {
 	ID          string `json:"id"`
-	FoodName    string `json:"country"`
-	FoodType    string `json:"name"`
+	FoodName    string `json:"food_name"`
+	FoodType    string `json:"food_type"`
 	Description string `json:"description"`
+	CountryId   string `json:"country_id"`
 	ImageURL    string `json:"image_url"`
-	CountryId   int32  `json:"rating"`
 	Ingredients string `json:"ingredients"`
-	CreatedAt   string `json:"created_at"`
 }
 
 type UpdateAttrNationalFoodListaction struct {

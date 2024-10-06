@@ -5518,13 +5518,16 @@ const docTemplate = `{
         "models.UpdateNationalFood": {
             "type": "object",
             "properties": {
-                "country": {
-                    "type": "string"
-                },
-                "created_at": {
+                "country_id": {
                     "type": "string"
                 },
                 "description": {
+                    "type": "string"
+                },
+                "food_name": {
+                    "type": "string"
+                },
+                "food_type": {
                     "type": "string"
                 },
                 "id": {
@@ -5535,12 +5538,6 @@ const docTemplate = `{
                 },
                 "ingredients": {
                     "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "rating": {
-                    "type": "integer"
                 }
             }
         },

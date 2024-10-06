@@ -6,6 +6,7 @@ import (
 	"api-gateway/pkg/models"
 	"api-gateway/service"
 	"context"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
 	"log/slog"
@@ -78,6 +79,8 @@ func (h *nationalFoodHandler) CreateNationalFood(c *gin.Context) {
 	} else {
 		log.Println("No file uploaded, continuing without an image")
 	}
+	fmt.Println(a.CountryId)
+
 	res := pb.NationalFood{
 		FoodName:    a.FoodName,
 		FoodType:    a.FoodType,
