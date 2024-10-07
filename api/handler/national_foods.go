@@ -189,13 +189,14 @@ func (h *nationalFoodHandler) DeleteNationalFood(c *gin.Context) {
 // @Router /national/list [get]
 func (h *nationalFoodHandler) ListNationalFoods(c *gin.Context) {
 	var post pb.NationalFoodList
+	var offset int
 
 	limit := c.Query("limit")
-	offset := c.Query("offset")
+	p := c.Query("page")
 
-	offsets, err := strconv.Atoi(offset)
+	page, err := strconv.Atoi(p)
 	if err != nil {
-		offsets = 0
+		page = 0
 	}
 
 	limits, err := strconv.Atoi(limit)
@@ -203,10 +204,14 @@ func (h *nationalFoodHandler) ListNationalFoods(c *gin.Context) {
 		limits = 1
 	}
 
-	post.Limit = int64(limits)
-	post.Offset = int64(offsets)
+	if page == 0 || page == 1 {
+		offset = 0
+	} else {
+		offset = (page - 1) * limits
+	}
 
-	post.CountryId = c.Query("country")
+	post.Limit = int64(limits)
+	post.Offset = int64(offset)
 
 	post.CountryId = c.Query("country_id")
 

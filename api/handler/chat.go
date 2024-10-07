@@ -305,13 +305,14 @@ func (h *chatHandler) DeleteChat(c *gin.Context) {
 // @Router /chat/list [get]
 func (h *chatHandler) GetChatMessages(c *gin.Context) {
 	var chat pb.List
+	var offset int
 
 	limit := c.Query("limit")
-	offset := c.Query("offset")
+	p := c.Query("page")
 
-	offsets, err := strconv.Atoi(offset)
+	page, err := strconv.Atoi(p)
 	if err != nil {
-		offsets = 1
+		page = 1
 	}
 
 	limits, err := strconv.Atoi(limit)
@@ -319,8 +320,14 @@ func (h *chatHandler) GetChatMessages(c *gin.Context) {
 		limits = 10
 	}
 
+	if page == 0 || page > 1 {
+		offset = 0
+	} else {
+		offset = (page - 1) * limits
+	}
+
 	chat.Limit = int64(limits)
-	chat.Offset = int64(offsets)
+	chat.Offset = int64(offset)
 	chat.ChatId = c.Query("chat_id")
 
 	rep, err := h.chatService.GetChatMessages(context.Background(), &chat)

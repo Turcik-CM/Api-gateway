@@ -24,7 +24,7 @@ type MassageResponse struct {
 
 type List struct {
 	Limit  int64  `json:"limit" default:"10"`
-	Offset int64  `json:"offset" default:"0"`
+	Page   int64  `json:"page" default:"0"`
 	ChatID string `json:"chat_id" default:"0"`
 }
 
@@ -168,7 +168,7 @@ type LikeList struct {
 // PostList represents pagination and filtering options for a list of posts
 type PostList struct {
 	Limit   int64  `json:"limit" default:"10"`
-	Offset  int64  `json:"offset" default:"0"`
+	Page    int64  `json:"page" default:"0"`
 	Country string `json:"country" default:"Uzbekistan"`
 	Hashtag string `json:"hashtag" default:"dodi"`
 }
@@ -361,7 +361,7 @@ type NationalFoodResponse struct {
 
 type NationalFoodList struct {
 	Limit     int64  `json:"limit" default:"10"`
-	Offset    int64  `json:"offset" default:"0"`
+	Page      int64  `json:"page" default:"0"`
 	CountryId string `json:"country_id" default:"Uzbekistan"`
 }
 
@@ -556,9 +556,9 @@ type UpdateAttractionTypeResponse struct {
 }
 
 type ListAttractionTypesRequest struct {
-	Limit  int64  `json:"limit"`
-	Offset int64  `json:"offset"`
-	Name   string `json:"name"`
+	Limit int64  `json:"limit"`
+	Page  int64  `json:"page"`
+	Name  string `json:"name"`
 }
 
 type ListAttractionTypesResponse struct {

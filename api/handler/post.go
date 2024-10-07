@@ -181,13 +181,14 @@ func (h *postHandler) GetPostByID(c *gin.Context) {
 // @Router /post/list [get]
 func (h *postHandler) ListPosts(c *gin.Context) {
 	var post pb.PostList
+	var offset int
 
 	limit := c.Query("limit")
-	offset := c.Query("offset")
+	p := c.Query("page")
 
-	offsets, err := strconv.Atoi(offset)
+	page, err := strconv.Atoi(p)
 	if err != nil {
-		offsets = 1
+		offset = 1
 	}
 
 	limits, err := strconv.Atoi(limit)
@@ -195,8 +196,14 @@ func (h *postHandler) ListPosts(c *gin.Context) {
 		limits = 10
 	}
 
+	if page == 0 || page == 1 {
+		offset = 0
+	} else {
+		offset = (page - 1) * limits
+	}
+
 	post.Limit = int64(limits)
-	post.Offset = int64(offsets)
+	post.Offset = int64(offset)
 
 	post.Country = c.Query("country")
 	post.Hashtag = c.Query("hashtag")

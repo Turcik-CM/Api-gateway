@@ -1151,7 +1151,7 @@ paths:
         name: name
         type: string
       - in: query
-        name: offset
+        name: page
         type: integer
       produces:
       - application/json
@@ -1916,7 +1916,7 @@ paths:
         type: integer
       - default: 0
         in: query
-        name: offset
+        name: page
         type: integer
       produces:
       - application/json
@@ -3266,7 +3266,7 @@ paths:
         type: integer
       - default: 0
         in: query
-        name: offset
+        name: page
         type: integer
       produces:
       - application/json
@@ -3521,7 +3521,7 @@ paths:
         type: integer
       - default: 0
         in: query
-        name: offset
+        name: page
         type: integer
       produces:
       - application/json

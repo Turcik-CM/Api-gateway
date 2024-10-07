@@ -649,7 +649,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "name": "offset",
+                        "name": "page",
                         "in": "query"
                     }
                 ],
@@ -1847,7 +1847,7 @@ const docTemplate = `{
                     {
                         "type": "integer",
                         "default": 0,
-                        "name": "offset",
+                        "name": "page",
                         "in": "query"
                     }
                 ],
@@ -3986,7 +3986,7 @@ const docTemplate = `{
                     {
                         "type": "integer",
                         "default": 0,
-                        "name": "offset",
+                        "name": "page",
                         "in": "query"
                     }
                 ],
@@ -4384,7 +4384,7 @@ const docTemplate = `{
                     {
                         "type": "integer",
                         "default": 0,
-                        "name": "offset",
+                        "name": "page",
                         "in": "query"
                     }
                 ],
