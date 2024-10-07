@@ -12,7 +12,7 @@ import (
 
 var MinioClient *minio.Client
 
-var Endpoint = "3.120.111.217:9000"
+var Endpoint = "turk.gophers.uz" // Уберите https://
 
 var UserBucketName = "profile-image"
 var PostBucketName = "post-image"
@@ -24,8 +24,10 @@ func InitUserMinio() error {
 	secretAccessKey := "minioadmin"
 
 	minioClient, err := minio.New(Endpoint, &minio.Options{
-		Creds: credentials.NewStaticV4(accessKeyID, secretAccessKey, ""),
+		Creds:  credentials.NewStaticV4(accessKeyID, secretAccessKey, ""),
+		Secure: true, // Установите true для использования HTTPS
 	})
+
 	if err != nil {
 		log.Println(err)
 		return err
@@ -75,7 +77,7 @@ func UploadPost(fileHeader *multipart.FileHeader) (string, error) {
 		return "", err
 	}
 
-	imageUrl := fmt.Sprintf("http://%s/%s/%s", Endpoint, PostBucketName, fileHeader.Filename)
+	imageUrl := fmt.Sprintf("https://%s/%s/%s", Endpoint, PostBucketName, fileHeader.Filename)
 
 	return imageUrl, nil
 }
