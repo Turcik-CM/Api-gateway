@@ -546,6 +546,8 @@ definitions:
         items:
           $ref: '#/definitions/nationality.AttractionResponse'
         type: array
+      total:
+        type: string
     type: object
   nationality.AttractionResponse:
     properties:
@@ -568,12 +570,34 @@ definitions:
       updated_at:
         type: string
     type: object
+  nationality.CreateResponse:
+    properties:
+      city_name:
+        type: string
+      country_name:
+        type: string
+      flag_url:
+        type: string
+      id:
+        type: string
+    type: object
+  nationality.GetCountryId:
+    properties:
+      countries:
+        items:
+          $ref: '#/definitions/nationality.CreateResponse'
+        type: array
+      total:
+        type: integer
+    type: object
   nationality.HistoricalListResponse:
     properties:
       historical:
         items:
           $ref: '#/definitions/nationality.HistoricalResponse'
         type: array
+      total:
+        type: string
     type: object
   nationality.HistoricalResponse:
     properties:
@@ -2213,7 +2237,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.CreateCityResponse'
+            $ref: '#/definitions/nationality.GetCountryId'
         "400":
           description: Bad Request
           schema:

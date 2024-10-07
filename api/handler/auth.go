@@ -142,7 +142,6 @@ func (h *authHandler) AcceptCodeToRegister(c *gin.Context) {
 		Email:     register.Email,
 		Phone:     register.Phone,
 		Username:  register.Username,
-		Country:   register.Country,
 		Bio:       register.Bio,
 		Password:  register.Password,
 	}

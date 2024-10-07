@@ -2288,7 +2288,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.CreateCityResponse"
+                            "$ref": "#/definitions/nationality.GetCountryId"
                         }
                     },
                     "400": {
@@ -5928,6 +5928,9 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/nationality.AttractionResponse"
                     }
+                },
+                "total": {
+                    "type": "string"
                 }
             }
         },
@@ -5963,6 +5966,37 @@ const docTemplate = `{
                 }
             }
         },
+        "nationality.CreateResponse": {
+            "type": "object",
+            "properties": {
+                "city_name": {
+                    "type": "string"
+                },
+                "country_name": {
+                    "type": "string"
+                },
+                "flag_url": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "nationality.GetCountryId": {
+            "type": "object",
+            "properties": {
+                "countries": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/nationality.CreateResponse"
+                    }
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
         "nationality.HistoricalListResponse": {
             "type": "object",
             "properties": {
@@ -5971,6 +6005,9 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/nationality.HistoricalResponse"
                     }
+                },
+                "total": {
+                    "type": "string"
                 }
             }
         },

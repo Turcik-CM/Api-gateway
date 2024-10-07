@@ -416,7 +416,7 @@ func (h *CountriesHandlers) ListCity(c *gin.Context) {
 // @Tags City
 // @Produce json
 // @Param country_id path string true "get cities"
-// @Success 200 {object} models.CreateCityResponse
+// @Success 200 {object} nationality.GetCountryId
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /city/get-city/{country_id} [get]
