@@ -463,22 +463,31 @@ func (h *attractionsHandler) DeleteAttractionType(c *gin.Context) {
 // @Router /attraction-type/list [get]
 func (h *attractionsHandler) ListAttractionsType(c *gin.Context) {
 	var req pb.ListAttractionTypesRequest
+	var offset int
 
 	limit := c.Query("limit")
-	offset := c.Query("offset")
+	p := c.Query("page")
+	name := c.Query("name")
 
 	limits, err := strconv.Atoi(limit)
 	if err != nil {
 		limits = 10
 	}
 
-	offsets, err := strconv.Atoi(offset)
+	page, err := strconv.Atoi(p)
 	if err != nil {
-		offsets = 0
+		page = 0
+	}
+
+	if page == 0 || page == 1 {
+		offset = 0
+	} else {
+		offset = (page - 1) * limits
 	}
 
 	req.Limit = int64(limits)
-	req.Offset = int64(offsets)
+	req.Offset = int64(offset)
+	req.Name = name
 
 	resp, err := h.attractionsService.ListAttractionTypes(context.Background(), &req)
 	if err != nil {
