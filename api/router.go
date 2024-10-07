@@ -44,6 +44,14 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer, re
 	his := handler.NewHistoryHandler(a, log)
 	auth := handler.NewAuthHandler(log, a, redis)
 	country := handler.NewCountriesHandlers(a, log)
+	basiC := handler.NewBasicAdditional(a, log)
+
+	Basic := router.Group("/basic")
+	{
+		Basic.GET("/username/:user_name", basiC.GetUserRecommendation)
+		Basic.GET("/getByUser/:user_name", basiC.GetPostsByUsername)
+		Basic.GET("/search/:action", basiC.SearchPost)
+	}
 
 	authGroup := router.Group("/auth")
 	{

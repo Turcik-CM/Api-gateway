@@ -1720,6 +1720,93 @@ paths:
       summary: Reset Password
       tags:
       - Auth
+  /basic/getByUser/{user_name}:
+    get:
+      description: Get PostsByUsername by its ID
+      parameters:
+      - description: Basic ID
+        in: path
+        name: user_name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.PostListResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get PostsByUsername by ID
+      tags:
+      - Posts
+  /basic/search/{action}:
+    get:
+      description: Get SearchPost by its ID
+      parameters:
+      - description: SearchPost ID
+        in: path
+        name: action
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.PostListResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get SearchPost by ID
+      tags:
+      - Posts
+  /basic/username/{user_name}:
+    get:
+      description: Get Recommendation by its ID
+      parameters:
+      - description: Basic ID
+        in: path
+        name: user_name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.PostListResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Recommendation by ID
+      tags:
+      - Posts
   /chat/create:
     post:
       consumes:

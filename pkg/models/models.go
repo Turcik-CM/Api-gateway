@@ -3,6 +3,10 @@ package models
 type Void struct {
 }
 
+type Search struct {
+	Action string `json:"string"`
+}
+
 // ChatResponse represents chat response structure
 type ChatResponse struct {
 	ID        string `json:"id" db:"id" default:"0"`
