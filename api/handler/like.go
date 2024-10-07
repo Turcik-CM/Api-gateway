@@ -2,7 +2,6 @@ package handler
 
 import (
 	pb "api-gateway/genproto/post"
-	t "api-gateway/pkg/token"
 	"api-gateway/service"
 	"context"
 	"github.com/gin-gonic/gin"
@@ -59,15 +58,7 @@ func (h *HandlerL) AddLikePost(c *gin.Context) {
 		return
 	}
 
-	token := c.GetHeader("Authorization")
-	cl, err := t.ExtractClaims(token)
-	if err != nil {
-		h.logger.Error("Error occurred while extracting claims", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	like.UserId = cl["user_id"].(string)
+	like.UserId = c.MustGet("user_id").(string)
 
 	req, err := h.LikeService.AddLikePost(context.Background(), &like)
 	if err != nil {
@@ -96,15 +87,7 @@ func (h *HandlerL) DeleteLikePost(c *gin.Context) {
 
 	like.PostId = c.PostForm("id")
 
-	token := c.GetHeader("Authorization")
-	cl, err := t.ExtractClaims(token)
-	if err != nil {
-		h.logger.Error("Error occurred while extracting claims", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	like.UserId = cl["user_id"].(string)
+	like.UserId = c.MustGet("user_id").(string)
 
 	req, err := h.LikeService.DeleteLikePost(context.Background(), &like)
 	if err != nil {
@@ -134,14 +117,9 @@ func (h *HandlerL) AddLikeComment(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	token := c.GetHeader("Authorization")
-	cl, err := t.ExtractClaims(token)
-	if err != nil {
-		h.logger.Error("Error occurred while extracting claims", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	like.UserId = cl["user_id"].(string)
+
+	like.UserId = c.MustGet("user_id").(string)
+
 	req, err := h.LikeService.AddLikeComment(context.Background(), &like)
 	if err != nil {
 		h.logger.Error("Error occurred while adding like comment", err)
@@ -168,14 +146,8 @@ func (h *HandlerL) DeleteLikeComment(c *gin.Context) {
 
 	like.CommitId = c.Param("commit_id")
 
-	token := c.GetHeader("Authorization")
-	cl, err := t.ExtractClaims(token)
-	if err != nil {
-		h.logger.Error("Error occurred while extracting claims", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	like.UserId = cl["user_id"].(string)
+	like.UserId = c.MustGet("user_id").(string)
+
 	req, err := h.LikeService.DeleteLikeComment(context.Background(), &like)
 	if err != nil {
 		h.logger.Error("Error occurred while deleting like comment", err)

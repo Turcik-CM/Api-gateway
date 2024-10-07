@@ -6,7 +6,6 @@ import (
 	"api-gateway/pkg/models"
 	"api-gateway/service"
 	"context"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
 	"log/slog"
@@ -247,7 +246,6 @@ func (h *CountriesHandlers) ListCountries(c *gin.Context) {
 		return
 	}
 
-	fmt.Println(resp.Total, "111111111111")
 	c.JSON(http.StatusOK, resp)
 }
 
@@ -375,9 +373,10 @@ func (h *CountriesHandlers) DeleteCity(c *gin.Context) {
 // @Router /city/get-all/ [get]
 func (h *CountriesHandlers) ListCity(c *gin.Context) {
 	var req pb.ListCityRequest
+	var offset int
 
 	limit := c.Query("limit")
-	offset := c.Query("offset")
+	p := c.Query("page")
 	name := c.Query("name")
 
 	limits, err := strconv.Atoi(limit)
@@ -385,13 +384,19 @@ func (h *CountriesHandlers) ListCity(c *gin.Context) {
 		limits = 10
 	}
 
-	offsets, err := strconv.Atoi(offset)
+	page, err := strconv.Atoi(p)
 	if err != nil {
-		offsets = 0
+		offset = 0
+	}
+
+	if page == 0 || page == 1 {
+		offset = 0
+	} else {
+		offset = (page - 1) * limits
 	}
 
 	req.Limit = int64(limits)
-	req.Offset = int64(offsets)
+	req.Offset = int64(offset)
 	req.Name = name
 
 	resp, err := h.countryService.ListCity(context.Background(), &req)

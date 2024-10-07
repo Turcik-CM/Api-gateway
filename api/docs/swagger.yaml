@@ -133,6 +133,18 @@ definitions:
       name:
         type: string
     type: object
+  models.CreateMassage:
+    properties:
+      chat_id:
+        default: "0"
+        type: string
+      content:
+        default: Hello
+        type: string
+      content_type:
+        default: text
+        type: string
+    type: object
   models.CreateRequest:
     properties:
       bio:
@@ -534,8 +546,6 @@ definitions:
         items:
           $ref: '#/definitions/nationality.AttractionResponse'
         type: array
-      total:
-        type: string
     type: object
   nationality.AttractionResponse:
     properties:
@@ -564,8 +574,6 @@ definitions:
         items:
           $ref: '#/definitions/nationality.HistoricalResponse'
         type: array
-      total:
-        type: string
     type: object
   nationality.HistoricalResponse:
     properties:
@@ -657,17 +665,6 @@ definitions:
       updated_at:
         type: string
       user_id:
-        type: string
-    type: object
-  post.CreateMassage:
-    properties:
-      chat_id:
-        type: string
-      content:
-        type: string
-      content_type:
-        type: string
-      sender_id:
         type: string
     type: object
   post.MassageResponse:
@@ -1172,7 +1169,7 @@ paths:
         name: name
         type: string
       - in: query
-        name: offset
+        name: page
         type: integer
       produces:
       - application/json
@@ -1850,7 +1847,7 @@ paths:
         name: Create
         required: true
         schema:
-          $ref: '#/definitions/post.CreateMassage'
+          $ref: '#/definitions/models.CreateMassage'
       produces:
       - application/json
       responses:
@@ -2024,7 +2021,7 @@ paths:
         type: integer
       - default: 0
         in: query
-        name: offset
+        name: page
         type: integer
       produces:
       - application/json
@@ -3374,7 +3371,7 @@ paths:
         type: integer
       - default: 0
         in: query
-        name: offset
+        name: page
         type: integer
       produces:
       - application/json
@@ -3629,7 +3626,7 @@ paths:
         type: integer
       - default: 0
         in: query
-        name: offset
+        name: page
         type: integer
       produces:
       - application/json

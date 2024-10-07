@@ -55,20 +55,14 @@ func NewCommentHandler(commentService service.Service, logger *slog.Logger) Comm
 // @Router /comment/create [post]
 func (h *commentHandler) CreateComment(c *gin.Context) {
 	var comment pb.CommentPost
+
 	if err := c.ShouldBindJSON(&comment); err != nil {
 		h.logger.Error("Error occurred while binding json", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	token := c.GetHeader("Authorization")
-	cl, err := t.ExtractClaims(token)
-	if err != nil {
-		h.logger.Error("Error occurred while extracting claims", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
 
-	comment.UserId = cl["user_id"].(string)
+	comment.UserId = c.MustGet("user_id").(string)
 	rep, err := h.commentService.CreateComment(context.Background(), &comment)
 	if err != nil {
 		h.logger.Error("Error occurred while creating comment", err)
