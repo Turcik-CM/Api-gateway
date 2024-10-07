@@ -5790,9 +5790,6 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/nationality.AttractionResponse"
                     }
-                },
-                "total": {
-                    "type": "string"
                 }
             }
         },
@@ -5836,9 +5833,6 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/nationality.HistoricalResponse"
                     }
-                },
-                "total": {
-                    "type": "string"
                 }
             }
         },

@@ -546,8 +546,6 @@ definitions:
         items:
           $ref: '#/definitions/nationality.AttractionResponse'
         type: array
-      total:
-        type: string
     type: object
   nationality.AttractionResponse:
     properties:
@@ -576,8 +574,6 @@ definitions:
         items:
           $ref: '#/definitions/nationality.HistoricalResponse'
         type: array
-      total:
-        type: string
     type: object
   nationality.HistoricalResponse:
     properties:
