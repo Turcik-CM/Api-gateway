@@ -46,7 +46,6 @@ type MassageTrue struct {
 // CreateMassage represents the structure for creating a message
 type CreateMassage struct {
 	ChatID      string `json:"chat_id" default:"0"`
-	SenderID    string `json:"sender_id" default:"0"`
 	ContentType string `json:"content_type" default:"text"`
 	Content     string `json:"content" default:"Hello"`
 }

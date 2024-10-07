@@ -57,20 +57,14 @@ func NewChatHandler(chatService service.Service, logger *slog.Logger) ChatHandle
 // @Router /chat/create [post]
 func (h *chatHandler) StartMessaging(c *gin.Context) {
 	var chat pb.CreateChat
+
 	if err := c.ShouldBindJSON(&chat); err != nil {
 		h.logger.Error("Error occurred while binding json", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	token := c.GetHeader("Authorization")
-	cl, err := t.ExtractClaims(token)
-	if err != nil {
-		h.logger.Error("Error occurred while extracting claims", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
 
-	chat.User1Id = cl["user_id"].(string)
+	chat.User1Id = c.MustGet("user_id").(string)
 	req, err := h.chatService.StartMessaging(context.Background(), &chat)
 	if err != nil {
 		h.logger.Error("Error occurred while starting messaging", err)
@@ -87,18 +81,22 @@ func (h *chatHandler) StartMessaging(c *gin.Context) {
 // @Tags Chat
 // @Accept json
 // @Produce json
-// @Param Create body post.CreateMassage true "Create Chat"
+// @Param Create body models.CreateMassage true "Create Chat"
 // @Success 201 {object} post.MassageResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /chat/create_message [post]
 func (h *chatHandler) SendMessage(c *gin.Context) {
 	var chat pb.CreateMassage
+
 	if err := c.ShouldBindJSON(&chat); err != nil {
 		h.logger.Error("Error occurred while binding json", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	chat.SenderId = c.MustGet("user_id").(string)
+
 	rep, err := h.chatService.SendMessage(context.Background(), &chat)
 	if err != nil {
 		h.logger.Error("Error occurred while sending message", err)

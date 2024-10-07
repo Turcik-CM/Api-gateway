@@ -1569,7 +1569,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/post.CreateMassage"
+                            "$ref": "#/definitions/models.CreateMassage"
                         }
                     }
                 ],
@@ -5167,6 +5167,23 @@ const docTemplate = `{
                 }
             }
         },
+        "models.CreateMassage": {
+            "type": "object",
+            "properties": {
+                "chat_id": {
+                    "type": "string",
+                    "default": "0"
+                },
+                "content": {
+                    "type": "string",
+                    "default": "Hello"
+                },
+                "content_type": {
+                    "type": "string",
+                    "default": "text"
+                }
+            }
+        },
         "models.CreateRequest": {
             "type": "object",
             "properties": {
@@ -5962,23 +5979,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "user_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "post.CreateMassage": {
-            "type": "object",
-            "properties": {
-                "chat_id": {
-                    "type": "string"
-                },
-                "content": {
-                    "type": "string"
-                },
-                "content_type": {
-                    "type": "string"
-                },
-                "sender_id": {
                     "type": "string"
                 }
             }
