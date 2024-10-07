@@ -69,6 +69,7 @@ type CommentResponse struct {
 // CommentsR represents a list of comments
 type CommentsR struct {
 	Comments []CommentResponse `json:"comments"`
+	Total    string            `json:"total"`
 }
 
 // Username represents a username structure
@@ -146,7 +147,8 @@ type CommentId struct {
 
 // PostListResponse represents a list of posts
 type PostListResponse struct {
-	Post []PostResponse `json:"post"`
+	Post  []PostResponse `json:"post"`
+	Total string         `json:"total"`
 }
 
 // Message represents a simple message response
@@ -340,12 +342,12 @@ type HistoricalResponse struct {
 }
 
 type NationalFood struct {
-	FoodName    string `form:"country" default:"Uzbekistan"`
-	FoodType    string `form:"name" default:"dodi"`
-	Description string `form:"description" default:"dodi"`
-	CountryId   string `form:"nationality" default:"dodi"`
-	ImageURL    string `form:"image_url" default:"dodi"`
-	Ingredients string `form:"ingredients" default:"dodi"`
+	FoodName    string `form:"food_name"`
+	FoodType    string `form:"food_type"`
+	Description string `form:"description"`
+	CountryId   string `form:"country_id"`
+	ImageURL    string `form:"image_url"`
+	Ingredients string `form:"ingredients"`
 }
 
 type NationalFoodResponse struct {
@@ -367,6 +369,7 @@ type NationalFoodList struct {
 
 type NationalFoodListResponse struct {
 	NationalFood []NationalFoodResponse `json:"national_food"`
+	Total        string                 `json:"total"`
 }
 
 type Attraction struct {
@@ -401,17 +404,17 @@ type AttractionResponse struct {
 
 type AttractionListResponse struct {
 	Attractions []AttractionResponse `json:"attractions"`
+	Total       string               `json:"total"`
 }
 
 type UpdateNationalFood struct {
 	ID          string `json:"id"`
-	FoodName    string `json:"country"`
-	FoodType    string `json:"name"`
+	FoodName    string `json:"food_name"`
+	FoodType    string `json:"food_type"`
 	Description string `json:"description"`
+	CountryId   string `json:"country_id"`
 	ImageURL    string `json:"image_url"`
-	CountryId   int32  `json:"rating"`
 	Ingredients string `json:"ingredients"`
-	CreatedAt   string `json:"created_at"`
 }
 
 type AttractionSearch struct {
@@ -514,6 +517,7 @@ type ListCountriesRequest struct {
 
 type ListCountriesResponse struct {
 	Countries []Country `json:"countries"`
+	Total     string    `json:"total"`
 }
 
 type Country struct {
@@ -563,6 +567,7 @@ type ListAttractionTypesRequest struct {
 
 type ListAttractionTypesResponse struct {
 	AttractionTypes []AttractionType `json:"attraction_types"`
+	Total           string           `json:"total"`
 }
 
 type AttractionType struct {

@@ -8,6 +8,15 @@ definitions:
         default: code cogan email ni kiriting
         type: string
     type: object
+  models.AttractionListResponse:
+    properties:
+      attractions:
+        items:
+          $ref: '#/definitions/models.AttractionResponse'
+        type: array
+      total:
+        type: string
+    type: object
   models.AttractionResponse:
     properties:
       category:
@@ -80,6 +89,8 @@ definitions:
         items:
           $ref: '#/definitions/models.CommentResponse'
         type: array
+      total:
+        type: string
     type: object
   models.Country:
     properties:
@@ -248,6 +259,8 @@ definitions:
         items:
           $ref: '#/definitions/models.AttractionType'
         type: array
+      total:
+        type: string
     type: object
   models.ListCountriesResponse:
     properties:
@@ -255,6 +268,8 @@ definitions:
         items:
           $ref: '#/definitions/models.Country'
         type: array
+      total:
+        type: string
     type: object
   models.LoginEmailRequest:
     properties:
@@ -285,6 +300,8 @@ definitions:
         items:
           $ref: '#/definitions/models.NationalFoodResponse'
         type: array
+      total:
+        type: string
     type: object
   models.NationalFoodResponse:
     properties:
@@ -311,6 +328,8 @@ definitions:
         items:
           $ref: '#/definitions/models.PostResponse'
         type: array
+      total:
+        type: string
     type: object
   models.PostResponse:
     properties:
@@ -449,11 +468,13 @@ definitions:
     type: object
   models.UpdateNationalFood:
     properties:
-      country:
-        type: string
-      created_at:
+      country_id:
         type: string
       description:
+        type: string
+      food_name:
+        type: string
+      food_type:
         type: string
       id:
         type: string
@@ -461,10 +482,6 @@ definitions:
         type: string
       ingredients:
         type: string
-      name:
-        type: string
-      rating:
-        type: integer
     type: object
   models.UpdateProfileRequest:
     properties:
@@ -517,6 +534,8 @@ definitions:
         items:
           $ref: '#/definitions/nationality.AttractionResponse'
         type: array
+      total:
+        type: string
     type: object
   nationality.AttractionResponse:
     properties:
@@ -545,6 +564,8 @@ definitions:
         items:
           $ref: '#/definitions/nationality.HistoricalResponse'
         type: array
+      total:
+        type: string
     type: object
   nationality.HistoricalResponse:
     properties:
@@ -1387,7 +1408,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/nationality.AttractionListResponse'
+            $ref: '#/definitions/models.AttractionListResponse'
         "400":
           description: Bad Request
           schema:
@@ -2079,7 +2100,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.CreateCityResponse'
+            $ref: '#/definitions/models.ListAttractionTypesResponse'
         "400":
           description: Bad Request
           schema:

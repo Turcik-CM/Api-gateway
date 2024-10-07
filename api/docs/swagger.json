@@ -1005,7 +1005,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/nationality.AttractionListResponse"
+                            "$ref": "#/definitions/models.AttractionListResponse"
                         }
                     },
                     "400": {
@@ -2096,7 +2096,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.CreateCityResponse"
+                            "$ref": "#/definitions/models.ListAttractionTypesResponse"
                         }
                     },
                     "400": {
@@ -4966,6 +4966,20 @@
                 }
             }
         },
+        "models.AttractionListResponse": {
+            "type": "object",
+            "properties": {
+                "attractions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.AttractionResponse"
+                    }
+                },
+                "total": {
+                    "type": "string"
+                }
+            }
+        },
         "models.AttractionResponse": {
             "type": "object",
             "properties": {
@@ -5075,6 +5089,9 @@
                     "items": {
                         "$ref": "#/definitions/models.CommentResponse"
                     }
+                },
+                "total": {
+                    "type": "string"
                 }
             }
         },
@@ -5336,6 +5353,9 @@
                     "items": {
                         "$ref": "#/definitions/models.AttractionType"
                     }
+                },
+                "total": {
+                    "type": "string"
                 }
             }
         },
@@ -5347,6 +5367,9 @@
                     "items": {
                         "$ref": "#/definitions/models.Country"
                     }
+                },
+                "total": {
+                    "type": "string"
                 }
             }
         },
@@ -5392,6 +5415,9 @@
                     "items": {
                         "$ref": "#/definitions/models.NationalFoodResponse"
                     }
+                },
+                "total": {
+                    "type": "string"
                 }
             }
         },
@@ -5432,6 +5458,9 @@
                     "items": {
                         "$ref": "#/definitions/models.PostResponse"
                     }
+                },
+                "total": {
+                    "type": "string"
                 }
             }
         },
@@ -5636,13 +5665,16 @@
         "models.UpdateNationalFood": {
             "type": "object",
             "properties": {
-                "country": {
-                    "type": "string"
-                },
-                "created_at": {
+                "country_id": {
                     "type": "string"
                 },
                 "description": {
+                    "type": "string"
+                },
+                "food_name": {
+                    "type": "string"
+                },
+                "food_type": {
                     "type": "string"
                 },
                 "id": {
@@ -5653,12 +5685,6 @@
                 },
                 "ingredients": {
                     "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "rating": {
-                    "type": "integer"
                 }
             }
         },
@@ -5739,6 +5765,9 @@
                     "items": {
                         "$ref": "#/definitions/nationality.AttractionResponse"
                     }
+                },
+                "total": {
+                    "type": "string"
                 }
             }
         },
@@ -5782,6 +5811,9 @@
                     "items": {
                         "$ref": "#/definitions/nationality.HistoricalResponse"
                     }
+                },
+                "total": {
+                    "type": "string"
                 }
             }
         },

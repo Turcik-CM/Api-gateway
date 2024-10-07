@@ -6,6 +6,7 @@ import (
 	"api-gateway/pkg/models"
 	"api-gateway/service"
 	"context"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
 	"log/slog"
@@ -246,6 +247,7 @@ func (h *CountriesHandlers) ListCountries(c *gin.Context) {
 		return
 	}
 
+	fmt.Println(resp.Total, "111111111111")
 	c.JSON(http.StatusOK, resp)
 }
 
@@ -367,7 +369,7 @@ func (h *CountriesHandlers) DeleteCity(c *gin.Context) {
 // @Tags City
 // @Produce json
 // @Param filter query models.FilterCountry false "Filter Countries"
-// @Success 200 {object} models.CreateCityResponse
+// @Success 200 {object} models.ListAttractionTypesResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /city/get-all/ [get]

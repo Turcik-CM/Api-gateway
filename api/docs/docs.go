@@ -1013,7 +1013,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/nationality.AttractionListResponse"
+                            "$ref": "#/definitions/models.AttractionListResponse"
                         }
                     },
                     "400": {
@@ -2104,7 +2104,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.CreateCityResponse"
+                            "$ref": "#/definitions/models.ListAttractionTypesResponse"
                         }
                     },
                     "400": {
@@ -4974,6 +4974,20 @@ const docTemplate = `{
                 }
             }
         },
+        "models.AttractionListResponse": {
+            "type": "object",
+            "properties": {
+                "attractions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.AttractionResponse"
+                    }
+                },
+                "total": {
+                    "type": "string"
+                }
+            }
+        },
         "models.AttractionResponse": {
             "type": "object",
             "properties": {
@@ -5083,6 +5097,9 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/models.CommentResponse"
                     }
+                },
+                "total": {
+                    "type": "string"
                 }
             }
         },
@@ -5344,6 +5361,9 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/models.AttractionType"
                     }
+                },
+                "total": {
+                    "type": "string"
                 }
             }
         },
@@ -5355,6 +5375,9 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/models.Country"
                     }
+                },
+                "total": {
+                    "type": "string"
                 }
             }
         },
@@ -5400,6 +5423,9 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/models.NationalFoodResponse"
                     }
+                },
+                "total": {
+                    "type": "string"
                 }
             }
         },
@@ -5440,6 +5466,9 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/models.PostResponse"
                     }
+                },
+                "total": {
+                    "type": "string"
                 }
             }
         },
@@ -5644,13 +5673,16 @@ const docTemplate = `{
         "models.UpdateNationalFood": {
             "type": "object",
             "properties": {
-                "country": {
-                    "type": "string"
-                },
-                "created_at": {
+                "country_id": {
                     "type": "string"
                 },
                 "description": {
+                    "type": "string"
+                },
+                "food_name": {
+                    "type": "string"
+                },
+                "food_type": {
                     "type": "string"
                 },
                 "id": {
@@ -5661,12 +5693,6 @@ const docTemplate = `{
                 },
                 "ingredients": {
                     "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "rating": {
-                    "type": "integer"
                 }
             }
         },
@@ -5747,6 +5773,9 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/nationality.AttractionResponse"
                     }
+                },
+                "total": {
+                    "type": "string"
                 }
             }
         },
@@ -5790,6 +5819,9 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/nationality.HistoricalResponse"
                     }
+                },
+                "total": {
+                    "type": "string"
                 }
             }
         },
