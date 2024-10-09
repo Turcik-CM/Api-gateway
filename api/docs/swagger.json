@@ -5920,6 +5920,9 @@
                     "items": {
                         "$ref": "#/definitions/nationality.AttractionResponse"
                     }
+                },
+                "total": {
+                    "type": "string"
                 }
             }
         },
@@ -5963,6 +5966,9 @@
                     "items": {
                         "$ref": "#/definitions/nationality.HistoricalResponse"
                     }
+                },
+                "total": {
+                    "type": "string"
                 }
             }
         },

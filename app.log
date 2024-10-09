@@ -336,3 +336,6 @@ time=2024-10-07T18:19:21.520+05:00 level=ERROR msg="Error occurred while uploadi
 time=2024-10-07T18:22:36.864+05:00 level=ERROR msg="Error occurred while creating post:" !BADKEY="rpc error: code = Unknown desc = failed to create post: pq: insert or update on table \"posts\" violates foreign key constraint \"posts_country_fkey\""
 time=2024-10-07T18:22:55.454+05:00 level=ERROR msg="Error occurred while creating post:" !BADKEY="rpc error: code = Unknown desc = failed to create post: pq: insert or update on table \"posts\" violates foreign key constraint \"posts_country_fkey\""
 >>>>>>> 052290cb1f6ec8ee526c7f5d81bf847c8d085d4b
+time=2024-10-07T19:23:31.551+05:00 level=ERROR msg="Error occurred while listing national foods" !BADKEY="rpc error: code = Unknown desc = pq: invalid input syntax for type uuid: \"beki\""
+time=2024-10-07T19:23:37.077+05:00 level=ERROR msg="Error occurred while listing national foods" !BADKEY="rpc error: code = Unknown desc = pq: invalid input syntax for type uuid: \"zbeki\""
+time=2024-10-07T19:23:40.254+05:00 level=ERROR msg="Error occurred while listing national foods" !BADKEY="rpc error: code = Unknown desc = pq: invalid input syntax for type uuid: \"zbeki\""
