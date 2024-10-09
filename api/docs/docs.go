@@ -5966,19 +5966,16 @@ const docTemplate = `{
                 }
             }
         },
-        "nationality.CreateResponse": {
+        "nationality.CreateCityResponse": {
             "type": "object",
             "properties": {
-                "city_name": {
-                    "type": "string"
-                },
-                "country_name": {
-                    "type": "string"
-                },
-                "flag_url": {
+                "country_id": {
                     "type": "string"
                 },
                 "id": {
+                    "type": "string"
+                },
+                "name": {
                     "type": "string"
                 }
             }
@@ -5989,7 +5986,7 @@ const docTemplate = `{
                 "countries": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/nationality.CreateResponse"
+                        "$ref": "#/definitions/nationality.CreateCityResponse"
                     }
                 },
                 "total": {
