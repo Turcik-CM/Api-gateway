@@ -1005,7 +1005,7 @@ const docTemplate = `{
                     {
                         "type": "integer",
                         "default": 0,
-                        "name": "offset",
+                        "name": "page",
                         "in": "query"
                     }
                 ],

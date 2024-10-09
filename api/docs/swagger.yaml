@@ -1421,7 +1421,7 @@ paths:
         type: string
       - default: 0
         in: query
-        name: offset
+        name: page
         type: integer
       produces:
       - application/json

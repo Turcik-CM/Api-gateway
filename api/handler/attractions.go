@@ -204,17 +204,18 @@ func (h *attractionsHandler) DeleteAttraction(c *gin.Context) {
 // @Router /attraction/list [get]
 func (h *attractionsHandler) ListAttractions(c *gin.Context) {
 	var post pb.AttractionList
+	var offset int
 
 	limit := c.Query("limit")
-	offset := c.Query("offset")
+	p := c.Query("page")
 	city := c.Query("city")
 	category := c.Query("category")
 	name := c.Query("name")
 	description := c.Query("description")
 
-	offsets, err := strconv.Atoi(offset)
+	page, err := strconv.Atoi(p)
 	if err != nil {
-		offsets = 0
+		offset = 0
 	}
 
 	limits, err := strconv.Atoi(limit)
@@ -222,13 +223,18 @@ func (h *attractionsHandler) ListAttractions(c *gin.Context) {
 		limits = 1
 	}
 
+	if page == 0 || page == 1 {
+		offset = 0
+	} else {
+		offset = (page - 1) * limits
+	}
+
 	post.Limit = int64(limits)
-	post.Offset = int64(offsets)
+	post.Offset = int64(offset)
 	post.Name = name
 	post.Description = description
 	post.City = city
 	post.Category = category
-	fmt.Println(post)
 
 	req, err := h.attractionsService.ListAttraction(context.Background(), &post)
 	if err != nil {
