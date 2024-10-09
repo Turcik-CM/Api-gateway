@@ -55,7 +55,7 @@ func UploadUser(fileHeader *multipart.FileHeader) (string, error) {
 		return "", err
 	}
 
-	imageUrl := fmt.Sprintf("http://%s/%s/%s", Endpoint, UserBucketName, fileHeader.Filename)
+	imageUrl := fmt.Sprintf("https://%s/%s/%s", Endpoint, UserBucketName, fileHeader.Filename)
 
 	return imageUrl, nil
 }
@@ -99,7 +99,7 @@ func UploadNationality(fileHeader *multipart.FileHeader) (string, error) {
 		return "", err
 	}
 
-	imageUrl := fmt.Sprintf("http://%s/%s/%s", Endpoint, Nationality, fileHeader.Filename)
+	imageUrl := fmt.Sprintf("https://%s/%s/%s", Endpoint, Nationality, fileHeader.Filename)
 
 	return imageUrl, nil
 }
@@ -122,7 +122,7 @@ func UploadFlag(fileHeader *multipart.FileHeader) (string, error) {
 		return "", err
 	}
 
-	imageUrl := fmt.Sprintf("http://%s/%s/%s", Endpoint, FlagBucketName, fileHeader.Filename)
+	imageUrl := fmt.Sprintf("https://%s/%s/%s", Endpoint, FlagBucketName, fileHeader.Filename)
 
 	return imageUrl, nil
 }
