@@ -1005,7 +1005,7 @@ const docTemplate = `{
                     {
                         "type": "integer",
                         "default": 0,
-                        "name": "offset",
+                        "name": "page",
                         "in": "query"
                     }
                 ],
@@ -2288,7 +2288,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.CreateCityResponse"
+                            "$ref": "#/definitions/nationality.GetCountryId"
                         }
                     },
                     "400": {
@@ -5963,6 +5963,37 @@ const docTemplate = `{
                 },
                 "updated_at": {
                     "type": "string"
+                }
+            }
+        },
+        "nationality.CreateResponse": {
+            "type": "object",
+            "properties": {
+                "city_name": {
+                    "type": "string"
+                },
+                "country_name": {
+                    "type": "string"
+                },
+                "flag_url": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "nationality.GetCountryId": {
+            "type": "object",
+            "properties": {
+                "countries": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/nationality.CreateResponse"
+                    }
+                },
+                "total": {
+                    "type": "integer"
                 }
             }
         },

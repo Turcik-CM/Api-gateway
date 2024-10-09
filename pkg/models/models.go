@@ -390,7 +390,7 @@ type AttractionList struct {
 	Name        string `json:"name" default:"dodi"`
 	Description string `json:"description" default:"dodi"`
 	Limit       int64  `json:"limit" default:"0"`
-	Offset      int64  `json:"offset" default:"0"`
+	Page        int64  `json:"page" default:"0"`
 }
 
 type AttractionResponse struct {
