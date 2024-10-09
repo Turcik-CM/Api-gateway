@@ -92,7 +92,7 @@ func NewRouter(cfg *config.Config, log *slog.Logger, casbin *casbin.Enforcer, re
 	{
 		nationalCountry.POST("/create", country.CreateCountry)
 		nationalCountry.PUT("/update", country.UpdateCountry)
-		nationalCountry.GET("/getBy/:id", country.GetCountryByID)
+		nationalCountry.GET("/get/:id", country.GetCountryByID)
 		nationalCountry.DELETE("/delete/:id", country.DeleteCountry)
 		nationalCountry.GET("/list", country.ListCountries)
 	}

@@ -350,7 +350,7 @@ func (h *CountriesHandlers) UpdateCity(c *gin.Context) {
 func (h *CountriesHandlers) DeleteCity(c *gin.Context) {
 	id := c.Param("id")
 
-	resp, err := h.countryService.DeleteCountry(context.Background(), &pb.DeleteCountryRequest{Id: id})
+	resp, err := h.countryService.DeleteCity(context.Background(), &pb.GetCityRequest{Id: id})
 	if err != nil {
 		h.logger.Error("Error occurred while deleting country", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
