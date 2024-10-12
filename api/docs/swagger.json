@@ -2234,7 +2234,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.ListAttractionTypesResponse"
+                            "$ref": "#/definitions/nationality.GetListCountry"
                         }
                     },
                     "400": {
@@ -2280,7 +2280,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/nationality.GetCountryId"
+                            "$ref": "#/definitions/nationality.GetListCountry"
                         }
                     },
                     "400": {
@@ -3116,13 +3116,6 @@
                         "name": "city",
                         "in": "formData",
                         "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Country of the historical site",
-                        "name": "country",
-                        "in": "formData",
-                        "required": true
                     }
                 ],
                 "responses": {
@@ -3317,18 +3310,13 @@
                         "in": "query"
                     },
                     {
-                        "type": "string",
-                        "name": "country",
-                        "in": "query"
-                    },
-                    {
                         "type": "integer",
                         "name": "limit",
                         "in": "query"
                     },
                     {
                         "type": "integer",
-                        "name": "offset",
+                        "name": "page",
                         "in": "query"
                     }
                 ],
@@ -3366,7 +3354,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Historical"
+                    "Z-MUST-DELETE"
                 ],
                 "summary": "List Historical",
                 "parameters": [
@@ -5975,7 +5963,7 @@
                 }
             }
         },
-        "nationality.GetCountryId": {
+        "nationality.GetListCountry": {
             "type": "object",
             "properties": {
                 "countries": {
@@ -6007,9 +5995,6 @@
             "type": "object",
             "properties": {
                 "city": {
-                    "type": "string"
-                },
-                "country": {
                     "type": "string"
                 },
                 "created_at": {
@@ -6068,9 +6053,6 @@
             "type": "object",
             "properties": {
                 "city": {
-                    "type": "string"
-                },
-                "country": {
                     "type": "string"
                 },
                 "created_at": {

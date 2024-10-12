@@ -367,7 +367,7 @@ func (h *CountriesHandlers) DeleteCity(c *gin.Context) {
 // @Tags City
 // @Produce json
 // @Param filter query models.FilterCountry false "Filter Countries"
-// @Success 200 {object} models.ListAttractionTypesResponse
+// @Success 200 {object} nationality.GetListCountry
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /city/get-all/ [get]
@@ -416,7 +416,7 @@ func (h *CountriesHandlers) ListCity(c *gin.Context) {
 // @Tags City
 // @Produce json
 // @Param country_id path string true "get cities"
-// @Success 200 {object} nationality.GetCountryId
+// @Success 200 {object} nationality.GetListCountry
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /city/get-city/{country_id} [get]

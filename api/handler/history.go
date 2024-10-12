@@ -52,7 +52,6 @@ func NewHistoryHandler(historyService service.Service, logger *slog.Logger) Hist
 // @Param name formData string true "Name of the historical site"
 // @Param description formData string true "Description of the historical site"
 // @Param city formData string true "City of the historical site"
-// @Param country formData string true "Country of the historical site"
 // @Success 201 {object} nationality.HistoricalResponse "Historical record successfully created"
 // @Failure 400 {object} models.Error "Bad request, validation error or invalid file"
 // @Failure 500 {object} models.Error "Internal server error"
@@ -85,11 +84,10 @@ func (h *historyHandler) AddHistorical(c *gin.Context) {
 	his.ImageURL = url
 
 	res := pb.Historical{
-		Country:     his.Country,
 		City:        his.City,
 		Name:        his.Name,
 		Description: his.Description,
-		ImageUrl:    his.ImageURL,
+		ImageUrl:    url,
 	}
 
 	req, err := h.historyService.AddHistorical(context.Background(), &res)
@@ -188,20 +186,22 @@ func (h *historyHandler) DeleteHistorical(c *gin.Context) {
 // @Security BearerAuth
 // @Tags Historical
 // @Produce json
-// @Param filter query nationality.HistoricalList false "Filter Historical"
+// @Param filter query models.HistoricalList false "Filter Historical"
 // @Success 200 {object} nationality.HistoricalListResponse
 // @Failure 400 {object} models.Error
 // @Failure 500 {object} models.Error
 // @Router /historical/list [get]
 func (h *historyHandler) ListHistorical(c *gin.Context) {
+
 	var post pb.HistoricalList
+	var offset int
 
 	limit := c.Query("limit")
-	offset := c.Query("offset")
+	p := c.Query("page")
 
-	offsets, err := strconv.Atoi(offset)
+	page, err := strconv.Atoi(p)
 	if err != nil {
-		offsets = 0
+		page = 0
 	}
 
 	limits, err := strconv.Atoi(limit)
@@ -209,12 +209,15 @@ func (h *historyHandler) ListHistorical(c *gin.Context) {
 		limits = 10
 	}
 
+	if page == 0 || page == 1 {
+		offset = 0
+	} else {
+		offset = (page - 1) * limits
+	}
+
 	post.Limit = int64(limits)
-	post.Offset = int64(offsets)
+	post.Offset = int64(offset)
 
-	post.Country = c.Query("country")
-
-	fmt.Println(post)
 	res, err := h.historyService.ListHistorical(context.Background(), &post)
 	if err != nil {
 		h.logger.Error("Error occurred while calling ListHistorical", err)
@@ -229,7 +232,7 @@ func (h *historyHandler) ListHistorical(c *gin.Context) {
 // @Summary List Historical
 // @Description Get a list of Historical with optional filtering
 // @Security BearerAuth
-// @Tags Historical
+// @Tags Z-MUST-DELETE
 // @Produce json
 // @Param filter query nationality.HistoricalSearch false "Filter Historical"
 // @Success 200 {object} nationality.HistoricalListResponse

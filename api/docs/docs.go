@@ -2242,7 +2242,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.ListAttractionTypesResponse"
+                            "$ref": "#/definitions/nationality.GetListCountry"
                         }
                     },
                     "400": {
@@ -2288,7 +2288,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/nationality.GetCountryId"
+                            "$ref": "#/definitions/nationality.GetListCountry"
                         }
                     },
                     "400": {
@@ -3124,13 +3124,6 @@ const docTemplate = `{
                         "name": "city",
                         "in": "formData",
                         "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Country of the historical site",
-                        "name": "country",
-                        "in": "formData",
-                        "required": true
                     }
                 ],
                 "responses": {
@@ -3325,18 +3318,13 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
-                        "type": "string",
-                        "name": "country",
-                        "in": "query"
-                    },
-                    {
                         "type": "integer",
                         "name": "limit",
                         "in": "query"
                     },
                     {
                         "type": "integer",
-                        "name": "offset",
+                        "name": "page",
                         "in": "query"
                     }
                 ],
@@ -3374,7 +3362,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Historical"
+                    "Z-MUST-DELETE"
                 ],
                 "summary": "List Historical",
                 "parameters": [
@@ -5983,7 +5971,7 @@ const docTemplate = `{
                 }
             }
         },
-        "nationality.GetCountryId": {
+        "nationality.GetListCountry": {
             "type": "object",
             "properties": {
                 "countries": {
@@ -6015,9 +6003,6 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "city": {
-                    "type": "string"
-                },
-                "country": {
                     "type": "string"
                 },
                 "created_at": {
@@ -6076,9 +6061,6 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "city": {
-                    "type": "string"
-                },
-                "country": {
                     "type": "string"
                 },
                 "created_at": {

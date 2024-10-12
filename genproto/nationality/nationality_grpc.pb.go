@@ -113,8 +113,8 @@ type NationalityServiceClient interface {
 	GetCity(ctx context.Context, in *GetCityRequest, opts ...grpc.CallOption) (*CreateCityResponse, error)
 	UpdateCity(ctx context.Context, in *CreateCityResponse, opts ...grpc.CallOption) (*CreateCityResponse, error)
 	DeleteCity(ctx context.Context, in *GetCityRequest, opts ...grpc.CallOption) (*Message, error)
-	ListCity(ctx context.Context, in *ListCityRequest, opts ...grpc.CallOption) (*ListCityResponse, error)
-	GetBYCount(ctx context.Context, in *CountryId, opts ...grpc.CallOption) (*GetCountryId, error)
+	ListCity(ctx context.Context, in *ListCityRequest, opts ...grpc.CallOption) (*GetListCountry, error)
+	GetBYCount(ctx context.Context, in *CountryId, opts ...grpc.CallOption) (*GetListCountry, error)
 }
 
 type nationalityServiceClient struct {
@@ -535,9 +535,9 @@ func (c *nationalityServiceClient) DeleteCity(ctx context.Context, in *GetCityRe
 	return out, nil
 }
 
-func (c *nationalityServiceClient) ListCity(ctx context.Context, in *ListCityRequest, opts ...grpc.CallOption) (*ListCityResponse, error) {
+func (c *nationalityServiceClient) ListCity(ctx context.Context, in *ListCityRequest, opts ...grpc.CallOption) (*GetListCountry, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListCityResponse)
+	out := new(GetListCountry)
 	err := c.cc.Invoke(ctx, NationalityService_ListCity_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -545,9 +545,9 @@ func (c *nationalityServiceClient) ListCity(ctx context.Context, in *ListCityReq
 	return out, nil
 }
 
-func (c *nationalityServiceClient) GetBYCount(ctx context.Context, in *CountryId, opts ...grpc.CallOption) (*GetCountryId, error) {
+func (c *nationalityServiceClient) GetBYCount(ctx context.Context, in *CountryId, opts ...grpc.CallOption) (*GetListCountry, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetCountryId)
+	out := new(GetListCountry)
 	err := c.cc.Invoke(ctx, NationalityService_GetBYCount_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -604,8 +604,8 @@ type NationalityServiceServer interface {
 	GetCity(context.Context, *GetCityRequest) (*CreateCityResponse, error)
 	UpdateCity(context.Context, *CreateCityResponse) (*CreateCityResponse, error)
 	DeleteCity(context.Context, *GetCityRequest) (*Message, error)
-	ListCity(context.Context, *ListCityRequest) (*ListCityResponse, error)
-	GetBYCount(context.Context, *CountryId) (*GetCountryId, error)
+	ListCity(context.Context, *ListCityRequest) (*GetListCountry, error)
+	GetBYCount(context.Context, *CountryId) (*GetListCountry, error)
 	mustEmbedUnimplementedNationalityServiceServer()
 }
 
@@ -736,10 +736,10 @@ func (UnimplementedNationalityServiceServer) UpdateCity(context.Context, *Create
 func (UnimplementedNationalityServiceServer) DeleteCity(context.Context, *GetCityRequest) (*Message, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteCity not implemented")
 }
-func (UnimplementedNationalityServiceServer) ListCity(context.Context, *ListCityRequest) (*ListCityResponse, error) {
+func (UnimplementedNationalityServiceServer) ListCity(context.Context, *ListCityRequest) (*GetListCountry, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListCity not implemented")
 }
-func (UnimplementedNationalityServiceServer) GetBYCount(context.Context, *CountryId) (*GetCountryId, error) {
+func (UnimplementedNationalityServiceServer) GetBYCount(context.Context, *CountryId) (*GetListCountry, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetBYCount not implemented")
 }
 func (UnimplementedNationalityServiceServer) mustEmbedUnimplementedNationalityServiceServer() {}
