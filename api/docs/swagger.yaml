@@ -570,22 +570,20 @@ definitions:
       updated_at:
         type: string
     type: object
-  nationality.CreateResponse:
+  nationality.CreateCityResponse:
     properties:
-      city_name:
-        type: string
-      country_name:
-        type: string
-      flag_url:
+      country_id:
         type: string
       id:
+        type: string
+      name:
         type: string
     type: object
   nationality.GetListCountry:
     properties:
       countries:
         items:
-          $ref: '#/definitions/nationality.CreateResponse'
+          $ref: '#/definitions/nationality.CreateCityResponse'
         type: array
       total:
         type: integer

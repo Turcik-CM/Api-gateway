@@ -255,6 +255,9 @@ time=2024-10-04T17:13:52.307+05:00 level=ERROR msg="Error occurred while updatin
 time=2024-10-04T17:16:53.379+05:00 level=ERROR msg="Error occurred while updating user" !BADKEY="rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp 127.0.0.1:50050: connect: connection refused\""
 time=2024-10-04T18:33:17.917+05:00 level=ERROR msg="Error occurred while creating country" !BADKEY="rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp 127.0.0.1:7080: connect: connection refused\""
 time=2024-10-04T18:38:15.933+05:00 level=ERROR msg="Error occurred while getting city" !BADKEY="rpc error: code = Unknown desc = failed to get city: error getting country by ID: sql: no rows in result set"
+<<<<<<< HEAD
+time=2024-10-04T18:38:51.480+05:00 level=ERROR msg="Error occurred while getting city" !BADKEY="rpc error: code = Unknown desc = failed to get city: error getting country by ID: sql: no rows in result set"
+=======
 time=2024-10-04T18:38:51.480+05:00 level=ERROR msg="Error occurred while getting city" !BADKEY="rpc error: code = Unknown desc = failed to get city: error getting country by ID: sql: no rows in result set"
 time=2024-10-04T18:40:14.731+05:00 level=ERROR msg="Error occurred while getting city" !BADKEY="rpc error: code = Unknown desc = failed to get city: error getting country by ID: sql: no rows in result set"
 time=2024-10-04T18:40:19.563+05:00 level=ERROR msg="Error occurred while getting city" !BADKEY="rpc error: code = Unknown desc = failed to get city: error getting country by ID: sql: no rows in result set"
@@ -332,3 +335,7 @@ time=2024-10-07T18:16:56.278+05:00 level=ERROR msg="Error occurred while uploadi
 time=2024-10-07T18:19:21.520+05:00 level=ERROR msg="Error occurred while uploading file:" !BADKEY="<html>\r\n<head><title>301 Moved Permanently</title></head>\r\n<body>\r\n<center><h1>301 Moved Permanently</h1></center>\r\n<hr><center>nginx/1.18.0 (Ubuntu)</center>\r\n</body>\r\n</html>"
 time=2024-10-07T18:22:36.864+05:00 level=ERROR msg="Error occurred while creating post:" !BADKEY="rpc error: code = Unknown desc = failed to create post: pq: insert or update on table \"posts\" violates foreign key constraint \"posts_country_fkey\""
 time=2024-10-07T18:22:55.454+05:00 level=ERROR msg="Error occurred while creating post:" !BADKEY="rpc error: code = Unknown desc = failed to create post: pq: insert or update on table \"posts\" violates foreign key constraint \"posts_country_fkey\""
+>>>>>>> 052290cb1f6ec8ee526c7f5d81bf847c8d085d4b
+time=2024-10-07T19:23:31.551+05:00 level=ERROR msg="Error occurred while listing national foods" !BADKEY="rpc error: code = Unknown desc = pq: invalid input syntax for type uuid: \"beki\""
+time=2024-10-07T19:23:37.077+05:00 level=ERROR msg="Error occurred while listing national foods" !BADKEY="rpc error: code = Unknown desc = pq: invalid input syntax for type uuid: \"zbeki\""
+time=2024-10-07T19:23:40.254+05:00 level=ERROR msg="Error occurred while listing national foods" !BADKEY="rpc error: code = Unknown desc = pq: invalid input syntax for type uuid: \"zbeki\""
