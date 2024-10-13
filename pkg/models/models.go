@@ -346,7 +346,6 @@ type HistoricalResponse struct {
 
 type NationalFood struct {
 	FoodName    string `form:"food_name"`
-	FoodType    string `form:"food_type"`
 	Description string `form:"description"`
 	CountryId   string `form:"country_id"`
 	ImageURL    string `form:"image_url"`

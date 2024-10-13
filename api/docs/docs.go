@@ -3884,13 +3884,6 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "food_type of the food",
-                        "name": "food_type",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
                         "description": "country_id of the food",
                         "name": "country_id",
                         "in": "formData",
@@ -5954,16 +5947,19 @@ const docTemplate = `{
                 }
             }
         },
-        "nationality.CreateCityResponse": {
+        "nationality.CreateResponse": {
             "type": "object",
             "properties": {
-                "country_id": {
+                "city_name": {
+                    "type": "string"
+                },
+                "country_name": {
+                    "type": "string"
+                },
+                "flag_url": {
                     "type": "string"
                 },
                 "id": {
-                    "type": "string"
-                },
-                "name": {
                     "type": "string"
                 }
             }
@@ -5974,7 +5970,7 @@ const docTemplate = `{
                 "countries": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/nationality.CreateCityResponse"
+                        "$ref": "#/definitions/nationality.CreateResponse"
                     }
                 },
                 "total": {

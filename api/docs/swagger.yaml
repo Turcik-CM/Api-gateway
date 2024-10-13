@@ -570,20 +570,22 @@ definitions:
       updated_at:
         type: string
     type: object
-  nationality.CreateCityResponse:
+  nationality.CreateResponse:
     properties:
-      country_id:
+      city_name:
+        type: string
+      country_name:
+        type: string
+      flag_url:
         type: string
       id:
-        type: string
-      name:
         type: string
     type: object
   nationality.GetListCountry:
     properties:
       countries:
         items:
-          $ref: '#/definitions/nationality.CreateCityResponse'
+          $ref: '#/definitions/nationality.CreateResponse'
         type: array
       total:
         type: integer
@@ -3231,11 +3233,6 @@ paths:
       - description: food_name of the food
         in: formData
         name: food_name
-        required: true
-        type: string
-      - description: food_type of the food
-        in: formData
-        name: food_type
         required: true
         type: string
       - description: country_id of the food

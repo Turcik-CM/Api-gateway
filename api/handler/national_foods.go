@@ -45,7 +45,6 @@ func NewNationalFoodHandler(service service.Service, logger *slog.Logger) Nation
 // @Produce json
 // @Param file formData file false "Upload image file (optional)"
 // @Param food_name formData string true "food_name of the food"
-// @Param food_type formData string true "food_type of the food"
 // @Param country_id formData string true "country_id of the food"
 // @Param description formData string true "description"
 // @Param ingredients formData string true "ingredients of the food"
@@ -83,7 +82,6 @@ func (h *nationalFoodHandler) CreateNationalFood(c *gin.Context) {
 
 	res := pb.NationalFood{
 		FoodName:    a.FoodName,
-		FoodType:    a.FoodType,
 		Description: a.Description,
 		CountryId:   a.CountryId,
 		ImageUrl:    a.ImageURL,
