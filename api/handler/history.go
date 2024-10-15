@@ -217,6 +217,7 @@ func (h *historyHandler) ListHistorical(c *gin.Context) {
 
 	post.Limit = int64(limits)
 	post.Offset = int64(offset)
+	post.City = c.Query("city")
 
 	res, err := h.historyService.ListHistorical(context.Background(), &post)
 	if err != nil {
